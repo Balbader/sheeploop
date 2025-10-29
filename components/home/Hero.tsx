@@ -19,6 +19,10 @@ export default function Hero() {
 	const sheep4Ref = useRef<HTMLDivElement | null>(null);
 	const sheep5Ref = useRef<HTMLDivElement | null>(null);
 	const sheep6Ref = useRef<HTMLDivElement | null>(null);
+	const sheep7Ref = useRef<HTMLDivElement | null>(null);
+	const sheep8Ref = useRef<HTMLDivElement | null>(null);
+	const sheep9Ref = useRef<HTMLDivElement | null>(null);
+	const sheep10Ref = useRef<HTMLDivElement | null>(null);
 	const headlineRef = useRef<HTMLHeadingElement | null>(null);
 	const ctaRef = useRef<HTMLDivElement | null>(null);
 	const icon1Ref = useRef<HTMLDivElement | null>(null);
@@ -125,6 +129,10 @@ export default function Hero() {
 						sheep4Ref.current,
 						sheep5Ref.current,
 						sheep6Ref.current,
+						sheep7Ref.current,
+						sheep8Ref.current,
+						sheep9Ref.current,
+						sheep10Ref.current,
 					].filter(Boolean);
 
 					// Initialize sheep positions
@@ -270,345 +278,133 @@ export default function Hero() {
 			{/* Animated sheep characters */}
 			<div
 				ref={sheep1Ref}
-				className="absolute top-1/4 left-1/4 w-24 h-24 pointer-events-none opacity-40"
+				className="absolute bottom-[25%] left-1/4 w-24 h-24 pointer-events-none opacity-40"
 				style={{ zIndex: 2 }}
 			>
-				<svg viewBox="0 0 100 100" className="w-full h-full">
-					{/* Wool - body base */}
-					<ellipse cx="50" cy="65" rx="28" ry="22" fill="white" />
-					{/* Wool fluffs - overlapping for texture */}
-					<circle cx="25" cy="55" r="14" fill="white" />
-					<circle cx="35" cy="50" r="13" fill="white" />
-					<circle cx="75" cy="55" r="14" fill="white" />
-					<circle cx="65" cy="50" r="13" fill="white" />
-					<circle cx="20" cy="70" r="11" fill="white" />
-					<circle cx="42" cy="75" r="12" fill="white" />
-					<circle cx="80" cy="70" r="11" fill="white" />
-					<circle cx="58" cy="75" r="12" fill="white" />
-					<circle cx="45" cy="60" r="10" fill="white" />
-					<circle cx="55" cy="60" r="10" fill="white" />
-					{/* Head - smaller and more proportional */}
-					<ellipse cx="50" cy="30" rx="12" ry="14" fill="white" />
-					{/* Ears */}
-					<ellipse cx="40" cy="28" rx="3" ry="6" fill="white" />
-					<ellipse cx="60" cy="28" rx="3" ry="6" fill="white" />
-					{/* Legs */}
-					<rect
-						x="35"
-						y="82"
-						width="6"
-						height="12"
-						rx="3"
-						fill="white"
-					/>
-					<rect
-						x="45"
-						y="82"
-						width="6"
-						height="12"
-						rx="3"
-						fill="white"
-					/>
-					<rect
-						x="49"
-						y="82"
-						width="6"
-						height="12"
-						rx="3"
-						fill="white"
-					/>
-					<rect
-						x="59"
-						y="82"
-						width="6"
-						height="12"
-						rx="3"
-						fill="white"
-					/>
-					{/* Eyes */}
-					<circle cx="45" cy="28" r="2.5" fill="black" />
-					<circle cx="55" cy="28" r="2.5" fill="black" />
-					{/* Nose/mouth */}
-					<ellipse cx="50" cy="34" rx="2" ry="1.5" fill="black" />
-				</svg>
+				<Image
+					src="/sheep-2.png"
+					alt="Sheep"
+					width={96}
+					height={96}
+					className="w-full h-full object-contain"
+				/>
 			</div>
 			<div
 				ref={sheep2Ref}
-				className="absolute top-1/2 right-1/3 w-[88px] h-[88px] pointer-events-none opacity-35"
+				className="absolute bottom-[20%] right-1/3 w-[88px] h-[88px] pointer-events-none opacity-35"
 				style={{ zIndex: 2 }}
 			>
-				<svg viewBox="0 0 100 100" className="w-full h-full">
-					{/* Wool - body base */}
-					<ellipse cx="50" cy="65" rx="26" ry="20" fill="white" />
-					{/* Wool fluffs */}
-					<circle cx="26" cy="56" r="13" fill="white" />
-					<circle cx="36" cy="52" r="12" fill="white" />
-					<circle cx="74" cy="56" r="13" fill="white" />
-					<circle cx="64" cy="52" r="12" fill="white" />
-					<circle cx="22" cy="72" r="10" fill="white" />
-					<circle cx="42" cy="76" r="11" fill="white" />
-					<circle cx="78" cy="72" r="10" fill="white" />
-					<circle cx="58" cy="76" r="11" fill="white" />
-					<circle cx="44" cy="62" r="9" fill="white" />
-					<circle cx="56" cy="62" r="9" fill="white" />
-					{/* Head */}
-					<ellipse cx="50" cy="30" rx="11" ry="13" fill="white" />
-					{/* Ears */}
-					<ellipse cx="40" cy="28" rx="2.5" ry="5.5" fill="white" />
-					<ellipse cx="60" cy="28" rx="2.5" ry="5.5" fill="white" />
-					{/* Legs */}
-					<rect
-						x="36"
-						y="82"
-						width="5"
-						height="11"
-						rx="2.5"
-						fill="white"
-					/>
-					<rect
-						x="44"
-						y="82"
-						width="5"
-						height="11"
-						rx="2.5"
-						fill="white"
-					/>
-					<rect
-						x="51"
-						y="82"
-						width="5"
-						height="11"
-						rx="2.5"
-						fill="white"
-					/>
-					<rect
-						x="59"
-						y="82"
-						width="5"
-						height="11"
-						rx="2.5"
-						fill="white"
-					/>
-					{/* Eyes */}
-					<circle cx="45" cy="28" r="2.3" fill="black" />
-					<circle cx="55" cy="28" r="2.3" fill="black" />
-					{/* Nose/mouth */}
-					<ellipse cx="50" cy="34" rx="1.8" ry="1.3" fill="black" />
-				</svg>
+				<Image
+					src="/sheep-2.png"
+					alt="Sheep"
+					width={88}
+					height={88}
+					className="w-full h-full object-contain"
+				/>
 			</div>
 			<div
 				ref={sheep3Ref}
-				className="absolute bottom-1/4 right-1/4 w-20 h-20 pointer-events-none opacity-30"
+				className="absolute bottom-[30%] right-1/4 w-20 h-20 pointer-events-none opacity-30"
 				style={{ zIndex: 2 }}
 			>
-				<svg viewBox="0 0 100 100" className="w-full h-full">
-					{/* Wool - body base */}
-					<ellipse cx="50" cy="65" rx="23" ry="18" fill="white" />
-					{/* Wool fluffs */}
-					<circle cx="29" cy="57" r="11" fill="white" />
-					<circle cx="38" cy="54" r="10" fill="white" />
-					<circle cx="71" cy="57" r="11" fill="white" />
-					<circle cx="62" cy="54" r="10" fill="white" />
-					<circle cx="25" cy="73" r="9" fill="white" />
-					<circle cx="41" cy="76" r="9.5" fill="white" />
-					<circle cx="75" cy="73" r="9" fill="white" />
-					<circle cx="59" cy="76" r="9.5" fill="white" />
-					<circle cx="44" cy="63" r="8" fill="white" />
-					<circle cx="56" cy="63" r="8" fill="white" />
-					{/* Head */}
-					<ellipse cx="50" cy="30" rx="9.5" ry="11" fill="white" />
-					{/* Ears */}
-					<ellipse cx="41" cy="28" rx="2" ry="4.5" fill="white" />
-					<ellipse cx="59" cy="28" rx="2" ry="4.5" fill="white" />
-					{/* Legs */}
-					<rect
-						x="38"
-						y="82"
-						width="4"
-						height="9"
-						rx="2"
-						fill="white"
-					/>
-					<rect
-						x="44"
-						y="82"
-						width="4"
-						height="9"
-						rx="2"
-						fill="white"
-					/>
-					<rect
-						x="52"
-						y="82"
-						width="4"
-						height="9"
-						rx="2"
-						fill="white"
-					/>
-					<rect
-						x="58"
-						y="82"
-						width="4"
-						height="9"
-						rx="2"
-						fill="white"
-					/>
-					{/* Eyes */}
-					<circle cx="45" cy="28" r="2" fill="black" />
-					<circle cx="55" cy="28" r="2" fill="black" />
-					{/* Nose/mouth */}
-					<ellipse cx="50" cy="34" rx="1.5" ry="1.2" fill="black" />
-				</svg>
+				<Image
+					src="/sheep-2.png"
+					alt="Sheep"
+					width={80}
+					height={80}
+					className="w-full h-full object-contain"
+				/>
 			</div>
 			<div
 				ref={sheep4Ref}
-				className="absolute top-1/3 left-1/2 w-[80px] h-[80px] pointer-events-none opacity-38"
+				className="absolute bottom-[22%] left-1/2 w-[80px] h-[80px] pointer-events-none opacity-38"
 				style={{ zIndex: 2 }}
 			>
-				<svg viewBox="0 0 100 100" className="w-full h-full">
-					{/* Wool - body base */}
-					<ellipse cx="50" cy="65" rx="25" ry="19" fill="white" />
-					{/* Wool fluffs */}
-					<circle cx="27" cy="56" r="12.5" fill="white" />
-					<circle cx="37" cy="53" r="11.5" fill="white" />
-					<circle cx="73" cy="56" r="12.5" fill="white" />
-					<circle cx="63" cy="53" r="11.5" fill="white" />
-					<circle cx="23" cy="73" r="10" fill="white" />
-					<circle cx="41" cy="77" r="10.5" fill="white" />
-					<circle cx="77" cy="73" r="10" fill="white" />
-					<circle cx="59" cy="77" r="10.5" fill="white" />
-					<circle cx="44" cy="63" r="9" fill="white" />
-					<circle cx="56" cy="63" r="9" fill="white" />
-					{/* Head */}
-					<ellipse cx="50" cy="30" rx="10.5" ry="12.5" fill="white" />
-					{/* Ears */}
-					<ellipse cx="41" cy="28" rx="2.3" ry="5" fill="white" />
-					<ellipse cx="59" cy="28" rx="2.3" ry="5" fill="white" />
-					{/* Legs */}
-					<rect
-						x="37"
-						y="82"
-						width="4.5"
-						height="10"
-						rx="2"
-						fill="white"
-					/>
-					<rect
-						x="44"
-						y="82"
-						width="4.5"
-						height="10"
-						rx="2"
-						fill="white"
-					/>
-					<rect
-						x="51.5"
-						y="82"
-						width="4.5"
-						height="10"
-						rx="2"
-						fill="white"
-					/>
-					<rect
-						x="58.5"
-						y="82"
-						width="4.5"
-						height="10"
-						rx="2"
-						fill="white"
-					/>
-					{/* Eyes */}
-					<circle cx="45" cy="28" r="2.5" fill="black" />
-					<circle cx="55" cy="28" r="2.5" fill="black" />
-					{/* Nose/mouth */}
-					<ellipse cx="50" cy="34" rx="1.7" ry="1.2" fill="black" />
-				</svg>
+				<Image
+					src="/sheep-2.png"
+					alt="Sheep"
+					width={80}
+					height={80}
+					className="w-full h-full object-contain"
+				/>
 			</div>
 			<div
 				ref={sheep5Ref}
-				className="absolute bottom-1/3 left-1/6 w-[72px] h-[72px] pointer-events-none opacity-33"
+				className="absolute bottom-[28%] left-1/6 w-[72px] h-[72px] pointer-events-none opacity-33"
 				style={{ zIndex: 2 }}
 			>
-				<svg viewBox="0 0 100 100" className="w-full h-full">
-					{/* Body */}
-					<ellipse cx="50" cy="60" rx="22" ry="17.5" fill="white" />
-					{/* Head */}
-					<circle cx="50" cy="35" r="15.5" fill="white" />
-					{/* Wool fluffs */}
-					<circle cx="32.5" cy="52" r="10.5" fill="white" />
-					<circle cx="67.5" cy="52" r="10.5" fill="white" />
-					<circle cx="43" cy="72" r="8.5" fill="white" />
-					<circle cx="57" cy="72" r="8.5" fill="white" />
-					{/* Eyes */}
-					<circle cx="47" cy="30.5" r="2.3" fill="black" />
-					<circle cx="53" cy="30.5" r="2.3" fill="black" />
-					{/* Nose */}
-					<ellipse cx="50" cy="36.5" rx="1.6" ry="1.1" fill="black" />
-				</svg>
+				<Image
+					src="/sheep-2.png"
+					alt="Sheep"
+					width={72}
+					height={72}
+					className="w-full h-full object-contain"
+				/>
 			</div>
 			<div
 				ref={sheep6Ref}
-				className="absolute top-2/3 right-1/6 w-[76px] h-[76px] pointer-events-none opacity-32"
+				className="absolute bottom-[18%] right-1/6 w-[76px] h-[76px] pointer-events-none opacity-32"
 				style={{ zIndex: 2 }}
 			>
-				<svg viewBox="0 0 100 100" className="w-full h-full">
-					{/* Wool - body base */}
-					<ellipse cx="50" cy="65" rx="24.5" ry="19" fill="white" />
-					{/* Wool fluffs */}
-					<circle cx="28" cy="57" r="12" fill="white" />
-					<circle cx="37" cy="54" r="11" fill="white" />
-					<circle cx="72" cy="57" r="12" fill="white" />
-					<circle cx="63" cy="54" r="11" fill="white" />
-					<circle cx="24" cy="73" r="9.5" fill="white" />
-					<circle cx="41" cy="77" r="10" fill="white" />
-					<circle cx="76" cy="73" r="9.5" fill="white" />
-					<circle cx="59" cy="77" r="10" fill="white" />
-					<circle cx="44" cy="63" r="9" fill="white" />
-					<circle cx="56" cy="63" r="9" fill="white" />
-					{/* Head */}
-					<ellipse cx="50" cy="30" rx="10.2" ry="12.2" fill="white" />
-					{/* Ears */}
-					<ellipse cx="41" cy="28" rx="2.2" ry="4.8" fill="white" />
-					<ellipse cx="59" cy="28" rx="2.2" ry="4.8" fill="white" />
-					{/* Legs */}
-					<rect
-						x="37"
-						y="82"
-						width="4.5"
-						height="10"
-						rx="2"
-						fill="white"
-					/>
-					<rect
-						x="44"
-						y="82"
-						width="4.5"
-						height="10"
-						rx="2"
-						fill="white"
-					/>
-					<rect
-						x="51.5"
-						y="82"
-						width="4.5"
-						height="10"
-						rx="2"
-						fill="white"
-					/>
-					<rect
-						x="58.5"
-						y="82"
-						width="4.5"
-						height="10"
-						rx="2"
-						fill="white"
-					/>
-					{/* Eyes */}
-					<circle cx="45" cy="28" r="2.4" fill="black" />
-					<circle cx="55" cy="28" r="2.4" fill="black" />
-					{/* Nose/mouth */}
-					<ellipse cx="50" cy="34" rx="1.65" ry="1.2" fill="black" />
-				</svg>
+				<Image
+					src="/sheep-2.png"
+					alt="Sheep"
+					width={76}
+					height={76}
+					className="w-full h-full object-contain"
+				/>
+			</div>
+			<div
+				ref={sheep7Ref}
+				className="absolute bottom-[24%] left-[10%] w-[70px] h-[70px] pointer-events-none opacity-36"
+				style={{ zIndex: 2 }}
+			>
+				<Image
+					src="/sheep-2.png"
+					alt="Sheep"
+					width={70}
+					height={70}
+					className="w-full h-full object-contain"
+				/>
+			</div>
+			<div
+				ref={sheep8Ref}
+				className="absolute bottom-[15%] left-1/3 w-[85px] h-[85px] pointer-events-none opacity-34"
+				style={{ zIndex: 2 }}
+			>
+				<Image
+					src="/sheep-2.png"
+					alt="Sheep"
+					width={85}
+					height={85}
+					className="w-full h-full object-contain"
+				/>
+			</div>
+			<div
+				ref={sheep9Ref}
+				className="absolute bottom-[27%] right-[15%] w-[68px] h-[68px] pointer-events-none opacity-31"
+				style={{ zIndex: 2 }}
+			>
+				<Image
+					src="/sheep-2.png"
+					alt="Sheep"
+					width={68}
+					height={68}
+					className="w-full h-full object-contain"
+				/>
+			</div>
+			<div
+				ref={sheep10Ref}
+				className="absolute bottom-[16%] left-[60%] w-[82px] h-[82px] pointer-events-none opacity-37"
+				style={{ zIndex: 2 }}
+			>
+				<Image
+					src="/sheep-2.png"
+					alt="Sheep"
+					width={82}
+					height={82}
+					className="w-full h-full object-contain"
+				/>
 			</div>
 			<header className="max-w-screen-xl mx-auto px-6 py-6 flex items-center justify-between relative z-10">
 				<div className="flex items-center gap-3">
