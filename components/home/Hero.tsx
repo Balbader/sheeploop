@@ -25,6 +25,7 @@ export default function Hero() {
 	const sheep10Ref = useRef<HTMLDivElement | null>(null);
 	const sheep11Ref = useRef<HTMLDivElement | null>(null);
 	const sheep12Ref = useRef<HTMLDivElement | null>(null);
+	const cloudsRef = useRef<HTMLDivElement | null>(null);
 	const headlineRef = useRef<HTMLHeadingElement | null>(null);
 	const ctaRef = useRef<HTMLDivElement | null>(null);
 	const icon1Ref = useRef<HTMLDivElement | null>(null);
@@ -147,6 +148,26 @@ export default function Hero() {
 							});
 						}
 					});
+
+					// Animate clouds with slow drifting motion
+					if (cloudsRef.current) {
+						const cloudElements =
+							cloudsRef.current.querySelectorAll('svg');
+						cloudElements.forEach((cloud, index) => {
+							const speed = 20 + index * 5; // Vary speed per cloud
+							const duration = 30 + index * 5; // Vary duration
+							const direction = index % 2 === 0 ? 1 : -1; // Alternate directions
+
+							gsap.to(cloud, {
+								x: direction * speed,
+								duration: duration,
+								ease: 'none',
+								repeat: -1,
+								yoyo: true,
+								delay: index * 0.5,
+							});
+						});
+					}
 
 					const handleMouseMove = (e: MouseEvent) => {
 						if (!heroRef.current || !backgroundRef.current) return;
@@ -277,6 +298,101 @@ export default function Hero() {
 							/>
 						);
 					})}
+				</svg>
+			</div>
+			{/* Clouds in top 1/4 of hero section */}
+			<div
+				ref={cloudsRef}
+				className="absolute top-0 left-0 w-full h-1/4 pointer-events-none overflow-hidden"
+				style={{ zIndex: 1 }}
+			>
+				{/* Cloud 1 */}
+				<svg
+					className="absolute top-[10%] left-[5%] w-48 h-24 opacity-60"
+					viewBox="0 0 200 100"
+					preserveAspectRatio="xMidYMid meet"
+				>
+					<path
+						d="M50,60 Q30,40 20,50 T10,55 Q15,45 25,48 T45,52 Q55,35 70,40 T95,38 Q105,28 120,35 T145,33 Q155,23 170,30 T195,28 Q190,38 180,40 T160,42 Q150,50 135,48 T110,50 Q100,55 85,53 T60,55 Q55,62 50,60 Z"
+						fill="rgba(255, 255, 255, 0.8)"
+					/>
+				</svg>
+				{/* Cloud 2 */}
+				<svg
+					className="absolute top-[15%] left-[25%] w-56 h-28 opacity-50"
+					viewBox="0 0 200 100"
+					preserveAspectRatio="xMidYMid meet"
+				>
+					<path
+						d="M60,55 Q40,35 30,45 T20,50 Q25,40 35,43 T55,47 Q65,30 80,35 T105,33 Q115,23 130,30 T155,28 Q165,18 180,25 T200,23 Q195,33 185,35 T165,37 Q155,45 140,43 T115,45 Q105,50 90,48 T65,50 Q60,57 60,55 Z"
+						fill="rgba(255, 255, 255, 0.75)"
+					/>
+				</svg>
+				{/* Cloud 3 */}
+				<svg
+					className="absolute top-[8%] left-[45%] w-44 h-22 opacity-55"
+					viewBox="0 0 200 100"
+					preserveAspectRatio="xMidYMid meet"
+				>
+					<path
+						d="M55,58 Q35,38 25,48 T15,53 Q20,43 30,46 T50,50 Q60,33 75,38 T100,36 Q110,26 125,33 T150,31 Q160,21 175,28 T195,26 Q190,36 180,38 T160,40 Q150,48 135,46 T110,48 Q100,53 85,51 T60,53 Q55,60 55,58 Z"
+						fill="rgba(255, 255, 255, 0.7)"
+					/>
+				</svg>
+				{/* Cloud 4 */}
+				<svg
+					className="absolute top-[12%] left-[65%] w-52 h-26 opacity-45"
+					viewBox="0 0 200 100"
+					preserveAspectRatio="xMidYMid meet"
+				>
+					<path
+						d="M58,53 Q38,33 28,43 T18,48 Q23,38 33,41 T53,45 Q63,28 78,33 T103,31 Q113,21 128,28 T153,26 Q163,16 178,23 T198,21 Q193,31 183,33 T163,35 Q153,43 138,41 T113,43 Q103,48 88,46 T63,48 Q58,55 58,53 Z"
+						fill="rgba(255, 255, 255, 0.8)"
+					/>
+				</svg>
+				{/* Cloud 5 */}
+				<svg
+					className="absolute top-[6%] left-[80%] w-40 h-20 opacity-50"
+					viewBox="0 0 200 100"
+					preserveAspectRatio="xMidYMid meet"
+				>
+					<path
+						d="M52,56 Q32,36 22,46 T12,51 Q17,41 27,44 T47,48 Q57,31 72,36 T97,34 Q107,24 122,31 T147,29 Q157,19 172,26 T192,24 Q187,34 177,36 T157,38 Q147,46 132,44 T107,46 Q97,51 82,49 T57,51 Q52,58 52,56 Z"
+						fill="rgba(255, 255, 255, 0.7)"
+					/>
+				</svg>
+				{/* Cloud 6 - smaller accent cloud */}
+				<svg
+					className="absolute top-[18%] left-[12%] w-36 h-18 opacity-40"
+					viewBox="0 0 200 100"
+					preserveAspectRatio="xMidYMid meet"
+				>
+					<path
+						d="M50,60 Q35,45 28,52 T20,55 Q25,48 32,50 T48,53 Q58,40 68,44 T83,42 Q90,35 98,40 T113,38 Q120,31 130,36 T145,34 Q140,42 132,44 T118,46 Q110,50 100,48 T85,50 Q78,54 70,52 T55,54 Q52,60 50,60 Z"
+						fill="rgba(255, 255, 255, 0.65)"
+					/>
+				</svg>
+				{/* Cloud 7 */}
+				<svg
+					className="absolute top-[14%] left-[55%] w-48 h-24 opacity-50"
+					viewBox="0 0 200 100"
+					preserveAspectRatio="xMidYMid meet"
+				>
+					<path
+						d="M54,57 Q34,37 24,47 T14,52 Q19,42 29,45 T49,49 Q59,32 74,37 T99,35 Q109,25 124,32 T149,30 Q159,20 174,27 T194,25 Q189,35 179,37 T159,39 Q149,47 134,45 T109,47 Q99,52 84,50 T59,52 Q54,59 54,57 Z"
+						fill="rgba(255, 255, 255, 0.75)"
+					/>
+				</svg>
+				{/* Cloud 8 */}
+				<svg
+					className="absolute top-[10%] left-[72%] w-44 h-22 opacity-45"
+					viewBox="0 0 200 100"
+					preserveAspectRatio="xMidYMid meet"
+				>
+					<path
+						d="M56,55 Q36,35 26,45 T16,50 Q21,40 31,43 T51,47 Q61,30 76,35 T101,33 Q111,23 126,30 T151,28 Q161,18 176,25 T196,23 Q191,33 181,35 T161,37 Q151,45 136,43 T111,45 Q101,50 86,48 T61,50 Q56,57 56,55 Z"
+						fill="rgba(255, 255, 255, 0.7)"
+					/>
 				</svg>
 			</div>
 			{/* Animated sheep characters - grouped by 2 and 3 */}
