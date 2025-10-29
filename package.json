@@ -11,6 +11,7 @@
   "dependencies": {
     "@libsql/client": "^0.15.15",
     "@mastra/core": "^0.23.1",
+    "@mastra/deployer-vercel": "^0.12.14",
     "@mastra/libsql": "^0.16.1",
     "@mastra/loggers": "^0.10.18",
     "@mastra/memory": "^0.15.9",
