@@ -189,8 +189,8 @@ export default function Hero() {
 								</h3>
 								<p className="text-xs text-gray-600 leading-relaxed">
 									A clear understanding of what value a
-									'shorts' must create in order to find your
-									audience and engage.
+									'shorts' must create in order to build
+									momentum.
 								</p>
 							</div>
 						</div>
@@ -208,9 +208,8 @@ export default function Hero() {
 									ICP with maximum engagement
 								</h3>
 								<p className="text-xs text-gray-600 leading-relaxed">
-									Ideal Customer Profile: who exactly will
-									engage with the content and ensure sustainable
-									growth.
+									Find your "Ideal Customer Profile", who
+									exactly will engage with your content.
 								</p>
 							</div>
 						</div>
@@ -228,9 +227,8 @@ export default function Hero() {
 									Focus on the right topics
 								</h3>
 								<p className="text-xs text-gray-600 leading-relaxed">
-									Which topics to focus on and why is the
-									chance of finding your audience and engaging
-									the highest there.
+									Which topics to focus on to finding and
+									engaging with your audience.
 								</p>
 							</div>
 						</div>

@@ -46,14 +46,6 @@ export default function Credibility() {
 								</div>
 							</div>
 						</Card>
-						<Card className="p-6">
-							<p className="text-sm text-gray-500">As seen in</p>
-							<div className="mt-3 grid grid-cols-3 gap-3">
-								<div className="h-10 rounded bg-gray-100" />
-								<div className="h-10 rounded bg-gray-100" />
-								<div className="h-10 rounded bg-gray-100" />
-							</div>
-						</Card>
 					</div>
 				</div>
 			</div>
