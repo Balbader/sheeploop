@@ -149,6 +149,60 @@ export default function Hero() {
 						}
 					});
 
+					// Automatic sheep movement animations
+					sheepRefs.forEach((sheep, index) => {
+						if (!sheep) return;
+
+						// Each sheep gets unique movement parameters
+						const speed = 15 + (index % 5) * 3; // Vary speed between 15-30
+						const duration = 20 + (index % 7) * 2; // Vary duration between 20-32
+						const amplitude = 60 + (index % 4) * 20; // Increased movement range (was 30-40, now 60-80)
+
+						// Create random starting offsets for each sheep
+						const startX = ((index % 3) - 1) * 30;
+						const startY = (index % 2 === 0 ? 1 : -1) * 25;
+
+						// Horizontal wandering animation
+						gsap.to(sheep, {
+							x: startX + amplitude * (index % 2 === 0 ? 1 : -1),
+							duration: duration,
+							ease: 'sine.inOut',
+							repeat: -1,
+							yoyo: true,
+							delay: index * 0.3,
+						});
+
+						// Vertical bobbing animation (increased movement)
+						gsap.to(sheep, {
+							y: startY + 20, // Increased from 10 to 20
+							duration: duration * 0.8,
+							ease: 'sine.inOut',
+							repeat: -1,
+							yoyo: true,
+							delay: index * 0.2 + 0.5,
+						});
+
+						// Increased rotation animation
+						gsap.to(sheep, {
+							rotation: (index % 2 === 0 ? 1 : -1) * 15, // Increased from 8 to 15
+							duration: duration * 1.2,
+							ease: 'sine.inOut',
+							repeat: -1,
+							yoyo: true,
+							delay: index * 0.4,
+						});
+
+						// Occasional scale bob (like breathing/grazing)
+						gsap.to(sheep, {
+							scale: 1 + (index % 3) * 0.03,
+							duration: 4 + (index % 4),
+							ease: 'sine.inOut',
+							repeat: -1,
+							yoyo: true,
+							delay: index * 0.6,
+						});
+					});
+
 					// Animate clouds with slow drifting motion
 					if (cloudsRef.current) {
 						const cloudElements =
@@ -186,19 +240,7 @@ export default function Hero() {
 							ease: 'power2.out',
 						});
 
-						// Animate sheep characters - each follows mouse with different intensity
-						sheepRefs.forEach((sheep, index) => {
-							if (!sheep) return;
-							const intensity = 0.3 + index * 0.2; // Different follow intensity for each sheep
-
-							gsap.to(sheep, {
-								x: x * 40 * intensity,
-								y: y * 40 * intensity,
-								rotation: x * 15 * intensity, // Slight rotation
-								duration: 1 + index * 0.3, // Different speeds
-								ease: 'power2.out',
-							});
-						});
+						// Sheep no longer respond to mouse movement - they move automatically
 					};
 
 					heroRef.current.addEventListener(
