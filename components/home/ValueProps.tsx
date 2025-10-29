@@ -1,26 +1,107 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
 
 export default function ValueProps() {
+	const icon1Ref = useRef<HTMLDivElement | null>(null);
+	const icon2Ref = useRef<HTMLDivElement | null>(null);
+	const icon3Ref = useRef<HTMLDivElement | null>(null);
 	const features = [
 		{
 			k: 'ifp',
 			title: 'Define Your IFP',
 			desc: 'We analyze your market and tell you who actually cares.',
 			icon: '🎯',
+			ref: icon1Ref,
 		},
 		{
 			k: 'storyline',
 			title: 'Storyline Engine',
 			desc: 'We generate a multi-episode narrative your audience can follow.',
 			icon: '🎬',
+			ref: icon2Ref,
 		},
 		{
 			k: 'plan',
 			title: 'Daily / Weekly / Monthly Plan',
 			desc: 'Never wonder what to post. We schedule it for you.',
 			icon: '📅',
+			ref: icon3Ref,
 		},
 	];
+
+	useEffect(() => {
+		if (typeof window === 'undefined') return;
+
+		(async () => {
+			try {
+				const { gsap } = await import('gsap');
+				const icons = [
+					icon1Ref.current,
+					icon2Ref.current,
+					icon3Ref.current,
+				].filter(Boolean);
+
+				if (icons.length > 0) {
+					// Initial state - hidden and scaled down
+					gsap.set(icons, {
+						opacity: 0,
+						scale: 0.5,
+						rotation: -15,
+					});
+
+					// Entrance animation with stagger
+					gsap.to(icons, {
+						opacity: 1,
+						scale: 1,
+						rotation: 0,
+						duration: 0.6,
+						ease: 'back.out(1.4)',
+						stagger: 0.15,
+						delay: 0.2,
+					});
+
+					// Continuous subtle bounce animation
+					icons.forEach((icon, index) => {
+						if (icon) {
+							const bounceAnimation = gsap.to(icon, {
+								y: -8,
+								duration: 1.5 + index * 0.2,
+								ease: 'sine.inOut',
+								repeat: -1,
+								yoyo: true,
+								delay: 0.8 + index * 0.2,
+							});
+
+							// Hover animations
+							icon.addEventListener('mouseenter', () => {
+								gsap.to(icon, {
+									scale: 1.3,
+									rotation: 10,
+									duration: 0.3,
+									ease: 'back.out(1.7)',
+								});
+								bounceAnimation.pause();
+							});
+
+							icon.addEventListener('mouseleave', () => {
+								gsap.to(icon, {
+									scale: 1,
+									rotation: 0,
+									duration: 0.3,
+									ease: 'power2.out',
+								});
+								bounceAnimation.resume();
+							});
+						}
+					});
+				}
+			} catch (_) {
+				// no-op if gsap not available
+			}
+		})();
+	}, []);
 
 	return (
 		<section id="how" className="py-16 md:py-24 bg-slate-50/50">
@@ -37,7 +118,12 @@ export default function ValueProps() {
 					{features.map((f) => (
 						<Card key={f.k}>
 							<CardHeader>
-								<div className="text-2xl mb-3">{f.icon}</div>
+								<div
+									ref={f.ref}
+									className="text-2xl mb-3 cursor-pointer"
+								>
+									{f.icon}
+								</div>
 								<CardTitle className="text-lg">
 									{f.title}
 								</CardTitle>
