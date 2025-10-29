@@ -8,6 +8,7 @@ import Link from 'next/link';
 export default function FinalCTA() {
 	const ctaRef = useRef<HTMLDivElement | null>(null);
 	const buttonRef = useRef<HTMLAnchorElement | null>(null);
+	const textRef = useRef<HTMLSpanElement | null>(null);
 
 	useEffect(() => {
 		if (typeof window === 'undefined') return;
@@ -33,12 +34,61 @@ export default function FinalCTA() {
 		if (typeof window === 'undefined' || !buttonRef.current) return;
 		try {
 			const { gsap } = await import('gsap');
+
+			// Animate button scale and position
 			gsap.to(buttonRef.current, {
-				scale: 1.05,
+				scale: 1.15,
 				y: -2,
 				duration: 0.3,
 				ease: 'power2.out',
 			});
+
+			const rainbowColors = [
+				'#ff0000', // red
+				'#ff7f00', // orange
+				'#ffff00', // yellow
+				'#00ff00', // green
+				'#0000ff', // blue
+				'#4b0082', // indigo
+				'#9400d3', // violet
+			];
+
+			// Create a timeline that cycles through rainbow colors
+			const tl = gsap.timeline({ repeat: -1 });
+
+			// Animate rainbow text effect
+			if (textRef.current) {
+				rainbowColors.forEach((color, index) => {
+					tl.to(
+						textRef.current,
+						{
+							color: color,
+							duration: 0.3,
+							ease: 'none',
+						},
+						index * 0.3,
+					);
+				});
+
+				// Store timeline on element for cleanup
+				(textRef.current as any).rainbowTimeline = tl;
+			}
+
+			// Animate rainbow border effect on button
+			rainbowColors.forEach((color, index) => {
+				tl.to(
+					buttonRef.current,
+					{
+						borderColor: color,
+						duration: 0.3,
+						ease: 'none',
+					},
+					index * 0.3,
+				);
+			});
+
+			// Store timeline on button for cleanup
+			(buttonRef.current as any).rainbowBorderTimeline = tl;
 		} catch (_) {
 			// no-op if gsap not available
 		}
@@ -48,12 +98,40 @@ export default function FinalCTA() {
 		if (typeof window === 'undefined' || !buttonRef.current) return;
 		try {
 			const { gsap } = await import('gsap');
+
+			// Reset button scale and position
 			gsap.to(buttonRef.current, {
 				scale: 1,
 				y: 0,
 				duration: 0.3,
 				ease: 'power2.out',
 			});
+
+			// Stop rainbow animations and reset colors
+			const borderTl = (buttonRef.current as any).rainbowBorderTimeline;
+			if (borderTl) {
+				borderTl.kill();
+				delete (buttonRef.current as any).rainbowBorderTimeline;
+			}
+
+			gsap.to(buttonRef.current, {
+				borderColor: '', // Reset to original border color
+				duration: 0.3,
+				ease: 'power2.out',
+			});
+
+			if (textRef.current) {
+				const textTl = (textRef.current as any).rainbowTimeline;
+				if (textTl) {
+					textTl.kill();
+					delete (textRef.current as any).rainbowTimeline;
+				}
+				gsap.to(textRef.current, {
+					color: '', // Reset to original color
+					duration: 0.3,
+					ease: 'power2.out',
+				});
+			}
 		} catch (_) {
 			// no-op if gsap not available
 		}
@@ -79,7 +157,8 @@ export default function FinalCTA() {
 					<div className="mt-8 flex flex-col items-center justify-center gap-3">
 						<Button
 							asChild
-							className="rounded-full px-5 py-3 text-sm font-bold"
+							className="rounded-full px-5 py-3 text-sm font-medium border-2 border-black-500 hover:text-bold"
+							variant="outline"
 						>
 							<Link
 								ref={buttonRef}
@@ -87,7 +166,9 @@ export default function FinalCTA() {
 								onMouseEnter={handleMouseEnter}
 								onMouseLeave={handleMouseLeave}
 							>
-								I really want to try it ^^
+								<span ref={textRef}>
+									I really want to try it ^^
+								</span>
 							</Link>
 						</Button>
 						<span className="text-xs text-gray-500 italic">
