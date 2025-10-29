@@ -8,6 +8,8 @@ import { Card } from '../ui/card';
 import { Sparkles, TrendingUp, Crosshair } from 'lucide-react';
 import Link from 'next/link';
 
+import BackedBy from './BackedBy';
+
 export default function Hero() {
 	const heroRef = useRef<HTMLDivElement | null>(null);
 	const headlineRef = useRef<HTMLHeadingElement | null>(null);
@@ -187,8 +189,8 @@ export default function Hero() {
 								</h3>
 								<p className="text-xs text-gray-600 leading-relaxed">
 									A clear understanding of what value a
-									'shorts' must create in order to find a
-									audience and engagement.
+									'shorts' must create in order to find your
+									audience and engage.
 								</p>
 							</div>
 						</div>
@@ -207,7 +209,7 @@ export default function Hero() {
 								</h3>
 								<p className="text-xs text-gray-600 leading-relaxed">
 									Ideal Customer Profile: who exactly will
-									engage with the content and ensure scalable
+									engage with the content and ensure sustainable
 									growth.
 								</p>
 							</div>
@@ -227,13 +229,14 @@ export default function Hero() {
 								</h3>
 								<p className="text-xs text-gray-600 leading-relaxed">
 									Which topics to focus on and why is the
-									chance of finding audience and engagement
+									chance of finding your audience and engaging
 									the highest there.
 								</p>
 							</div>
 						</div>
 					</Card>
 				</div>
+				<BackedBy />
 			</div>
 		</section>
 	);
