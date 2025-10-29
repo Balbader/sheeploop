@@ -653,7 +653,7 @@ export default function Hero() {
 							variant="outline"
 							className="rounded-full px-5 py-3 text-sm"
 						>
-							<Link href="#">See how it works</Link>
+							<Link href="#how">See how it works</Link>
 						</Button>
 					</div>
 				</div>
