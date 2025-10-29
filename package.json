@@ -28,6 +28,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.52.5",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
