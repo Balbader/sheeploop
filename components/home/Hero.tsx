@@ -151,7 +151,7 @@ export default function Hero() {
 						Your AI growth partner for TikTok & Instagram.
 					</h1>
 					<p className="mt-4 text-gray-600 leading-relaxed md:text-lg">
-						Type your idea. Get a content strategy, ICP, storyline,
+						Type your idea. Get a content strategy, IFP, storyline,
 						and posting schedule.
 					</p>
 					<div
@@ -204,10 +204,10 @@ export default function Hero() {
 							</div>
 							<div className="flex-1">
 								<h3 className="font-semibold text-sm mb-2">
-									ICP with maximum engagement
+									IFP with maximum engagement
 								</h3>
 								<p className="text-xs text-gray-600 leading-relaxed">
-									Find your "Ideal Customer Profile", who
+									Find your "Ideal Follower Profile", who
 									exactly will engage with your content.
 								</p>
 							</div>

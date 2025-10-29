@@ -2,8 +2,8 @@ import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
 export default function ValueProps() {
 	const features = [
 		{
-			k: 'icp',
-			title: 'Define Your ICP',
+			k: 'ifp',
+			title: 'Define Your IFP',
 			desc: 'We analyze your market and tell you who actually cares.',
 		},
 		{

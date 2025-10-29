@@ -2,7 +2,7 @@ import { Card } from '../ui/card';
 export default function PainPoints() {
 	const items = [
 		{ icon: '\uD83D\uDCC9', title: 'No growth despite daily posts.' },
-		{ icon: '\u23F3', title: 'No clear Ideal Customer Profile.' },
+		{ icon: '\u23F3', title: 'No clear Ideal Follower Profile.' },
 		{ icon: '\uD83D\uDD70\uFE0F', title: 'Inconsistent content schedule.' },
 		{
 			icon: '\uD83D\uDE35\u200D\uD83D\uDCAB',
