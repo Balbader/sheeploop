@@ -1,15 +1,15 @@
 import { z } from 'zod';
 
 const envSchema = z.object({
+	OPENAI_API_KEY: z.string(),
 	TURSO_DATABASE_URL: z.string(),
 	TURSO_AUTH_TOKEN: z.string(),
-	OPENAI_API_KEY: z.string(),
 });
 
 const publicEnv: Record<string, string> = {
+	OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
 	TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL!,
 	TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN!,
-	OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
 };
 
 export type EnvType = z.infer<typeof envSchema>;
