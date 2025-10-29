@@ -65,34 +65,13 @@ export default function ValueProps() {
 					// Continuous subtle bounce animation
 					icons.forEach((icon, index) => {
 						if (icon) {
-							const bounceAnimation = gsap.to(icon, {
+							gsap.to(icon, {
 								y: -8,
 								duration: 1.5 + index * 0.2,
 								ease: 'sine.inOut',
 								repeat: -1,
 								yoyo: true,
 								delay: 0.8 + index * 0.2,
-							});
-
-							// Hover animations
-							icon.addEventListener('mouseenter', () => {
-								gsap.to(icon, {
-									scale: 1.3,
-									rotation: 10,
-									duration: 0.3,
-									ease: 'back.out(1.7)',
-								});
-								bounceAnimation.pause();
-							});
-
-							icon.addEventListener('mouseleave', () => {
-								gsap.to(icon, {
-									scale: 1,
-									rotation: 0,
-									duration: 0.3,
-									ease: 'power2.out',
-								});
-								bounceAnimation.resume();
 							});
 						}
 					});
@@ -118,10 +97,7 @@ export default function ValueProps() {
 					{features.map((f) => (
 						<Card key={f.k}>
 							<CardHeader>
-								<div
-									ref={f.ref}
-									className="text-2xl mb-3 cursor-pointer"
-								>
+								<div ref={f.ref} className="text-2xl mb-3">
 									{f.icon}
 								</div>
 								<CardTitle className="text-lg">
