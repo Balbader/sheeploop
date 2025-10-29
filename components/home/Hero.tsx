@@ -23,6 +23,8 @@ export default function Hero() {
 	const sheep8Ref = useRef<HTMLDivElement | null>(null);
 	const sheep9Ref = useRef<HTMLDivElement | null>(null);
 	const sheep10Ref = useRef<HTMLDivElement | null>(null);
+	const sheep11Ref = useRef<HTMLDivElement | null>(null);
+	const sheep12Ref = useRef<HTMLDivElement | null>(null);
 	const headlineRef = useRef<HTMLHeadingElement | null>(null);
 	const ctaRef = useRef<HTMLDivElement | null>(null);
 	const icon1Ref = useRef<HTMLDivElement | null>(null);
@@ -133,6 +135,8 @@ export default function Hero() {
 						sheep8Ref.current,
 						sheep9Ref.current,
 						sheep10Ref.current,
+						sheep11Ref.current,
+						sheep12Ref.current,
 					].filter(Boolean);
 
 					// Initialize sheep positions
@@ -356,7 +360,20 @@ export default function Hero() {
 			</div>
 			<div
 				ref={sheep7Ref}
-				className="absolute bottom-[24%] left-[10%] w-[70px] h-[70px] pointer-events-none opacity-36"
+				className="absolute bottom-[26%] left-[10%] w-[74px] h-[74px] pointer-events-none opacity-36"
+				style={{ zIndex: 2 }}
+			>
+				<Image
+					src="/sheep-2.png"
+					alt="Sheep"
+					width={74}
+					height={74}
+					className="w-full h-full object-contain"
+				/>
+			</div>
+			<div
+				ref={sheep8Ref}
+				className="absolute bottom-[23%] left-[35%] w-[70px] h-[70px] pointer-events-none opacity-34"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -368,21 +385,8 @@ export default function Hero() {
 				/>
 			</div>
 			<div
-				ref={sheep8Ref}
-				className="absolute bottom-[15%] left-1/3 w-[85px] h-[85px] pointer-events-none opacity-34"
-				style={{ zIndex: 2 }}
-			>
-				<Image
-					src="/sheep-2.png"
-					alt="Sheep"
-					width={85}
-					height={85}
-					className="w-full h-full object-contain"
-				/>
-			</div>
-			<div
 				ref={sheep9Ref}
-				className="absolute bottom-[27%] right-[15%] w-[68px] h-[68px] pointer-events-none opacity-31"
+				className="absolute bottom-[19%] right-[25%] w-[68px] h-[68px] pointer-events-none opacity-31"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -395,7 +399,7 @@ export default function Hero() {
 			</div>
 			<div
 				ref={sheep10Ref}
-				className="absolute bottom-[16%] left-[60%] w-[82px] h-[82px] pointer-events-none opacity-37"
+				className="absolute bottom-[24%] left-[15%] w-[82px] h-[82px] pointer-events-none opacity-37"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -403,6 +407,32 @@ export default function Hero() {
 					alt="Sheep"
 					width={82}
 					height={82}
+					className="w-full h-full object-contain"
+				/>
+			</div>
+			<div
+				ref={sheep11Ref}
+				className="absolute bottom-[21%] right-[40%] w-[65px] h-[65px] pointer-events-none opacity-29"
+				style={{ zIndex: 2 }}
+			>
+				<Image
+					src="/sheep-2.png"
+					alt="Sheep"
+					width={65}
+					height={65}
+					className="w-full h-full object-contain"
+				/>
+			</div>
+			<div
+				ref={sheep12Ref}
+				className="absolute bottom-[27%] left-[70%] w-[78px] h-[78px] pointer-events-none opacity-35"
+				style={{ zIndex: 2 }}
+			>
+				<Image
+					src="/sheep-2.png"
+					alt="Sheep"
+					width={78}
+					height={78}
 					className="w-full h-full object-contain"
 				/>
 			</div>
