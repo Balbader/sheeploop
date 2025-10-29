@@ -274,20 +274,62 @@ export default function Hero() {
 				style={{ zIndex: 2 }}
 			>
 				<svg viewBox="0 0 100 100" className="w-full h-full">
-					{/* Body */}
-					<ellipse cx="50" cy="60" rx="25" ry="20" fill="white" />
-					{/* Head */}
-					<circle cx="50" cy="35" r="18" fill="white" />
-					{/* Wool fluffs */}
-					<circle cx="30" cy="50" r="12" fill="white" />
-					<circle cx="70" cy="50" r="12" fill="white" />
-					<circle cx="40" cy="70" r="10" fill="white" />
-					<circle cx="60" cy="70" r="10" fill="white" />
+					{/* Wool - body base */}
+					<ellipse cx="50" cy="65" rx="28" ry="22" fill="white" />
+					{/* Wool fluffs - overlapping for texture */}
+					<circle cx="25" cy="55" r="14" fill="white" />
+					<circle cx="35" cy="50" r="13" fill="white" />
+					<circle cx="75" cy="55" r="14" fill="white" />
+					<circle cx="65" cy="50" r="13" fill="white" />
+					<circle cx="20" cy="70" r="11" fill="white" />
+					<circle cx="42" cy="75" r="12" fill="white" />
+					<circle cx="80" cy="70" r="11" fill="white" />
+					<circle cx="58" cy="75" r="12" fill="white" />
+					<circle cx="45" cy="60" r="10" fill="white" />
+					<circle cx="55" cy="60" r="10" fill="white" />
+					{/* Head - smaller and more proportional */}
+					<ellipse cx="50" cy="30" rx="12" ry="14" fill="white" />
+					{/* Ears */}
+					<ellipse cx="40" cy="28" rx="3" ry="6" fill="white" />
+					<ellipse cx="60" cy="28" rx="3" ry="6" fill="white" />
+					{/* Legs */}
+					<rect
+						x="35"
+						y="82"
+						width="6"
+						height="12"
+						rx="3"
+						fill="white"
+					/>
+					<rect
+						x="45"
+						y="82"
+						width="6"
+						height="12"
+						rx="3"
+						fill="white"
+					/>
+					<rect
+						x="49"
+						y="82"
+						width="6"
+						height="12"
+						rx="3"
+						fill="white"
+					/>
+					<rect
+						x="59"
+						y="82"
+						width="6"
+						height="12"
+						rx="3"
+						fill="white"
+					/>
 					{/* Eyes */}
-					<circle cx="45" cy="32" r="3" fill="black" />
-					<circle cx="55" cy="32" r="3" fill="black" />
-					{/* Nose */}
-					<ellipse cx="50" cy="38" rx="2" ry="1.5" fill="black" />
+					<circle cx="45" cy="28" r="2.5" fill="black" />
+					<circle cx="55" cy="28" r="2.5" fill="black" />
+					{/* Nose/mouth */}
+					<ellipse cx="50" cy="34" rx="2" ry="1.5" fill="black" />
 				</svg>
 			</div>
 			<div
@@ -296,20 +338,62 @@ export default function Hero() {
 				style={{ zIndex: 2 }}
 			>
 				<svg viewBox="0 0 100 100" className="w-full h-full">
-					{/* Body */}
-					<ellipse cx="50" cy="60" rx="23" ry="18" fill="white" />
-					{/* Head */}
-					<circle cx="50" cy="35" r="16" fill="white" />
+					{/* Wool - body base */}
+					<ellipse cx="50" cy="65" rx="26" ry="20" fill="white" />
 					{/* Wool fluffs */}
-					<circle cx="32" cy="52" r="11" fill="white" />
-					<circle cx="68" cy="52" r="11" fill="white" />
-					<circle cx="42" cy="72" r="9" fill="white" />
-					<circle cx="58" cy="72" r="9" fill="white" />
+					<circle cx="26" cy="56" r="13" fill="white" />
+					<circle cx="36" cy="52" r="12" fill="white" />
+					<circle cx="74" cy="56" r="13" fill="white" />
+					<circle cx="64" cy="52" r="12" fill="white" />
+					<circle cx="22" cy="72" r="10" fill="white" />
+					<circle cx="42" cy="76" r="11" fill="white" />
+					<circle cx="78" cy="72" r="10" fill="white" />
+					<circle cx="58" cy="76" r="11" fill="white" />
+					<circle cx="44" cy="62" r="9" fill="white" />
+					<circle cx="56" cy="62" r="9" fill="white" />
+					{/* Head */}
+					<ellipse cx="50" cy="30" rx="11" ry="13" fill="white" />
+					{/* Ears */}
+					<ellipse cx="40" cy="28" rx="2.5" ry="5.5" fill="white" />
+					<ellipse cx="60" cy="28" rx="2.5" ry="5.5" fill="white" />
+					{/* Legs */}
+					<rect
+						x="36"
+						y="82"
+						width="5"
+						height="11"
+						rx="2.5"
+						fill="white"
+					/>
+					<rect
+						x="44"
+						y="82"
+						width="5"
+						height="11"
+						rx="2.5"
+						fill="white"
+					/>
+					<rect
+						x="51"
+						y="82"
+						width="5"
+						height="11"
+						rx="2.5"
+						fill="white"
+					/>
+					<rect
+						x="59"
+						y="82"
+						width="5"
+						height="11"
+						rx="2.5"
+						fill="white"
+					/>
 					{/* Eyes */}
-					<circle cx="46" cy="31" r="2.5" fill="black" />
-					<circle cx="54" cy="31" r="2.5" fill="black" />
-					{/* Nose */}
-					<ellipse cx="50" cy="37" rx="1.8" ry="1.3" fill="black" />
+					<circle cx="45" cy="28" r="2.3" fill="black" />
+					<circle cx="55" cy="28" r="2.3" fill="black" />
+					{/* Nose/mouth */}
+					<ellipse cx="50" cy="34" rx="1.8" ry="1.3" fill="black" />
 				</svg>
 			</div>
 			<div
@@ -318,20 +402,62 @@ export default function Hero() {
 				style={{ zIndex: 2 }}
 			>
 				<svg viewBox="0 0 100 100" className="w-full h-full">
-					{/* Body */}
-					<ellipse cx="50" cy="60" rx="21" ry="17" fill="white" />
-					{/* Head */}
-					<circle cx="50" cy="35" r="15" fill="white" />
+					{/* Wool - body base */}
+					<ellipse cx="50" cy="65" rx="23" ry="18" fill="white" />
 					{/* Wool fluffs */}
-					<circle cx="33" cy="53" r="10" fill="white" />
-					<circle cx="67" cy="53" r="10" fill="white" />
-					<circle cx="44" cy="73" r="8" fill="white" />
-					<circle cx="56" cy="73" r="8" fill="white" />
+					<circle cx="29" cy="57" r="11" fill="white" />
+					<circle cx="38" cy="54" r="10" fill="white" />
+					<circle cx="71" cy="57" r="11" fill="white" />
+					<circle cx="62" cy="54" r="10" fill="white" />
+					<circle cx="25" cy="73" r="9" fill="white" />
+					<circle cx="41" cy="76" r="9.5" fill="white" />
+					<circle cx="75" cy="73" r="9" fill="white" />
+					<circle cx="59" cy="76" r="9.5" fill="white" />
+					<circle cx="44" cy="63" r="8" fill="white" />
+					<circle cx="56" cy="63" r="8" fill="white" />
+					{/* Head */}
+					<ellipse cx="50" cy="30" rx="9.5" ry="11" fill="white" />
+					{/* Ears */}
+					<ellipse cx="41" cy="28" rx="2" ry="4.5" fill="white" />
+					<ellipse cx="59" cy="28" rx="2" ry="4.5" fill="white" />
+					{/* Legs */}
+					<rect
+						x="38"
+						y="82"
+						width="4"
+						height="9"
+						rx="2"
+						fill="white"
+					/>
+					<rect
+						x="44"
+						y="82"
+						width="4"
+						height="9"
+						rx="2"
+						fill="white"
+					/>
+					<rect
+						x="52"
+						y="82"
+						width="4"
+						height="9"
+						rx="2"
+						fill="white"
+					/>
+					<rect
+						x="58"
+						y="82"
+						width="4"
+						height="9"
+						rx="2"
+						fill="white"
+					/>
 					{/* Eyes */}
-					<circle cx="47" cy="30" r="2" fill="black" />
-					<circle cx="53" cy="30" r="2" fill="black" />
-					{/* Nose */}
-					<ellipse cx="50" cy="36" rx="1.5" ry="1" fill="black" />
+					<circle cx="45" cy="28" r="2" fill="black" />
+					<circle cx="55" cy="28" r="2" fill="black" />
+					{/* Nose/mouth */}
+					<ellipse cx="50" cy="34" rx="1.5" ry="1.2" fill="black" />
 				</svg>
 			</div>
 			<div
@@ -340,20 +466,62 @@ export default function Hero() {
 				style={{ zIndex: 2 }}
 			>
 				<svg viewBox="0 0 100 100" className="w-full h-full">
-					{/* Body */}
-					<ellipse cx="50" cy="60" rx="24" ry="19" fill="white" />
-					{/* Head */}
-					<circle cx="50" cy="35" r="17" fill="white" />
+					{/* Wool - body base */}
+					<ellipse cx="50" cy="65" rx="25" ry="19" fill="white" />
 					{/* Wool fluffs */}
-					<circle cx="31" cy="51" r="11.5" fill="white" />
-					<circle cx="69" cy="51" r="11.5" fill="white" />
-					<circle cx="41" cy="71" r="9.5" fill="white" />
-					<circle cx="59" cy="71" r="9.5" fill="white" />
+					<circle cx="27" cy="56" r="12.5" fill="white" />
+					<circle cx="37" cy="53" r="11.5" fill="white" />
+					<circle cx="73" cy="56" r="12.5" fill="white" />
+					<circle cx="63" cy="53" r="11.5" fill="white" />
+					<circle cx="23" cy="73" r="10" fill="white" />
+					<circle cx="41" cy="77" r="10.5" fill="white" />
+					<circle cx="77" cy="73" r="10" fill="white" />
+					<circle cx="59" cy="77" r="10.5" fill="white" />
+					<circle cx="44" cy="63" r="9" fill="white" />
+					<circle cx="56" cy="63" r="9" fill="white" />
+					{/* Head */}
+					<ellipse cx="50" cy="30" rx="10.5" ry="12.5" fill="white" />
+					{/* Ears */}
+					<ellipse cx="41" cy="28" rx="2.3" ry="5" fill="white" />
+					<ellipse cx="59" cy="28" rx="2.3" ry="5" fill="white" />
+					{/* Legs */}
+					<rect
+						x="37"
+						y="82"
+						width="4.5"
+						height="10"
+						rx="2"
+						fill="white"
+					/>
+					<rect
+						x="44"
+						y="82"
+						width="4.5"
+						height="10"
+						rx="2"
+						fill="white"
+					/>
+					<rect
+						x="51.5"
+						y="82"
+						width="4.5"
+						height="10"
+						rx="2"
+						fill="white"
+					/>
+					<rect
+						x="58.5"
+						y="82"
+						width="4.5"
+						height="10"
+						rx="2"
+						fill="white"
+					/>
 					{/* Eyes */}
-					<circle cx="46" cy="31.5" r="2.8" fill="black" />
-					<circle cx="54" cy="31.5" r="2.8" fill="black" />
-					{/* Nose */}
-					<ellipse cx="50" cy="37.5" rx="1.7" ry="1.2" fill="black" />
+					<circle cx="45" cy="28" r="2.5" fill="black" />
+					<circle cx="55" cy="28" r="2.5" fill="black" />
+					{/* Nose/mouth */}
+					<ellipse cx="50" cy="34" rx="1.7" ry="1.2" fill="black" />
 				</svg>
 			</div>
 			<div
@@ -384,20 +552,62 @@ export default function Hero() {
 				style={{ zIndex: 2 }}
 			>
 				<svg viewBox="0 0 100 100" className="w-full h-full">
-					{/* Body */}
-					<ellipse cx="50" cy="60" rx="23" ry="18.5" fill="white" />
-					{/* Head */}
-					<circle cx="50" cy="35" r="16.5" fill="white" />
+					{/* Wool - body base */}
+					<ellipse cx="50" cy="65" rx="24.5" ry="19" fill="white" />
 					{/* Wool fluffs */}
-					<circle cx="32" cy="51.5" r="11" fill="white" />
-					<circle cx="68" cy="51.5" r="11" fill="white" />
-					<circle cx="42" cy="71.5" r="9" fill="white" />
-					<circle cx="58" cy="71.5" r="9" fill="white" />
+					<circle cx="28" cy="57" r="12" fill="white" />
+					<circle cx="37" cy="54" r="11" fill="white" />
+					<circle cx="72" cy="57" r="12" fill="white" />
+					<circle cx="63" cy="54" r="11" fill="white" />
+					<circle cx="24" cy="73" r="9.5" fill="white" />
+					<circle cx="41" cy="77" r="10" fill="white" />
+					<circle cx="76" cy="73" r="9.5" fill="white" />
+					<circle cx="59" cy="77" r="10" fill="white" />
+					<circle cx="44" cy="63" r="9" fill="white" />
+					<circle cx="56" cy="63" r="9" fill="white" />
+					{/* Head */}
+					<ellipse cx="50" cy="30" rx="10.2" ry="12.2" fill="white" />
+					{/* Ears */}
+					<ellipse cx="41" cy="28" rx="2.2" ry="4.8" fill="white" />
+					<ellipse cx="59" cy="28" rx="2.2" ry="4.8" fill="white" />
+					{/* Legs */}
+					<rect
+						x="37"
+						y="82"
+						width="4.5"
+						height="10"
+						rx="2"
+						fill="white"
+					/>
+					<rect
+						x="44"
+						y="82"
+						width="4.5"
+						height="10"
+						rx="2"
+						fill="white"
+					/>
+					<rect
+						x="51.5"
+						y="82"
+						width="4.5"
+						height="10"
+						rx="2"
+						fill="white"
+					/>
+					<rect
+						x="58.5"
+						y="82"
+						width="4.5"
+						height="10"
+						rx="2"
+						fill="white"
+					/>
 					{/* Eyes */}
-					<circle cx="46.5" cy="31" r="2.6" fill="black" />
-					<circle cx="53.5" cy="31" r="2.6" fill="black" />
-					{/* Nose */}
-					<ellipse cx="50" cy="37" rx="1.65" ry="1.15" fill="black" />
+					<circle cx="45" cy="28" r="2.4" fill="black" />
+					<circle cx="55" cy="28" r="2.4" fill="black" />
+					{/* Nose/mouth */}
+					<ellipse cx="50" cy="34" rx="1.65" ry="1.2" fill="black" />
 				</svg>
 			</div>
 			<header className="max-w-screen-xl mx-auto px-6 py-6 flex items-center justify-between relative z-10">
