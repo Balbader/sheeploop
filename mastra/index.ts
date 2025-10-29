@@ -1,6 +1,5 @@
 import { Mastra } from '@mastra/core/mastra';
 import { PinoLogger } from '@mastra/loggers';
-import { VercelDeployer } from '@mastra/deployer-vercel';
 
 import { weatherAgent } from './agents/weather-agent';
 
@@ -16,5 +15,4 @@ export const mastra = new Mastra({
 	observability: {
 		default: { enabled: true },
 	},
-	deployer: new VercelDeployer(),
 });
