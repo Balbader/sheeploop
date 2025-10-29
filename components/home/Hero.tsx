@@ -627,7 +627,7 @@ export default function Hero() {
 							</div>
 							<div className="flex-1">
 								<h3 className="font-semibold text-sm mb-2">
-									Smart 'Shorts'
+									Create 'Smart' Shorts
 								</h3>
 								<p className="text-xs text-gray-600 leading-relaxed">
 									A clear understanding of what value 'shorts'
