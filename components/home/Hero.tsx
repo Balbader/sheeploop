@@ -202,10 +202,10 @@ export default function Hero() {
 			{/* Subtle animated background */}
 			<div
 				ref={backgroundRef}
-				className="absolute inset-0 opacity-60 pointer-events-none"
+				className="absolute inset-0 opacity-80 pointer-events-none"
 				style={{
 					background:
-						'radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.18) 0%, transparent 65%)',
+						'radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.35) 0%, transparent 60%)',
 				}}
 			/>
 			{/* Prairie background */}
@@ -214,37 +214,37 @@ export default function Hero() {
 				style={{ zIndex: 1 }}
 			>
 				{/* Sky gradient */}
-				<div className="absolute inset-0 bg-gradient-to-b from-sky-100 via-blue-50 to-green-50 opacity-40" />
+				<div className="absolute inset-0 bg-gradient-to-b from-sky-200 via-blue-100 to-green-100 opacity-70" />
 
 				{/* Rolling hills */}
 				<svg
-					className="absolute bottom-0 w-full h-full opacity-30"
+					className="absolute bottom-0 w-full h-full opacity-70"
 					viewBox="0 0 1200 600"
 					preserveAspectRatio="none"
 				>
 					{/* Distant hills */}
 					<path
 						d="M0,400 Q200,350 400,380 T800,360 T1200,380 L1200,600 L0,600 Z"
-						fill="rgba(34, 197, 94, 0.15)"
+						fill="rgba(21, 128, 61, 0.4)"
 					/>
 					{/* Middle hills */}
 					<path
 						d="M0,450 Q300,420 600,440 T1200,430 L1200,600 L0,600 Z"
-						fill="rgba(74, 222, 128, 0.2)"
+						fill="rgba(34, 197, 94, 0.5)"
 					/>
 					{/* Foreground hills */}
 					<path
 						d="M0,500 Q400,470 800,490 T1200,480 L1200,600 L0,600 Z"
-						fill="rgba(134, 239, 172, 0.25)"
+						fill="rgba(74, 222, 128, 0.6)"
 					/>
 				</svg>
 
 				{/* Grass layer */}
-				<div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-green-100 to-transparent opacity-40" />
+				<div className="absolute bottom-0 w-full h-40 bg-gradient-to-t from-green-300 to-transparent opacity-80" />
 
 				{/* Grass blades scattered */}
 				<svg
-					className="absolute bottom-0 w-full h-full opacity-30"
+					className="absolute bottom-0 w-full h-full opacity-60"
 					viewBox="0 0 1200 600"
 					preserveAspectRatio="none"
 				>
@@ -259,8 +259,8 @@ export default function Hero() {
 								d={`M${x},${y} Q${x - 3},${y - height} ${x},${
 									y - height * 1.2
 								} T${x},${y - height}`}
-								stroke="rgba(34, 197, 94, 0.4)"
-								strokeWidth="1.5"
+								stroke="rgba(21, 128, 61, 0.7)"
+								strokeWidth="2"
 								fill="none"
 							/>
 						);

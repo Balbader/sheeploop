@@ -3,7 +3,7 @@ import { Card } from '../ui/card';
 
 export default function BackedBy() {
 	return (
-		<section className="py-8 md:py-12 bg-slate-50/50 flex items-center justify-center">
+		<section className="py-8 md:py-12  flex items-center justify-center">
 			<div className="max-w-screen-xl mx-auto px-6">
 				<h2 className="text-sm md:text-lg font-semibold tracking-tight text-center mb-6">
 					Backed by
