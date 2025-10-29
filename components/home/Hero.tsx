@@ -615,7 +615,7 @@ export default function Hero() {
 						asChild
 						className="rounded-full px-5 py-2.5 text-sm"
 					>
-						<Link href="#start">Get started</Link>
+						<Link href="#">Give it a try ^^</Link>
 					</Button>
 				</div>
 			</header>
@@ -646,14 +646,14 @@ export default function Hero() {
 							asChild
 							className="rounded-full px-5 py-3 text-sm"
 						>
-							<Link href="#start">Generate my plan</Link>
+							<Link href="#">Generate my plan</Link>
 						</Button>
 						<Button
 							asChild
 							variant="outline"
 							className="rounded-full px-5 py-3 text-sm"
 						>
-							<Link href="#how">See how it works</Link>
+							<Link href="#">See how it works</Link>
 						</Button>
 					</div>
 				</div>

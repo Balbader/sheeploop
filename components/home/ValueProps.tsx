@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
+import { Button } from '../ui/button';
+import Link from 'next/link';
 
 export default function ValueProps() {
 	const icon1Ref = useRef<HTMLDivElement | null>(null);
@@ -111,6 +113,12 @@ export default function ValueProps() {
 							</CardContent>
 						</Card>
 					))}
+				</div>
+
+				<div className="mt-12 flex items-center justify-center">
+					<Button asChild className="rounded-full px-6 py-3 text-sm">
+						<Link href="#">Try it now! It&apos;s free.</Link>
+					</Button>
 				</div>
 			</div>
 		</section>

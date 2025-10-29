@@ -3,9 +3,11 @@
 import { useEffect, useRef } from 'react';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
+import Link from 'next/link';
 
 export default function FinalCTA() {
 	const ctaRef = useRef<HTMLDivElement | null>(null);
+	const buttonRef = useRef<HTMLAnchorElement | null>(null);
 
 	useEffect(() => {
 		if (typeof window === 'undefined') return;
@@ -27,6 +29,36 @@ export default function FinalCTA() {
 		})();
 	}, []);
 
+	const handleMouseEnter = async () => {
+		if (typeof window === 'undefined' || !buttonRef.current) return;
+		try {
+			const { gsap } = await import('gsap');
+			gsap.to(buttonRef.current, {
+				scale: 1.05,
+				y: -2,
+				duration: 0.3,
+				ease: 'power2.out',
+			});
+		} catch (_) {
+			// no-op if gsap not available
+		}
+	};
+
+	const handleMouseLeave = async () => {
+		if (typeof window === 'undefined' || !buttonRef.current) return;
+		try {
+			const { gsap } = await import('gsap');
+			gsap.to(buttonRef.current, {
+				scale: 1,
+				y: 0,
+				duration: 0.3,
+				ease: 'power2.out',
+			});
+		} catch (_) {
+			// no-op if gsap not available
+		}
+	};
+
 	return (
 		<section
 			id="start"
@@ -44,15 +76,22 @@ export default function FinalCTA() {
 						Answer a few questions and get your full TikTok &
 						Instagram growth plan.
 					</p>
-					<div className="mt-8 flex items-center justify-center gap-3">
+					<div className="mt-8 flex flex-col items-center justify-center gap-3">
 						<Button
 							asChild
-							className="rounded-full px-5 py-3 text-sm"
+							className="rounded-full px-5 py-3 text-sm font-bold"
 						>
-							<a href="#start">Start for free</a>
+							<Link
+								ref={buttonRef}
+								href="#"
+								onMouseEnter={handleMouseEnter}
+								onMouseLeave={handleMouseLeave}
+							>
+								I really want to try it ^^
+							</Link>
 						</Button>
-						<span className="text-xs text-gray-500">
-							No credit card required.
+						<span className="text-xs text-gray-500 italic">
+							No credit card required
 						</span>
 					</div>
 				</Card>
