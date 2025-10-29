@@ -188,9 +188,8 @@ export default function Hero() {
 									Smart 'Shorts'
 								</h3>
 								<p className="text-xs text-gray-600 leading-relaxed">
-									A clear understanding of what value a
-									'shorts' must create in order to build
-									momentum.
+									A clear understanding of what value 'shorts'
+									must create in order to build momentum.
 								</p>
 							</div>
 						</div>
