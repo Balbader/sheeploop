@@ -279,10 +279,11 @@ export default function Hero() {
 					})}
 				</svg>
 			</div>
-			{/* Animated sheep characters */}
+			{/* Animated sheep characters - grouped by 2 and 3 */}
+			{/* Group 1: 2 sheep - UP */}
 			<div
 				ref={sheep1Ref}
-				className="absolute bottom-[18%] left-[5%] w-24 h-24 pointer-events-none opacity-40"
+				className="absolute bottom-[30%] left-[8%] w-24 h-24 pointer-events-none opacity-40"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -295,7 +296,7 @@ export default function Hero() {
 			</div>
 			<div
 				ref={sheep2Ref}
-				className="absolute bottom-[16%] left-[13%] w-[88px] h-[88px] pointer-events-none opacity-35"
+				className="absolute bottom-[28%] left-[13%] w-[88px] h-[88px] pointer-events-none opacity-35"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -306,9 +307,10 @@ export default function Hero() {
 					className="w-full h-full object-contain"
 				/>
 			</div>
+			{/* Group 2: 3 sheep - DOWN */}
 			<div
 				ref={sheep3Ref}
-				className="absolute bottom-[30%] right-1/4 w-20 h-20 pointer-events-none opacity-30"
+				className="absolute bottom-[12%] left-[22%] w-20 h-20 pointer-events-none opacity-30"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -321,7 +323,7 @@ export default function Hero() {
 			</div>
 			<div
 				ref={sheep4Ref}
-				className="absolute bottom-[17%] left-[29%] w-[80px] h-[80px] pointer-events-none opacity-38"
+				className="absolute bottom-[10%] left-[28%] w-[80px] h-[80px] pointer-events-none opacity-38"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -334,7 +336,7 @@ export default function Hero() {
 			</div>
 			<div
 				ref={sheep5Ref}
-				className="absolute bottom-[18%] left-[37%] w-[72px] h-[72px] pointer-events-none opacity-33"
+				className="absolute bottom-[11%] left-[34%] w-[72px] h-[72px] pointer-events-none opacity-33"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -345,9 +347,10 @@ export default function Hero() {
 					className="w-full h-full object-contain"
 				/>
 			</div>
+			{/* Group 3: 2 sheep - UP */}
 			<div
 				ref={sheep6Ref}
-				className="absolute bottom-[16%] left-[45%] w-[76px] h-[76px] pointer-events-none opacity-32"
+				className="absolute bottom-[28%] left-[42%] w-[76px] h-[76px] pointer-events-none opacity-32"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -360,7 +363,7 @@ export default function Hero() {
 			</div>
 			<div
 				ref={sheep7Ref}
-				className="absolute bottom-[19%] left-[53%] w-[74px] h-[74px] pointer-events-none opacity-36"
+				className="absolute bottom-[27%] left-[48%] w-[74px] h-[74px] pointer-events-none opacity-36"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -371,9 +374,10 @@ export default function Hero() {
 					className="w-full h-full object-contain"
 				/>
 			</div>
+			{/* Group 4: 3 sheep - DOWN */}
 			<div
 				ref={sheep8Ref}
-				className="absolute bottom-[17%] left-[61%] w-[70px] h-[70px] pointer-events-none opacity-34"
+				className="absolute bottom-[14%] left-[56%] w-[70px] h-[70px] pointer-events-none opacity-34"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -386,7 +390,7 @@ export default function Hero() {
 			</div>
 			<div
 				ref={sheep9Ref}
-				className="absolute bottom-[18%] left-[69%] w-[68px] h-[68px] pointer-events-none opacity-31"
+				className="absolute bottom-[12%] left-[62%] w-[68px] h-[68px] pointer-events-none opacity-31"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -399,7 +403,7 @@ export default function Hero() {
 			</div>
 			<div
 				ref={sheep10Ref}
-				className="absolute bottom-[16%] left-[77%] w-[82px] h-[82px] pointer-events-none opacity-37"
+				className="absolute bottom-[13%] left-[68%] w-[82px] h-[82px] pointer-events-none opacity-37"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -410,9 +414,10 @@ export default function Hero() {
 					className="w-full h-full object-contain"
 				/>
 			</div>
+			{/* Group 5: 2 sheep - UP */}
 			<div
 				ref={sheep11Ref}
-				className="absolute bottom-[19%] left-[85%] w-[65px] h-[65px] pointer-events-none opacity-29"
+				className="absolute bottom-[26%] left-[76%] w-[65px] h-[65px] pointer-events-none opacity-29"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -425,7 +430,7 @@ export default function Hero() {
 			</div>
 			<div
 				ref={sheep12Ref}
-				className="absolute bottom-[17%] left-[93%] w-[78px] h-[78px] pointer-events-none opacity-35"
+				className="absolute bottom-[25%] left-[82%] w-[78px] h-[78px] pointer-events-none opacity-35"
 				style={{ zIndex: 2 }}
 			>
 				<Image
