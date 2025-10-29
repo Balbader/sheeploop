@@ -613,8 +613,7 @@ export default function Hero() {
 				<div>
 					<Button
 						asChild
-						className="rounded-full px-5 py-2.5 text-sm border-2 hover:text-bold hover:bg-black hover:text-white"
-						variant="outline"
+						className="rounded-full px-5 py-2.5 text-sm"
 					>
 						<Link href="#">Give it a try ^^</Link>
 					</Button>
