@@ -1,20 +1,24 @@
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
+
 export default function ValueProps() {
 	const features = [
 		{
 			k: 'ifp',
 			title: 'Define Your IFP',
 			desc: 'We analyze your market and tell you who actually cares.',
+			icon: '🎯',
 		},
 		{
 			k: 'storyline',
 			title: 'Storyline Engine',
 			desc: 'We generate a multi-episode narrative your audience can follow.',
+			icon: '🎬',
 		},
 		{
 			k: 'plan',
 			title: 'Daily / Weekly / Monthly Plan',
 			desc: 'Never wonder what to post. We schedule it for you.',
+			icon: '📅',
 		},
 	];
 
@@ -33,6 +37,7 @@ export default function ValueProps() {
 					{features.map((f) => (
 						<Card key={f.k}>
 							<CardHeader>
+								<div className="text-2xl mb-3">{f.icon}</div>
 								<CardTitle className="text-lg">
 									{f.title}
 								</CardTitle>
@@ -41,10 +46,6 @@ export default function ValueProps() {
 								<p className="text-gray-600 leading-relaxed">
 									{f.desc}
 								</p>
-								<div
-									className="mt-5 h-32 rounded-xl border border-dashed border-gray-200 bg-gradient-to-br from-white to-slate-50"
-									aria-hidden
-								/>
 							</CardContent>
 						</Card>
 					))}
