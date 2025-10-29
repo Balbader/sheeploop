@@ -5,7 +5,6 @@ import { useEffect, useRef } from 'react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Card } from '../ui/card';
-import { Sparkles, TrendingUp, Crosshair } from 'lucide-react';
 import Link from 'next/link';
 
 import BackedBy from './BackedBy';
@@ -663,9 +662,9 @@ export default function Hero() {
 						<div className="flex items-start gap-3">
 							<div
 								ref={icon1Ref}
-								className="flex-shrink-0 w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center transition-all hover:bg-purple-200 cursor-pointer"
+								className="flex-shrink-0 text-2xl"
 							>
-								<Sparkles className="w-4 h-4 text-purple-600" />
+								✨
 							</div>
 							<div className="flex-1">
 								<h3 className="font-semibold text-sm mb-2">
@@ -682,9 +681,9 @@ export default function Hero() {
 						<div className="flex items-start gap-3">
 							<div
 								ref={icon2Ref}
-								className="flex-shrink-0 w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center transition-all hover:bg-blue-200 cursor-pointer"
+								className="flex-shrink-0 text-2xl"
 							>
-								<TrendingUp className="w-4 h-4 text-blue-600" />
+								🎯
 							</div>
 							<div className="flex-1">
 								<h3 className="font-semibold text-sm mb-2">
@@ -701,9 +700,9 @@ export default function Hero() {
 						<div className="flex items-start gap-3">
 							<div
 								ref={icon3Ref}
-								className="flex-shrink-0 w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center transition-all hover:bg-green-200 cursor-pointer"
+								className="flex-shrink-0 text-2xl"
 							>
-								<Crosshair className="w-4 h-4 text-green-600" />
+								📌
 							</div>
 							<div className="flex-1">
 								<h3 className="font-semibold text-sm mb-2">
