@@ -12,7 +12,12 @@ export default function Footer() {
 						height={24}
 						className="rounded"
 					/>
-					<span className="text-sm font-medium">SheepLoop</span>
+					<div className="flex flex-col">
+						<span className="text-sm font-medium">SheepLoop</span>
+						<span className="text-xs text-gray-500">
+							Simply follow the path.
+						</span>
+					</div>
 				</div>
 				<nav className="text-xs text-gray-500 flex items-center gap-4">
 					<a href="#" className="hover:text-gray-700">
