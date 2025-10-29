@@ -18,8 +18,5 @@ export const mastra = new Mastra({
 		// Enables DefaultExporter and CloudExporter for AI tracing
 		default: { enabled: true },
 	},
-	deployer: new VercelDeployer({
-		maxDuration: 600,
-		memory: 2048,
-	}),
+	deployer: new VercelDeployer(),
 });
