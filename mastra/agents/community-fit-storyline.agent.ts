@@ -1,5 +1,6 @@
 import { Agent } from '@mastra/core/agent';
 import { z } from 'zod';
+import { message, log, error } from '@/lib/print-helpers';
 
 /**
  * =========================================
@@ -402,6 +403,8 @@ export const communityFitStorylineAgent = new Agent({
 export async function runCommunityFitStoryline(
 	input: z.infer<typeof CommunityFitInputSchema>,
 ) {
+	message('Running Community Fit Storyline Agent...');
+	log('Input:', input);
 	const parsed = CommunityFitInputSchema.parse(input);
 
 	const prompt = [
@@ -411,7 +414,9 @@ export async function runCommunityFitStoryline(
 	].join('\n');
 
 	const result = await communityFitStorylineAgent.generate(prompt);
-
+	log('Result:', result);
+	log('Result text:', result.text);
+	log('Result text length:', result.text.length);
 	function extractJsonFromText(text: string): unknown {
 		// Prefer fenced JSON blocks if present
 		const fenced = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
@@ -419,14 +424,18 @@ export async function runCommunityFitStoryline(
 			const candidate = fenced[1].trim();
 			try {
 				return JSON.parse(candidate);
-			} catch {}
+			} catch {
+				error('Error parsing JSON from text:', text);
+			}
 		}
 
 		// Try direct parse
 		const trimmed = text.trim();
 		try {
 			return JSON.parse(trimmed);
-		} catch {}
+		} catch {
+			error('Error parsing JSON from text:', text);
+		}
 
 		// Fallback: slice between outermost braces
 		const start = trimmed.indexOf('{');
@@ -435,9 +444,12 @@ export async function runCommunityFitStoryline(
 			const body = trimmed.slice(start, end + 1);
 			try {
 				return JSON.parse(body);
-			} catch {}
+			} catch {
+				error('Error parsing JSON from text:', text);
+			}
 		}
 
+		error('Model did not return valid JSON.', text);
 		throw new Error('Model did not return valid JSON.');
 	}
 
@@ -662,11 +674,19 @@ export async function runCommunityFitStoryline(
 	}
 
 	const first = CommunityFitOutputSchema.safeParse(json);
-	if (first.success) return first.data;
+	if (first.success) {
+		log('First attempt successful:', first.success);
+		log('First attempt data:', first.data);
+		return first.data;
+	}
 
 	const coerced = coerceOutput(json);
 	const second = CommunityFitOutputSchema.safeParse(coerced);
-	if (second.success) return second.data;
+	if (second.success) {
+		log('Second attempt successful:', second.success);
+		log('Second attempt data:', second.data);
+		return second.data;
+	}
 
 	// Retry once: ask model to repair JSON based on errors
 	const repairPrompt = [
@@ -687,10 +707,17 @@ export async function runCommunityFitStoryline(
 	].join('\n');
 
 	const repair = await communityFitStorylineAgent.generate(repairPrompt);
+	log('Repair prompt', repairPrompt);
 	const repairedJson = extractJsonFromText(repair.text);
+	log('Repaired JSON:', repairedJson);
 	const repairedCoerced = coerceOutput(repairedJson);
+	log('Repaired coerced:', repairedCoerced);
 	const finalAttempt = CommunityFitOutputSchema.safeParse(repairedCoerced);
-	if (finalAttempt.success) return finalAttempt.data;
+	log('Final attempt successful:', finalAttempt.success);
+	log('Final attempt data:', finalAttempt.data);
+	if (finalAttempt.success) {
+		return finalAttempt.data;
+	}
 
 	// Still failing, surface the initial error
 	throw first.error;
