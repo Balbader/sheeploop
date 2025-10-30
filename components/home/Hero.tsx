@@ -631,7 +631,7 @@ export default function Hero() {
 						ref={headlineRef}
 						className="mt-5 text-3xl md:text-5xl font-semibold tracking-tight"
 					>
-						Your AI growth partner for TikTok & Instagram.
+						Your AI growth partner for TikTok.
 					</h1>
 					<p className="mt-4 text-gray-600 leading-relaxed md:text-lg">
 						Type your idea. Get a content strategy, IFP, storyline,

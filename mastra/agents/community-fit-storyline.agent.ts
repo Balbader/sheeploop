@@ -528,6 +528,50 @@ export async function runCommunityFitStoryline(
 		if (!value || typeof value !== 'object') return value;
 		const obj = structuredClone(value as Record<string, any>);
 
+		// Ensure required top-level objects exist
+		if (
+			!obj.community_market_fit ||
+			typeof obj.community_market_fit !== 'object'
+		) {
+			obj.community_market_fit = {
+				score: 'Medium',
+				justification: '',
+			};
+		}
+		if (!obj.ifc_profile || typeof obj.ifc_profile !== 'object') {
+			obj.ifc_profile = {
+				persona: '',
+				demographics: '',
+				psychographics: '',
+				content_behavior: '',
+				why_they_follow: '',
+				why_they_share: '',
+			};
+		}
+		if (!obj.storyline || typeof obj.storyline !== 'object') {
+			obj.storyline = {
+				main_theme: '',
+				summary: '',
+				acts: { hook: '', conflict: '', resolution: '' },
+				content_arcs: [],
+			};
+		}
+		if (!obj.growth_strategy || typeof obj.growth_strategy !== 'object') {
+			obj.growth_strategy = {
+				content_pillars: [],
+				momentum_drivers: [],
+				engagement_loops: [],
+				frequency: '',
+				goal: '',
+			};
+		}
+		if (!Array.isArray(obj.shorts_campaign)) {
+			obj.shorts_campaign = [];
+		}
+		if (obj.summary_insight === undefined || obj.summary_insight === null) {
+			obj.summary_insight = '';
+		}
+
 		// community_market_fit.score normalization
 		if (
 			obj.community_market_fit &&
@@ -583,6 +627,9 @@ export async function runCommunityFitStoryline(
 			) {
 				obj.storyline.summary = String(obj.storyline.summary);
 			}
+			if (!obj.storyline.acts || typeof obj.storyline.acts !== 'object') {
+				obj.storyline.acts = { hook: '', conflict: '', resolution: '' };
+			}
 			const arcs = toStringArray(obj.storyline.content_arcs);
 			if (arcs) obj.storyline.content_arcs = arcs;
 		}
@@ -633,6 +680,9 @@ export async function runCommunityFitStoryline(
 						const plat = normalizePlatform(item.platform);
 						item.platform = plat ?? 'Both';
 						// script fields coercion
+						if (!item.script || typeof item.script !== 'object') {
+							item.script = { hook: '', story: '', cta: '' };
+						}
 						if (item.script && typeof item.script === 'object') {
 							for (const key of [
 								'hook',

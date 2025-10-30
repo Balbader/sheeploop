@@ -14,19 +14,16 @@ export function Form() {
 	}
 
 	const data = {
-		idea: 'An AI companion that helps creators and startups design viral social media strategies by generating content storylines, post schedules, and video scripts.',
-		vision: 'Empower anyone with a creative idea to grow an authentic community online by turning their passion into a movement.',
-		target_platforms: 'TikTok, Instagram',
-		duration: '3 months',
+		idea: 'A community of early-stage AI founders who are struggling to get traction on social media.',
+		vision: 'Help early-stage AI founders get traction on social media.',
+		target_platforms: 'TikTok',
+		duration: '1 month',
 		tone: 'Friendly, motivational, and slightly humorous',
-		core_audience_guess:
-			'Aspiring creators, solo founders, small business owners, and early-stage startups who struggle with consistent social media growth.',
+		core_audience_guess: 'burned-out solo creators',
 		constraints:
-			'Limited time and budget for marketing; must be easy to use and deliver quick results; focus only on short-form video content.',
-		inspirations_or_competitors:
-			'Notion, Later.com, Hootsuite, and AI coaches like OpusClip and Copy.ai',
-		primary_growth_goal:
-			'Build a viral creator community around SheepLoop by helping users achieve their first 10K followers using AI-guided storytelling.',
+			'Solo creator, only an iPhone and CapCut, can film talking head and screen recordings only, no fancy b-roll',
+		inspirations_or_competitors: 'Alex Hormozi, Dee Kay, Ali Abdaal',
+		primary_growth_goal: 'Follower growth + waitlist signups',
 	};
 
 	const formData = new FormData();
