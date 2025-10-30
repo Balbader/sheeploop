@@ -7,7 +7,7 @@ export default function Credibility() {
 			<div className="max-w-screen-xl mx-auto px-6">
 				<div className="rounded-2xl border border-gray-200 bg-slate-50 p-6 md:p-10">
 					<h2 className="text-2xl md:text-4xl font-semibold tracking-tight text-center">
-						Built for creators.
+						Built for entrepreneurs.
 					</h2>
 					<div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
 						<Card className="p-5">
@@ -17,13 +17,14 @@ export default function Credibility() {
 						</Card>
 						<Card className="p-5">
 							<p className="text-gray-700">
-								Inspired by playbooks from top creator-led
+								Inspired by playbooks from top entrepreneur-led
 								brands.
 							</p>
 						</Card>
 						<Card className="p-5">
 							<p className="text-gray-700">
-								Early users saw 3x faster engagement in 30 days.
+								Early users saw 3x faster community growth in
+								TikTok in 30 days.
 							</p>
 						</Card>
 					</div>
@@ -32,16 +33,16 @@ export default function Credibility() {
 						<Card className="md:col-span-2 p-6">
 							<div className="flex items-start gap-3">
 								<Avatar>
-									<AvatarFallback>TL</AvatarFallback>
+									<AvatarFallback>BA</AvatarFallback>
 								</Avatar>
 								<div>
 									<p className="text-sm text-gray-500">
 										Testimonial
 									</p>
 									<blockquote className="mt-1 text-gray-800 leading-relaxed">
-										“Before SheepLoop, we posted randomly.
-										Now we have a storyline and schedule
-										that actually builds momentum.”
+										“Before SheepLoop, we posted randomly. Now
+										we have a storyline and schedule that
+										actually builds momentum.”
 									</blockquote>
 								</div>
 							</div>
