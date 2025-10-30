@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const envSchema = z.object({
-	OPENAI_API_KEY: z.string(),
+	OPENAI_API_KEY: z.string(), // to use only if needed
 	ANTHROPIC_API_KEY: z.string(),
 	TURSO_DATABASE_URL: z.string(),
 	TURSO_AUTH_TOKEN: z.string(),
