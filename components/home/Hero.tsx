@@ -634,8 +634,10 @@ export default function Hero() {
 						Your AI growth partner for TikTok.
 					</h1>
 					<p className="mt-4 text-gray-600 leading-relaxed md:text-lg">
-						Type your idea. Get a content strategy, IFP, storyline,
-						and posting schedule.
+						Type your idea and SheepLoop will sprint-test it on
+						TikTok.
+						<br /> Get a content strategy, IFP, storyline, and
+						posting schedule to find your community.
 					</p>
 					<div
 						ref={ctaRef}
