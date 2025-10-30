@@ -17,6 +17,6 @@ export const weatherAgent = new Agent({
 
 		Use the weatherTool to fetch current weather data.
 	`,
-	model: 'anthropic/claude-3-5-sonnet-20241022',
+	model: 'anthropic/claude-haiku-4-5-20251001',
 	tools: { weatherTool },
 });
