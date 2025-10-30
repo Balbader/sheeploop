@@ -17,7 +17,7 @@ export function Form() {
 		idea: 'A community of early-stage AI founders who are struggling to get traction on social media.',
 		vision: 'Help early-stage AI founders get traction on social media.',
 		target_platforms: 'TikTok',
-		duration: '1 month',
+		duration: '1 week',
 		tone: 'Friendly, motivational, and slightly humorous',
 		core_audience_guess: 'burned-out solo creators',
 		constraints:
