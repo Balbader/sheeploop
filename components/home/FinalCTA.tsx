@@ -162,7 +162,7 @@ export default function FinalCTA() {
 						>
 							<Link
 								ref={buttonRef}
-								href="#"
+								href="/generate"
 								onMouseEnter={handleMouseEnter}
 								onMouseLeave={handleMouseLeave}
 							>

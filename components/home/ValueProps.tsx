@@ -117,7 +117,9 @@ export default function ValueProps() {
 
 				<div className="mt-12 flex items-center justify-center">
 					<Button asChild className="rounded-full px-6 py-3 text-sm">
-						<Link href="#">Try it now! It&apos;s free.</Link>
+						<Link href="/generate">
+							Try it now! It&apos;s free.
+						</Link>
 					</Button>
 				</div>
 			</div>
