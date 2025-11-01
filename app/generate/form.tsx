@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { getCommunityFitStoryline } from './action';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,6 +14,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { Spinner } from '@/components/ui/spinner';
 import { CheckCircle2, Circle } from 'lucide-react';
+
+const FUNNY_MESSAGES = [
+	'Baa patient! 🐑',
+	'Almost there! 🌟',
+	'Great things take time! ⏰',
+	'Our AI is working overtime! 🤖',
+	'Just a few more baaaas... 🐏',
+	"We promise it's worth it! ✨",
+	'Almost done, hang in there! 💪',
+	'Our sheep are counting... 🧮',
+	'Just brewing your perfect strategy! ☕',
+	'Patience is a virtue... 🧘',
+];
 
 const GENERATION_STEPS = [
 	{
@@ -56,6 +70,9 @@ export function Form() {
 	const [result, setResult] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [currentStep, setCurrentStep] = useState(0);
+	const sheepContainerRef = useRef<HTMLDivElement>(null);
+	const animationRefs = useRef<any[]>([]);
+	const messageTimersRef = useRef<NodeJS.Timeout[]>([]);
 
 	// Simulate progress through steps during loading
 	useEffect(() => {
@@ -74,6 +91,205 @@ export function Form() {
 		}, 2000); // Move to next step every 2 seconds
 
 		return () => clearInterval(stepInterval);
+	}, [isLoading]);
+
+	// Animate raining sheep when loading
+	useEffect(() => {
+		if (typeof window === 'undefined' || !isLoading) {
+			// Clean up animations when not loading
+			animationRefs.current.forEach((anim) => anim?.kill());
+			animationRefs.current = [];
+			messageTimersRef.current.forEach((timer) => {
+				clearTimeout(timer);
+				clearInterval(timer);
+			});
+			messageTimersRef.current = [];
+			if (sheepContainerRef.current) {
+				sheepContainerRef.current.innerHTML = '';
+			}
+			return;
+		}
+
+		let cleanupFn: (() => void) | null = null;
+
+		(async () => {
+			try {
+				const { gsap } = await import('gsap');
+				if (!sheepContainerRef.current) return;
+
+				const container = sheepContainerRef.current;
+				const numSheep = 12;
+				const sheepArray: HTMLDivElement[] = [];
+				const bubbleArray: Array<{
+					bubble: HTMLDivElement;
+					messageDiv: HTMLDivElement;
+				}> = [];
+				const allAnims: any[] = [];
+				const allTimers: NodeJS.Timeout[] = [];
+
+				// Create sheep elements
+				for (let i = 0; i < numSheep; i++) {
+					const sheepWrapper = document.createElement('div');
+					sheepWrapper.className = 'absolute pointer-events-none';
+					sheepWrapper.style.left = `${Math.random() * 100}%`;
+					sheepWrapper.style.top = '-100px';
+
+					// Speech bubble
+					const bubble = document.createElement('div');
+					bubble.className =
+						'absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-white rounded-lg px-3 py-2 shadow-lg border border-gray-200 whitespace-nowrap';
+					bubble.style.minWidth = '120px';
+					bubble.style.opacity = '0';
+					bubble.style.transform = 'scale(0.8)';
+					const messageDiv = document.createElement('div');
+					messageDiv.className =
+						'text-xs font-medium text-gray-800 text-center';
+					const initialMessage =
+						FUNNY_MESSAGES[
+							Math.floor(Math.random() * FUNNY_MESSAGES.length)
+						];
+					messageDiv.textContent = initialMessage;
+					const triangle = document.createElement('div');
+					triangle.className =
+						'absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-white';
+					bubble.appendChild(messageDiv);
+					bubble.appendChild(triangle);
+
+					// Sheep image
+					const sheepImg = document.createElement('img');
+					sheepImg.src = '/sheep-2.png';
+					sheepImg.alt = 'Sheep';
+					sheepImg.className = 'w-16 h-16 object-contain';
+					sheepImg.style.opacity = '0.7';
+
+					sheepWrapper.appendChild(bubble);
+					sheepWrapper.appendChild(sheepImg);
+					container.appendChild(sheepWrapper);
+
+					sheepArray.push(sheepWrapper);
+					bubbleArray.push({ bubble, messageDiv });
+				}
+
+				// Animate each sheep falling
+				sheepArray.forEach((sheep, index) => {
+					const startDelay = index * 0.4;
+					const fallDuration = 7 + Math.random() * 5;
+					const startXPercent = Math.random() * 100;
+					const horizontalDrift = (Math.random() - 0.5) * 60;
+
+					// Set initial position
+					gsap.set(sheep, {
+						x: `${startXPercent}%`,
+						y: -100,
+						rotation: 0,
+					});
+
+					// Fall animation
+					const fallAnim = gsap.to(sheep, {
+						y: window.innerHeight + 200,
+						x: `${
+							startXPercent +
+							(horizontalDrift / window.innerWidth) * 100
+						}%`,
+						rotation: (Math.random() - 0.5) * 40,
+						duration: fallDuration,
+						ease: 'none',
+						delay: startDelay,
+						repeat: -1,
+						onRepeat: () => {
+							const newX = Math.random() * 100;
+							gsap.set(sheep, {
+								x: `${newX}%`,
+								y: -100,
+								rotation: 0,
+							});
+							fallAnim.vars.x = `${
+								newX +
+								(horizontalDrift / window.innerWidth) * 100
+							}%`;
+						},
+					});
+
+					// Gentle rotation animation
+					const rotateAnim = gsap.to(sheep, {
+						rotation: `+=${(Math.random() - 0.5) * 45}`,
+						duration: 2 + Math.random() * 2,
+						repeat: -1,
+						yoyo: true,
+						ease: 'sine.inOut',
+						delay: startDelay,
+					});
+
+					// Speech bubble animations
+					const { bubble, messageDiv } = bubbleArray[index];
+					let messageIndex = Math.floor(
+						Math.random() * FUNNY_MESSAGES.length,
+					);
+					let isBubbleVisible = false;
+
+					const showBubble = () => {
+						if (!isLoading || isBubbleVisible) return;
+
+						isBubbleVisible = true;
+						messageIndex =
+							(messageIndex + 1) % FUNNY_MESSAGES.length;
+						messageDiv.textContent = FUNNY_MESSAGES[messageIndex];
+
+						gsap.to(bubble, {
+							opacity: 1,
+							scale: 1,
+							duration: 0.4,
+							ease: 'back.out(1.7)',
+						});
+
+						// Hide after showing
+						const hideTimer = setTimeout(() => {
+							if (!isLoading) return;
+							gsap.to(bubble, {
+								opacity: 0,
+								scale: 0.8,
+								duration: 0.3,
+								onComplete: () => {
+									isBubbleVisible = false;
+								},
+							});
+						}, 2500 + Math.random() * 1500);
+
+						allTimers.push(hideTimer);
+					};
+
+					// Start showing bubbles periodically
+					const startTimer = setTimeout(() => {
+						showBubble();
+					}, startDelay * 1000 + 1000);
+
+					const bubbleInterval = setInterval(() => {
+						if (isLoading) showBubble();
+					}, 3500 + Math.random() * 2000);
+
+					allAnims.push(fallAnim, rotateAnim);
+					allTimers.push(startTimer, bubbleInterval);
+				});
+
+				animationRefs.current = allAnims;
+				messageTimersRef.current = allTimers;
+
+				cleanupFn = () => {
+					allAnims.forEach((anim) => anim?.kill());
+					allTimers.forEach((timer) => {
+						clearTimeout(timer);
+						clearInterval(timer);
+					});
+					sheepArray.forEach((sheep) => sheep.remove());
+				};
+			} catch (error) {
+				console.error('Failed to load GSAP:', error);
+			}
+		})();
+
+		return () => {
+			if (cleanupFn) cleanupFn();
+		};
 	}, [isLoading]);
 
 	async function handleSubmit(formData: FormData) {
@@ -133,7 +349,16 @@ export function Form() {
 	const progressPercentage = (currentStep / GENERATION_STEPS.length) * 100;
 
 	return (
-		<div className="w-full space-y-6">
+		<div className="w-full space-y-6 relative">
+			{/* Raining Sheep Background */}
+			{isLoading && (
+				<div
+					ref={sheepContainerRef}
+					className="fixed inset-0 overflow-hidden pointer-events-none"
+					style={{ zIndex: 5 }}
+				/>
+			)}
+
 			{/* Loading Progress */}
 			{isLoading && (
 				<Card className="w-full p-5 transition-all">
