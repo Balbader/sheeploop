@@ -308,18 +308,70 @@ export function Form() {
 		}
 	}
 
+	// AI Founder Community
+	// const defaultData = {
+	// 	idea: 'A community of early-stage AI founders who are struggling to get traction on social media.',
+	// 	vision: 'Help early-stage AI founders get traction on social media.',
+	// 	target_platforms: 'TikTok',
+	// 	duration: '1 week',
+	// 	tone: 'Friendly, motivational, and slightly humorous',
+	// 	core_audience_guess: 'burned-out solo creators',
+	// 	constraints:
+	// 		'Solo creator, only an iPhone and CapCut, can film talking head and screen recordings only, no fancy b-roll',
+	// 	inspirations_or_competitors: 'Alex Hormozi, Dee Kay, Ali Abdaal',
+	// 	primary_growth_goal: 'Follower growth + waitlist signups',
+	// };
+
+	// Cosplay Community
+	// const defaultData = {
+	// 	idea: 'An online community for cosplay and anime enthusiasts who want to showcase their creations, connect with others, and grow their social presence.',
+	// 	vision: 'Empower cosplayers and anime fans to share their passion, improve their craft, and build a vibrant, supportive creative network.',
+	// 	target_platforms: 'TikTok',
+	// 	duration: '1 week',
+	// 	tone: 'Energetic, inclusive, and fun — with a touch of playful fandom humor',
+	// 	core_audience_guess:
+	// 		'passionate anime and cosplay creators looking for visibility and connection',
+	// 	constraints:
+	// 		'Mostly DIY creators using smartphones for filming, limited budgets, and basic editing tools like CapCut or VN Editor. Content filmed at home or at conventions.',
+	// 	inspirations_or_competitors:
+	// 		'Jessica Nigri, Kamui Cosplay, Akidearest, and low-cost creative TikTokers like @mikan.mandarin',
+	// 	primary_growth_goal:
+	// 		'Community engagement + follower growth + event participation signups',
+	// };
+
+	// E-Gamer Community
 	const defaultData = {
-		idea: 'A community of early-stage AI founders who are struggling to get traction on social media.',
-		vision: 'Help early-stage AI founders get traction on social media.',
+		idea: 'A community for e-gamers and aspiring streamers who want to grow their audience, improve their gameplay, and connect with like-minded players.',
+		vision: 'Unite competitive and casual gamers under one hub where they can share highlights, strategies, and stories while building a strong personal brand in gaming.',
 		target_platforms: 'TikTok',
 		duration: '1 week',
-		tone: 'Friendly, motivational, and slightly humorous',
-		core_audience_guess: 'burned-out solo creators',
+		tone: 'Energetic, competitive, and authentic — with gaming slang and humor that resonates with the community',
+		core_audience_guess:
+			'aspiring streamers and competitive players trying to grow an audience',
 		constraints:
-			'Solo creator, only an iPhone and CapCut, can film talking head and screen recordings only, no fancy b-roll',
-		inspirations_or_competitors: 'Alex Hormozi, Dee Kay, Ali Abdaal',
-		primary_growth_goal: 'Follower growth + waitlist signups',
+			'Limited setup — only a PC or console with basic recording tools (OBS, Streamlabs), minimal editing experience, focused on short gameplay clips and commentary.',
+		inspirations_or_competitors:
+			'NICKMERCS, Valkyrae, TenZ, Ludwig, Pokimane, and grassroots gaming TikTok creators who mix highlights with personality-driven content.',
+		primary_growth_goal:
+			'Follower growth + Twitch/YouTube traffic + tournament or collab opportunities',
 	};
+
+	// Hip-Hop Community
+	// const defaultData = {
+	// 	idea: 'A creative community for independent hip-hop artists and producers looking to grow their fanbase, collaborate, and share their art with the world.',
+	// 	vision: 'Empower emerging hip-hop artists to build authentic brands, reach new listeners, and thrive through collaboration and consistent content creation.',
+	// 	target_platforms: 'TikTok',
+	// 	duration: '1 week',
+	// 	tone: 'Confident, authentic, and inspiring — rooted in hustle culture and creative expression',
+	// 	core_audience_guess:
+	// 		'independent rappers, beatmakers, and vocal artists grinding to build an audience',
+	// 	constraints:
+	// 		'Minimal setup — just a phone, basic mic, and free DAWs or beat-making apps. Can film freestyle sessions, behind-the-scenes studio clips, or lyric breakdowns.',
+	// 	inspirations_or_competitors:
+	// 		'Russ, Dax, Token, Armani White, Cordae, and viral underground artists on TikTok who mix personality with raw bars and storytelling.',
+	// 	primary_growth_goal:
+	// 		'Fanbase growth + streaming traffic + collaboration opportunities',
+	// };
 
 	const handleReset = () => {
 		setResult(null);

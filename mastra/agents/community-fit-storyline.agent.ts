@@ -445,6 +445,67 @@ IMPORTANT:
 personas MUST be length 5.
 Each persona MUST include scripts length 3 to 5.
 
+EXACT JSON STRUCTURE REQUIRED (use these exact key names):
+{
+  "community_market_fit": {
+    "score": {
+      "alignment": <integer 0-10>,
+      "virality": <integer 0-10>,
+      "engagement": <integer 0-10>,
+      "differentiation": <integer 0-10>
+    },
+    "summary": ["<string>", "<string>", ...] // 3-5 bullet points
+  },
+  "ifc_profile": {
+    "demographics": "<string>",
+    "psychographics": "<string>",
+    "pain_points": "<string>",
+    "triggers": "<string>",
+    "community_behaviors": "<string>"
+  },
+  "personas": [
+    {
+      "name": "<string>",
+      "segment": "<string>",
+      "description": "<string>",
+      "key_motivation": "<string>",
+      "core_pain_point": "<string>",
+      "platform_behavior": "<string>",
+      "preferred_tone_style": "<string>",
+      "storyline": {
+        "title": "<string>",
+        "theme": "<string>",
+        "arc": {
+          "hook": "<string>",
+          "transformation": "<string>",
+          "outcome": "<string>"
+        },
+        "emotional_driver": "<string>",
+        "core_message": "<string>"
+      },
+      "growth_strategy": {
+        "objective": "<string>",
+        "posting_frequency": "<string>",
+        "content_pillars": ["<string>", ...],
+        "engagement_tactics": ["<string>", ...],
+        "kpis": ["<string>", ...]
+      },
+      "scripts": [
+        {
+          "title": "<string>",
+          "duration": "<string>",
+          "script": "<string>",
+          "cta": "<string>"
+        }
+        // 3-5 scripts total
+      ]
+    }
+    // exactly 5 personas total
+  ]
+}
+
+USE THESE EXACT KEY NAMES. DO NOT add "_assessment" or other suffixes. DO NOT use different key names.
+
 END OF SPEC.
 `;
 
@@ -497,42 +558,390 @@ export async function runCommunityFitStoryline(
 	log('Result text length:', result.text.length);
 
 	/**
-	 * Extractor: tries fenced json, direct json, then outermost braces.
+	 * Sanitizes JSON string by escaping control characters in string literals.
+	 * This version correctly handles escape sequences and string boundaries.
+	 */
+	function sanitizeJsonString(jsonText: string): string {
+		let result = '';
+		let inString = false;
+		let escapeNext = false;
+
+		for (let i = 0; i < jsonText.length; i++) {
+			const char = jsonText[i];
+			const charCode = char.charCodeAt(0);
+
+			// If we're expecting an escaped character, handle it
+			if (escapeNext) {
+				// The character after backslash - pass it through as-is
+				// (it's already escaped in the source)
+				result += char;
+				escapeNext = false;
+				continue;
+			}
+
+			// Check for backslash (start of escape sequence)
+			if (char === '\\') {
+				escapeNext = true;
+				result += char;
+				continue;
+			}
+
+			// Check for string delimiter (quote)
+			if (char === '"') {
+				// Toggle string state
+				inString = !inString;
+				result += char;
+				continue;
+			}
+
+			// If we're inside a string literal, escape control characters
+			if (inString) {
+				if (charCode < 0x20) {
+					// Control character (0x00-0x1F) - MUST be escaped in JSON strings
+					switch (charCode) {
+						case 0x09: // tab
+							result += '\\t';
+							break;
+						case 0x0a: // newline (LF)
+							result += '\\n';
+							break;
+						case 0x0d: // carriage return (CR)
+							result += '\\r';
+							break;
+						case 0x0b: // vertical tab
+							result += '\\u000b';
+							break;
+						case 0x0c: // form feed
+							result += '\\f';
+							break;
+						default:
+							// Other control characters: escape as unicode
+							result += `\\u${charCode
+								.toString(16)
+								.padStart(4, '0')}`;
+					}
+				} else if (charCode === 0x7f) {
+					// DEL character - also problematic in JSON
+					result += '\\u007f';
+				} else {
+					// Regular character - pass through
+					result += char;
+				}
+			} else {
+				// Outside string - copy character, but remove problematic control chars
+				// (JSON allows whitespace: tab, newline, carriage return)
+				if (
+					charCode < 0x20 &&
+					charCode !== 0x09 &&
+					charCode !== 0x0a &&
+					charCode !== 0x0d
+				) {
+					// Skip non-whitespace control characters outside strings
+					continue;
+				}
+				result += char;
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * Extractor: tries fenced json, direct json, then finds the largest valid JSON object.
 	 */
 	function extractJsonFromText(text: string): unknown {
-		const fenced = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
-		if (fenced && fenced[1]) {
-			const candidate = fenced[1].trim();
+		// Clean up repetitive noise that might appear before/after JSON
+		const cleaned = text
+			.replace(
+				/(to be gatekept\. It doesn't have to be gatekept\.\s*){10,}/gi,
+				'',
+			)
+			.replace(/(\S+\s+){100,}/g, (match) => {
+				// If a phrase repeats more than 10 times in a row, remove it
+				const words = match.trim().split(/\s+/);
+				if (words.length > 10) {
+					const firstWord = words[0];
+					if (
+						words.every(
+							(w) =>
+								w === firstWord ||
+								w.toLowerCase() === firstWord.toLowerCase(),
+						)
+					) {
+						return '';
+					}
+				}
+				return match;
+			})
+			.trim();
+
+		// Helper to repair common JSON issues
+		const repairJson = (jsonText: string): string => {
+			let repaired = jsonText;
+
+			// Fix trailing commas before } or ]
+			repaired = repaired.replace(/,(\s*[}\]])/g, '$1');
+
+			// Fix single quotes to double quotes for object keys only
+			// Match pattern like 'key': but not content inside strings
+			repaired = repaired.replace(
+				/'([a-zA-Z_][a-zA-Z0-9_]*)':/g,
+				'"$1":',
+			);
+
+			// Fix comments (remove single-line comments)
+			repaired = repaired.replace(/\/\/.*$/gm, '');
+
+			// Remove multi-line comments
+			repaired = repaired.replace(/\/\*[\s\S]*?\*\//g, '');
+
+			// Fix common issue: unescaped line breaks in strings
+			// This is handled by sanitization, but we can also normalize here
+			repaired = repaired.replace(/\r\n/g, '\n'); // Normalize line endings
+
+			// Fix missing commas between array elements (common LLM error)
+			// Match: }\s*{ or ]\s*[ or }\s*[ or ]\s*{ (closing bracket followed by opening bracket)
+			repaired = repaired.replace(/}\s*{/g, '},{');
+			repaired = repaired.replace(/]\s*\[/g, '],[');
+			repaired = repaired.replace(/}\s*\[/g, '},[');
+			repaired = repaired.replace(/]\s*{/g, '],{');
+
+			return repaired;
+		};
+
+		// Helper to try parsing with multiple repair strategies
+		const tryParse = (
+			candidate: string,
+			includeErrors = false,
+		): { parsed: unknown | null; error?: string } => {
+			const errors: string[] = [];
+
+			// Strategy 1: Direct parse
 			try {
-				return JSON.parse(candidate);
-			} catch {
-				error('Error parsing fenced JSON.', text);
+				return { parsed: JSON.parse(candidate) };
+			} catch (e) {
+				errors.push(
+					`Direct: ${e instanceof Error ? e.message : String(e)}`,
+				);
+			}
+
+			// Strategy 2: Sanitize control characters first
+			try {
+				const sanitized = sanitizeJsonString(candidate);
+				return { parsed: JSON.parse(sanitized) };
+			} catch (e) {
+				errors.push(
+					`After sanitization: ${
+						e instanceof Error ? e.message : String(e)
+					}`,
+				);
+			}
+
+			// Strategy 3: Repair common issues, then sanitize
+			try {
+				const repaired = repairJson(candidate);
+				const sanitizedRepaired = sanitizeJsonString(repaired);
+				return { parsed: JSON.parse(sanitizedRepaired) };
+			} catch (e) {
+				errors.push(
+					`After repair+sanitize: ${
+						e instanceof Error ? e.message : String(e)
+					}`,
+				);
+			}
+
+			// Strategy 4: Sanitize first, then repair (different order)
+			try {
+				const sanitizedFirst = sanitizeJsonString(candidate);
+				const repairedAfter = repairJson(sanitizedFirst);
+				return { parsed: JSON.parse(repairedAfter) };
+			} catch (e) {
+				errors.push(
+					`After sanitize+repair: ${
+						e instanceof Error ? e.message : String(e)
+					}`,
+				);
+			}
+
+			return {
+				parsed: null,
+				error: includeErrors ? errors.join('; ') : undefined,
+			};
+		};
+
+		// Try fenced code blocks first (most reliable)
+		// Use greedy match to get the full content between first ```json and last ```
+		const fencedMatch = cleaned.match(/```(?:json)?\s*([\s\S]*)\s*```/i);
+		if (fencedMatch && fencedMatch[1]) {
+			const candidate = fencedMatch[1].trim();
+			log('Found fenced JSON block, length:', candidate.length);
+			const result = tryParse(candidate, true);
+			if (result.parsed !== null) {
+				log('Successfully parsed fenced JSON', {});
+				return result.parsed;
+			}
+			log('Fenced JSON parse failed, trying other methods...', {
+				candidateLength: candidate.length,
+				preview: candidate.slice(0, 200),
+				error: result.error,
+			});
+		}
+
+		// Try direct parse
+		const directResult = tryParse(cleaned, true);
+		if (directResult.parsed !== null) {
+			return directResult.parsed;
+		}
+		log('Direct parse failed, attempting to find JSON object...', {
+			cleanedLength: cleaned.length,
+			error: directResult.error,
+		});
+
+		// Find all potential JSON objects (by matching braces)
+		// But skip strings to avoid matching braces inside strings
+		const jsonCandidates: Array<{
+			json: string;
+			start: number;
+			end: number;
+		}> = [];
+		let depth = 0;
+		let start = -1;
+		let inString = false;
+		let escapeNext = false;
+
+		for (let i = 0; i < cleaned.length; i++) {
+			const char = cleaned[i];
+
+			if (escapeNext) {
+				escapeNext = false;
+				continue;
+			}
+
+			if (char === '\\') {
+				escapeNext = true;
+				continue;
+			}
+
+			if (char === '"' && !escapeNext) {
+				inString = !inString;
+				continue;
+			}
+
+			if (inString) {
+				continue; // Skip everything inside strings
+			}
+
+			if (char === '{') {
+				if (depth === 0) start = i;
+				depth++;
+			} else if (char === '}') {
+				depth--;
+				if (depth === 0 && start !== -1) {
+					const candidate = cleaned.slice(start, i + 1);
+					// Only try to parse if it's reasonably large (likely the main object)
+					if (candidate.length > 100) {
+						const result = tryParse(candidate);
+						if (result.parsed !== null) {
+							jsonCandidates.push({
+								json: candidate,
+								start,
+								end: i + 1,
+							});
+						}
+					}
+					start = -1;
+				}
 			}
 		}
 
-		const trimmed = text.trim();
-		try {
-			return JSON.parse(trimmed);
-		} catch {
-			error('Direct parse failed, attempting brace slice.', text);
+		// If we found multiple candidates, prefer the largest one
+		if (jsonCandidates.length > 0) {
+			jsonCandidates.sort((a, b) => b.json.length - a.json.length);
+			log(
+				`Found ${jsonCandidates.length} JSON candidates, trying largest`,
+				{
+					candidateLength: jsonCandidates[0].json.length,
+				},
+			);
+			const result = tryParse(jsonCandidates[0].json, true);
+			if (result.parsed !== null) {
+				log('Successfully parsed largest candidate', {});
+				return result.parsed;
+			}
+			log('Largest candidate parse failed after sanitization', {
+				candidateLength: jsonCandidates[0].json.length,
+				preview: jsonCandidates[0].json.slice(0, 200),
+				error: result.error,
+			});
+		} else {
+			log('No valid JSON candidates found via brace matching', {});
 		}
 
-		const start = trimmed.indexOf('{');
-		const end = trimmed.lastIndexOf('}');
-		if (start !== -1 && end !== -1 && end > start) {
-			const body = trimmed.slice(start, end + 1);
-			try {
-				return JSON.parse(body);
-			} catch {
-				error('Brace-slice parse failed.', text);
+		// Fallback: try outermost braces (original approach)
+		// But only use this if we haven't found candidates via proper brace matching
+		if (jsonCandidates.length === 0) {
+			const trimmed = cleaned.trim();
+			const braceStart = trimmed.indexOf('{');
+			const braceEnd = trimmed.lastIndexOf('}');
+			if (braceStart !== -1 && braceEnd !== -1 && braceEnd > braceStart) {
+				const body = trimmed.slice(braceStart, braceEnd + 1);
+				log('Trying fallback brace-slice method', {
+					bodyLength: body.length,
+					preview: body.slice(0, 200),
+				});
+				const result = tryParse(body, true);
+				if (result.parsed !== null) {
+					log('Successfully parsed fallback brace-slice', {});
+					return result.parsed;
+				}
+				log('Brace-slice parse failed after sanitization', {
+					bodyLength: body.length,
+					error: result.error,
+				});
 			}
 		}
 
-		error('Model did not return valid JSON.', text);
-		throw new Error('Model did not return valid JSON.');
+		// Last resort: log the problematic text and throw
+		const preview = text.slice(0, 500) + (text.length > 500 ? '...' : '');
+		error('Model did not return valid JSON. Preview:', preview);
+		error('Full text length:', text.length);
+		throw new Error(
+			'Model did not return valid JSON. The response may contain repetitive or corrupted text.',
+		);
 	}
 
 	const json = extractJsonFromText(result.text);
+
+	/**
+	 * Normalize key names - handle common variations the model might use
+	 */
+	function normalizeKeys(obj: any): any {
+		if (!obj || typeof obj !== 'object') return obj;
+
+		// Handle arrays
+		if (Array.isArray(obj)) {
+			return obj.map(normalizeKeys);
+		}
+
+		const normalized: any = {};
+
+		for (const [key, value] of Object.entries(obj)) {
+			let normalizedKey = key;
+
+			// Map common variations to expected keys
+			if (key === 'community_market_fit_assessment') {
+				normalizedKey = 'community_market_fit';
+			}
+			if (key === 'insights') {
+				normalizedKey = 'summary';
+			}
+
+			// Recursively normalize nested objects/arrays
+			normalized[normalizedKey] = normalizeKeys(value);
+		}
+
+		return normalized;
+	}
 
 	/**
 	 * Helpers to normalize/repair model output into our strict schema.
@@ -730,15 +1139,18 @@ export async function runCommunityFitStoryline(
 		return obj;
 	}
 
+	// Normalize key names first
+	const normalized = normalizeKeys(json);
+
 	// First validation attempt
-	const first = CommunityFitOutputSchema.safeParse(json);
+	const first = CommunityFitOutputSchema.safeParse(normalized);
 	if (first.success) {
 		log('First attempt passed schema validation.', first.data);
 		return first.data;
 	}
 
 	// Try coercion/normalization pass
-	const coerced = coerceOutput(json);
+	const coerced = coerceOutput(normalized);
 	const second = CommunityFitOutputSchema.safeParse(coerced);
 	if (second.success) {
 		log('Second attempt passed after coercion.', second.data);
