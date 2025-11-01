@@ -1080,8 +1080,8 @@ export function Form() {
 														)}
 
 														{persona.growth_strategy && (
-															<div className="space-y-4">
-																<h3 className="font-semibold text-xs text-gray-900">
+															<div className="space-y-3 sm:space-y-4">
+																<h3 className="font-semibold text-xs sm:text-sm text-gray-900">
 																	Growth
 																	Strategy
 																</h3>
@@ -1089,10 +1089,10 @@ export function Form() {
 																	.growth_strategy
 																	.objective && (
 																	<div>
-																		<h4 className="font-medium text-xs text-gray-700 mb-1">
+																		<h4 className="font-medium text-[11px] sm:text-xs text-gray-700 mb-1 sm:mb-1.5">
 																			Objective
 																		</h4>
-																		<p className="text-xs text-gray-600">
+																		<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
 																			{
 																				persona
 																					.growth_strategy
@@ -1110,11 +1110,11 @@ export function Form() {
 																		.length >
 																		0 && (
 																		<div>
-																			<h4 className="font-medium text-xs text-gray-700 mb-2">
+																			<h4 className="font-medium text-[11px] sm:text-xs text-gray-700 mb-2 sm:mb-3">
 																				Content
 																				Pillars
 																			</h4>
-																			<div className="flex flex-wrap gap-2">
+																			<div className="flex flex-wrap gap-2 sm:gap-3">
 																				{persona.growth_strategy.content_pillars.map(
 																					(
 																						pillar: string,
@@ -1125,7 +1125,7 @@ export function Form() {
 																								pIdx
 																							}
 																							variant="outline"
-																							className="text-xs"
+																							className="text-[10px] sm:text-xs px-2 sm:px-2.5 py-1 sm:py-1.5 break-words"
 																						>
 																							{
 																								pillar
