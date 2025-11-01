@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getCommunityFitStoryline } from './action';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,16 +10,80 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Progress } from '@/components/ui/progress';
+import { Spinner } from '@/components/ui/spinner';
+import { CheckCircle2, Circle } from 'lucide-react';
+
+const GENERATION_STEPS = [
+	{
+		id: 1,
+		label: 'Analyzing your idea',
+		description: 'Processing your concept and vision',
+	},
+	{
+		id: 2,
+		label: 'Assessing community market fit',
+		description: 'Calculating engagement potential',
+	},
+	{
+		id: 3,
+		label: 'Creating ideal follower profile',
+		description: 'Defining your target audience',
+	},
+	{
+		id: 4,
+		label: 'Generating personas',
+		description: 'Building 5 distinct user profiles',
+	},
+	{
+		id: 5,
+		label: 'Building storylines',
+		description: 'Crafting narrative arcs per persona',
+	},
+	{
+		id: 6,
+		label: 'Crafting TikTok scripts',
+		description: 'Writing viral-ready content scripts',
+	},
+	{
+		id: 7,
+		label: 'Finalizing strategy',
+		description: 'Compiling your complete plan',
+	},
+];
 
 export function Form() {
 	const [result, setResult] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const [currentStep, setCurrentStep] = useState(0);
+
+	// Simulate progress through steps during loading
+	useEffect(() => {
+		if (!isLoading) {
+			setCurrentStep(0);
+			return;
+		}
+
+		const stepInterval = setInterval(() => {
+			setCurrentStep((prev) => {
+				if (prev < GENERATION_STEPS.length) {
+					return prev + 1;
+				}
+				return prev;
+			});
+		}, 2000); // Move to next step every 2 seconds
+
+		return () => clearInterval(stepInterval);
+	}, [isLoading]);
 
 	async function handleSubmit(formData: FormData) {
+		setResult(null);
+		setCurrentStep(0);
 		setIsLoading(true);
 		try {
 			const res = await getCommunityFitStoryline(formData);
 			setResult(res);
+			setCurrentStep(GENERATION_STEPS.length); // Mark all steps as complete
 		} catch (error) {
 			console.error('Error generating storyline:', error);
 		} finally {
@@ -66,193 +130,320 @@ export function Form() {
 		return 'bg-orange-500';
 	};
 
+	const progressPercentage = (currentStep / GENERATION_STEPS.length) * 100;
+
 	return (
 		<div className="w-full space-y-6">
-			<Card className="w-full p-5 transition-all hover:shadow-md">
-				<form
-					id="storyline-form"
-					action={handleSubmit}
-					onSubmit={(e) => {
-						e.preventDefault();
-						handleSubmit(new FormData(e.target as HTMLFormElement));
-					}}
-					className="space-y-6"
-				>
-					{/* Basic Information */}
-					<div className="space-y-4">
-						<h2 className="text-sm font-semibold tracking-tight">
-							Basic Information
-						</h2>
-
-						<div className="space-y-2">
-							<Label htmlFor="idea">Your Idea *</Label>
-							<Textarea
-								id="idea"
-								name="idea"
-								placeholder="Describe your idea or concept..."
-								required
-								defaultValue={defaultData.idea}
-								className="min-h-24"
-							/>
+			{/* Loading Progress */}
+			{isLoading && (
+				<Card className="w-full p-5 transition-all">
+					<CardHeader className="p-0 pb-4">
+						<div className="flex items-center gap-2">
+							<Spinner className="w-4 h-4 text-green-600" />
+							<CardTitle className="text-sm font-semibold">
+								Generating Your Community Fit Storyline
+							</CardTitle>
+						</div>
+					</CardHeader>
+					<CardContent className="p-0 space-y-6">
+						<div className="space-y-4">
+							<div className="relative">
+								{/* Background progress bar */}
+								<div className="h-3 w-full bg-gray-100 rounded-full overflow-hidden">
+									{/* Green gradient progress bar with shimmer effect */}
+									<div
+										className="h-full rounded-full transition-all duration-500 ease-out progress-shimmer"
+										style={{
+											width: `${progressPercentage}%`,
+											background:
+												'linear-gradient(90deg, rgba(34, 197, 94, 0.8) 0%, rgba(22, 163, 74, 1) 35%, rgba(34, 197, 94, 1) 50%, rgba(22, 163, 74, 1) 65%, rgba(34, 197, 94, 0.8) 100%)',
+											backgroundSize: '200% 100%',
+										}}
+									/>
+								</div>
+								<style
+									dangerouslySetInnerHTML={{
+										__html: `
+									@keyframes shimmer {
+										0% {
+											background-position: -200% 0;
+										}
+										100% {
+											background-position: 200% 0;
+										}
+									}
+									.progress-shimmer {
+										animation: shimmer 2s infinite;
+									}
+								`,
+									}}
+								/>
+							</div>
+							<div className="flex items-center justify-center gap-2 text-xs text-gray-600">
+								<Spinner className="w-3 h-3 text-green-600" />
+								<span>
+									{currentStep > 0 &&
+									currentStep <= GENERATION_STEPS.length
+										? `${
+												GENERATION_STEPS[
+													currentStep - 1
+												].description
+										  }...`
+										: 'Starting generation...'}
+								</span>
+							</div>
 						</div>
 
-						<div className="space-y-2">
-							<Label htmlFor="vision">Vision *</Label>
-							<Textarea
-								id="vision"
-								name="vision"
-								placeholder="What's your vision for this project?"
-								required
-								defaultValue={defaultData.vision}
-								className="min-h-20"
-							/>
+						<div className="space-y-3">
+							{GENERATION_STEPS.map((step, index) => {
+								const isCompleted = index < currentStep;
+								const isCurrent = index === currentStep - 1;
+								const isPending = index >= currentStep;
+
+								return (
+									<div
+										key={step.id}
+										className={`flex items-start gap-3 p-3 rounded-lg transition-all ${
+											isCurrent
+												? 'bg-slate-50 border border-gray-200'
+												: isCompleted
+												? 'opacity-75'
+												: 'opacity-50'
+										}`}
+									>
+										<div className="flex-shrink-0 mt-0.5">
+											{isCompleted ? (
+												<CheckCircle2 className="w-5 h-5 text-green-600" />
+											) : isCurrent ? (
+												<div className="relative">
+													<Spinner className="w-5 h-5 text-green-600" />
+												</div>
+											) : (
+												<Circle className="w-5 h-5 text-gray-300" />
+											)}
+										</div>
+										<div className="flex-1 min-w-0">
+											<div
+												className={`text-xs font-medium ${
+													isCompleted || isCurrent
+														? 'text-gray-900'
+														: 'text-gray-400'
+												}`}
+											>
+												{step.label}
+											</div>
+											{isCurrent && (
+												<div className="text-xs text-gray-600 mt-1">
+													{step.description}
+												</div>
+											)}
+										</div>
+									</div>
+								);
+							})}
 						</div>
-					</div>
+					</CardContent>
+				</Card>
+			)}
 
-					<Separator />
+			{!isLoading && !parsedResult && (
+				<Card className="w-full p-5 transition-all hover:shadow-md">
+					<form
+						id="storyline-form"
+						action={handleSubmit}
+						onSubmit={(e) => {
+							e.preventDefault();
+							handleSubmit(
+								new FormData(e.target as HTMLFormElement),
+							);
+						}}
+						className="space-y-6"
+					>
+						{/* Basic Information */}
+						<div className="space-y-4">
+							<h2 className="text-sm font-semibold tracking-tight">
+								Basic Information
+							</h2>
 
-					{/* Platform & Timeline */}
-					<div className="space-y-4">
-						<h2 className="text-sm font-semibold tracking-tight">
-							Platform & Timeline
-						</h2>
-
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<div className="space-y-2">
-								<Label htmlFor="target_platforms">
-									Target Platforms *
+								<Label htmlFor="idea">Your Idea *</Label>
+								<Textarea
+									id="idea"
+									name="idea"
+									placeholder="Describe your idea or concept..."
+									required
+									defaultValue={defaultData.idea}
+									className="min-h-24"
+								/>
+							</div>
+
+							<div className="space-y-2">
+								<Label htmlFor="vision">Vision *</Label>
+								<Textarea
+									id="vision"
+									name="vision"
+									placeholder="What's your vision for this project?"
+									required
+									defaultValue={defaultData.vision}
+									className="min-h-20"
+								/>
+							</div>
+						</div>
+
+						<Separator />
+
+						{/* Platform & Timeline */}
+						<div className="space-y-4">
+							<h2 className="text-sm font-semibold tracking-tight">
+								Platform & Timeline
+							</h2>
+
+							<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+								<div className="space-y-2">
+									<Label htmlFor="target_platforms">
+										Target Platforms *
+									</Label>
+									<Input
+										id="target_platforms"
+										name="target_platforms"
+										placeholder="e.g., TikTok, Instagram, or Both"
+										required
+										defaultValue={
+											defaultData.target_platforms
+										}
+									/>
+								</div>
+
+								<div className="space-y-2">
+									<Label htmlFor="duration">Duration *</Label>
+									<Input
+										id="duration"
+										name="duration"
+										placeholder="e.g., 1 week, 30 days"
+										required
+										defaultValue={defaultData.duration}
+									/>
+								</div>
+							</div>
+						</div>
+
+						<Separator />
+
+						{/* Content Strategy */}
+						<div className="space-y-4">
+							<h2 className="text-sm font-semibold tracking-tight">
+								Content Strategy
+							</h2>
+
+							<div className="space-y-2">
+								<Label htmlFor="tone">Tone & Style *</Label>
+								<Input
+									id="tone"
+									name="tone"
+									placeholder="e.g., Friendly, motivational, and slightly humorous"
+									required
+									defaultValue={defaultData.tone}
+								/>
+							</div>
+
+							<div className="space-y-2">
+								<Label htmlFor="core_audience_guess">
+									Target Audience *
 								</Label>
 								<Input
-									id="target_platforms"
-									name="target_platforms"
-									placeholder="e.g., TikTok, Instagram, or Both"
+									id="core_audience_guess"
+									name="core_audience_guess"
+									placeholder="Who is your ideal audience?"
 									required
-									defaultValue={defaultData.target_platforms}
+									defaultValue={
+										defaultData.core_audience_guess
+									}
 								/>
 							</div>
 
 							<div className="space-y-2">
-								<Label htmlFor="duration">Duration *</Label>
+								<Label htmlFor="inspirations_or_competitors">
+									Inspirations or Competitors *
+								</Label>
 								<Input
-									id="duration"
-									name="duration"
-									placeholder="e.g., 1 week, 30 days"
+									id="inspirations_or_competitors"
+									name="inspirations_or_competitors"
+									placeholder="Comma-separated list (e.g., Alex Hormozi, Dee Kay, Ali Abdaal)"
 									required
-									defaultValue={defaultData.duration}
+									defaultValue={
+										defaultData.inspirations_or_competitors
+									}
 								/>
+								<p className="text-xs text-gray-500">
+									Separate multiple names with commas
+								</p>
 							</div>
 						</div>
-					</div>
 
-					<Separator />
+						<Separator />
 
-					{/* Content Strategy */}
-					<div className="space-y-4">
-						<h2 className="text-sm font-semibold tracking-tight">
-							Content Strategy
-						</h2>
+						{/* Goals & Constraints */}
+						<div className="space-y-4">
+							<h2 className="text-sm font-semibold tracking-tight">
+								Goals & Constraints
+							</h2>
 
-						<div className="space-y-2">
-							<Label htmlFor="tone">Tone & Style *</Label>
-							<Input
-								id="tone"
-								name="tone"
-								placeholder="e.g., Friendly, motivational, and slightly humorous"
-								required
-								defaultValue={defaultData.tone}
-							/>
+							<div className="space-y-2">
+								<Label htmlFor="primary_growth_goal">
+									Primary Growth Goal *
+								</Label>
+								<Input
+									id="primary_growth_goal"
+									name="primary_growth_goal"
+									placeholder="e.g., Follower growth + waitlist signups"
+									required
+									defaultValue={
+										defaultData.primary_growth_goal
+									}
+								/>
+							</div>
+
+							<div className="space-y-2">
+								<Label htmlFor="constraints">Constraints</Label>
+								<Textarea
+									id="constraints"
+									name="constraints"
+									placeholder="Any limitations or constraints? (optional)"
+									defaultValue={defaultData.constraints}
+									className="min-h-24"
+								/>
+								<p className="text-xs text-gray-500">
+									Equipment, resources, or creative
+									limitations
+								</p>
+							</div>
 						</div>
 
-						<div className="space-y-2">
-							<Label htmlFor="core_audience_guess">
-								Target Audience *
-							</Label>
-							<Input
-								id="core_audience_guess"
-								name="core_audience_guess"
-								placeholder="Who is your ideal audience?"
-								required
-								defaultValue={defaultData.core_audience_guess}
-							/>
+						<Separator />
+
+						{/* Actions */}
+						<div className="flex flex-col sm:flex-row gap-3 pt-2">
+							<Button
+								type="submit"
+								disabled={isLoading}
+								className="rounded-full px-6 py-3 flex-1 sm:flex-none"
+							>
+								{isLoading
+									? 'Generating...'
+									: 'Generate Storyline'}
+							</Button>
+							<Button
+								type="button"
+								variant="outline"
+								onClick={handleReset}
+								className="rounded-full px-6 py-3 flex-1 sm:flex-none"
+							>
+								Reset Form
+							</Button>
 						</div>
-
-						<div className="space-y-2">
-							<Label htmlFor="inspirations_or_competitors">
-								Inspirations or Competitors *
-							</Label>
-							<Input
-								id="inspirations_or_competitors"
-								name="inspirations_or_competitors"
-								placeholder="Comma-separated list (e.g., Alex Hormozi, Dee Kay, Ali Abdaal)"
-								required
-								defaultValue={
-									defaultData.inspirations_or_competitors
-								}
-							/>
-							<p className="text-xs text-gray-500">
-								Separate multiple names with commas
-							</p>
-						</div>
-					</div>
-
-					<Separator />
-
-					{/* Goals & Constraints */}
-					<div className="space-y-4">
-						<h2 className="text-sm font-semibold tracking-tight">
-							Goals & Constraints
-						</h2>
-
-						<div className="space-y-2">
-							<Label htmlFor="primary_growth_goal">
-								Primary Growth Goal *
-							</Label>
-							<Input
-								id="primary_growth_goal"
-								name="primary_growth_goal"
-								placeholder="e.g., Follower growth + waitlist signups"
-								required
-								defaultValue={defaultData.primary_growth_goal}
-							/>
-						</div>
-
-						<div className="space-y-2">
-							<Label htmlFor="constraints">Constraints</Label>
-							<Textarea
-								id="constraints"
-								name="constraints"
-								placeholder="Any limitations or constraints? (optional)"
-								defaultValue={defaultData.constraints}
-								className="min-h-24"
-							/>
-							<p className="text-xs text-gray-500">
-								Equipment, resources, or creative limitations
-							</p>
-						</div>
-					</div>
-
-					<Separator />
-
-					{/* Actions */}
-					<div className="flex flex-col sm:flex-row gap-3 pt-2">
-						<Button
-							type="submit"
-							disabled={isLoading}
-							className="rounded-full px-6 py-3 flex-1 sm:flex-none"
-						>
-							{isLoading ? 'Generating...' : 'Generate Storyline'}
-						</Button>
-						<Button
-							type="button"
-							variant="outline"
-							onClick={handleReset}
-							className="rounded-full px-6 py-3 flex-1 sm:flex-none"
-						>
-							Reset Form
-						</Button>
-					</div>
-				</form>
-			</Card>
+					</form>
+				</Card>
+			)}
 
 			{/* Results Section */}
 			{parsedResult && (
@@ -357,69 +548,52 @@ export function Form() {
 								</CardTitle>
 							</CardHeader>
 							<CardContent className="p-0 space-y-4">
-								{parsedResult.ifc_profile.demographics && (
-									<div>
-										<h3 className="font-semibold text-xs text-gray-700 mb-2">
-											Demographics
-										</h3>
-										<p className="text-xs text-gray-600 leading-relaxed">
-											{
-												parsedResult.ifc_profile
-													.demographics
-											}
-										</p>
-									</div>
-								)}
-								{parsedResult.ifc_profile.psychographics && (
-									<div>
-										<h3 className="font-semibold text-xs text-gray-700 mb-2">
-											Psychographics
-										</h3>
-										<p className="text-xs text-gray-600 leading-relaxed">
-											{
-												parsedResult.ifc_profile
-													.psychographics
-											}
-										</p>
-									</div>
-								)}
-								{parsedResult.ifc_profile.pain_points && (
-									<div>
-										<h3 className="font-semibold text-xs text-gray-700 mb-2">
-											Pain Points
-										</h3>
-										<p className="text-xs text-gray-600 leading-relaxed">
-											{
-												parsedResult.ifc_profile
-													.pain_points
-											}
-										</p>
-									</div>
-								)}
-								{parsedResult.ifc_profile.triggers && (
-									<div>
-										<h3 className="font-semibold text-xs text-gray-700 mb-2">
-											Triggers
-										</h3>
-										<p className="text-xs text-gray-600 leading-relaxed">
-											{parsedResult.ifc_profile.triggers}
-										</p>
-									</div>
-								)}
-								{parsedResult.ifc_profile
-									.community_behaviors && (
-									<div>
-										<h3 className="font-semibold text-xs text-gray-700 mb-2">
-											Community Behaviors
-										</h3>
-										<p className="text-xs text-gray-600 leading-relaxed">
-											{
-												parsedResult.ifc_profile
-													.community_behaviors
-											}
-										</p>
-									</div>
-								)}
+								<div>
+									<h3 className="font-semibold text-xs text-gray-700 mb-2">
+										Demographics
+									</h3>
+									<p className="text-xs text-gray-600 leading-relaxed">
+										{parsedResult.ifc_profile
+											.demographics || 'Not provided'}
+									</p>
+								</div>
+								<div>
+									<h3 className="font-semibold text-xs text-gray-700 mb-2">
+										Psychographics
+									</h3>
+									<p className="text-xs text-gray-600 leading-relaxed">
+										{parsedResult.ifc_profile
+											.psychographics || 'Not provided'}
+									</p>
+								</div>
+								<div>
+									<h3 className="font-semibold text-xs text-gray-700 mb-2">
+										Pain Points
+									</h3>
+									<p className="text-xs text-gray-600 leading-relaxed">
+										{parsedResult.ifc_profile.pain_points ||
+											'Not provided'}
+									</p>
+								</div>
+								<div>
+									<h3 className="font-semibold text-xs text-gray-700 mb-2">
+										Triggers
+									</h3>
+									<p className="text-xs text-gray-600 leading-relaxed">
+										{parsedResult.ifc_profile.triggers ||
+											'Not provided'}
+									</p>
+								</div>
+								<div>
+									<h3 className="font-semibold text-xs text-gray-700 mb-2">
+										Community Behaviors
+									</h3>
+									<p className="text-xs text-gray-600 leading-relaxed">
+										{parsedResult.ifc_profile
+											.community_behaviors ||
+											'Not provided'}
+									</p>
+								</div>
 							</CardContent>
 						</Card>
 					)}
