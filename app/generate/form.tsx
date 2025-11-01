@@ -134,16 +134,16 @@ export function Form() {
 					sheepWrapper.style.left = `${Math.random() * 100}%`;
 					sheepWrapper.style.top = '-100px';
 
-					// Speech bubble
+					// Speech bubble - responsive sizing
 					const bubble = document.createElement('div');
 					bubble.className =
-						'absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-white rounded-lg px-3 py-2 shadow-lg border border-gray-200 whitespace-nowrap';
-					bubble.style.minWidth = '120px';
+						'absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-white rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 shadow-lg border border-gray-200 whitespace-nowrap max-w-[140px] sm:max-w-none';
+					bubble.style.minWidth = '100px';
 					bubble.style.opacity = '0';
 					bubble.style.transform = 'scale(0.8)';
 					const messageDiv = document.createElement('div');
 					messageDiv.className =
-						'text-xs font-medium text-gray-800 text-center';
+						'text-[10px] sm:text-xs font-medium text-gray-800 text-center';
 					const initialMessage =
 						FUNNY_MESSAGES[
 							Math.floor(Math.random() * FUNNY_MESSAGES.length)
@@ -155,11 +155,12 @@ export function Form() {
 					bubble.appendChild(messageDiv);
 					bubble.appendChild(triangle);
 
-					// Sheep image
+					// Sheep image - responsive size
 					const sheepImg = document.createElement('img');
 					sheepImg.src = '/sheep-2.png';
 					sheepImg.alt = 'Sheep';
-					sheepImg.className = 'w-16 h-16 object-contain';
+					sheepImg.className =
+						'w-12 h-12 sm:w-16 sm:h-16 object-contain';
 					sheepImg.style.opacity = '0.7';
 
 					sheepWrapper.appendChild(bubble);
@@ -349,7 +350,7 @@ export function Form() {
 	const progressPercentage = (currentStep / GENERATION_STEPS.length) * 100;
 
 	return (
-		<div className="w-full space-y-6 relative">
+		<div className="w-full space-y-4 sm:space-y-6 relative">
 			{/* Raining Sheep Background */}
 			{isLoading && (
 				<div
@@ -361,7 +362,7 @@ export function Form() {
 
 			{/* Loading Progress */}
 			{isLoading && (
-				<Card className="w-full p-5 transition-all">
+				<Card className="w-full p-4 sm:p-5 transition-all">
 					<CardHeader className="p-0 pb-4">
 						<div className="flex items-center gap-2">
 							<Spinner className="w-4 h-4 text-green-600" />
@@ -374,7 +375,7 @@ export function Form() {
 						<div className="space-y-4">
 							<div className="relative">
 								{/* Background progress bar */}
-								<div className="h-3 w-full bg-gray-100 rounded-full overflow-hidden">
+								<div className="h-2 sm:h-3 w-full bg-gray-100 rounded-full overflow-hidden">
 									{/* Green gradient progress bar with shimmer effect */}
 									<div
 										className="h-full rounded-full transition-all duration-500 ease-out progress-shimmer"
@@ -404,9 +405,9 @@ export function Form() {
 									}}
 								/>
 							</div>
-							<div className="flex items-center justify-center gap-2 text-xs text-gray-600">
-								<Spinner className="w-3 h-3 text-green-600" />
-								<span>
+							<div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-gray-600 px-2">
+								<Spinner className="w-3 h-3 sm:w-4 sm:h-4 text-green-600 flex-shrink-0" />
+								<span className="text-center">
 									{currentStep > 0 &&
 									currentStep <= GENERATION_STEPS.length
 										? `${
@@ -419,7 +420,7 @@ export function Form() {
 							</div>
 						</div>
 
-						<div className="space-y-3">
+						<div className="space-y-2 sm:space-y-3">
 							{GENERATION_STEPS.map((step, index) => {
 								const isCompleted = index < currentStep;
 								const isCurrent = index === currentStep - 1;
@@ -428,7 +429,7 @@ export function Form() {
 								return (
 									<div
 										key={step.id}
-										className={`flex items-start gap-3 p-3 rounded-lg transition-all ${
+										className={`flex items-start gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg transition-all ${
 											isCurrent
 												? 'bg-slate-50 border border-gray-200'
 												: isCompleted
@@ -438,18 +439,18 @@ export function Form() {
 									>
 										<div className="flex-shrink-0 mt-0.5">
 											{isCompleted ? (
-												<CheckCircle2 className="w-5 h-5 text-green-600" />
+												<CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
 											) : isCurrent ? (
 												<div className="relative">
-													<Spinner className="w-5 h-5 text-green-600" />
+													<Spinner className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
 												</div>
 											) : (
-												<Circle className="w-5 h-5 text-gray-300" />
+												<Circle className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300" />
 											)}
 										</div>
 										<div className="flex-1 min-w-0">
 											<div
-												className={`text-xs font-medium ${
+												className={`text-xs sm:text-sm font-medium leading-snug ${
 													isCompleted || isCurrent
 														? 'text-gray-900'
 														: 'text-gray-400'
@@ -458,7 +459,7 @@ export function Form() {
 												{step.label}
 											</div>
 											{isCurrent && (
-												<div className="text-xs text-gray-600 mt-1">
+												<div className="text-xs text-gray-600 mt-1 leading-relaxed">
 													{step.description}
 												</div>
 											)}
@@ -472,7 +473,7 @@ export function Form() {
 			)}
 
 			{!isLoading && !parsedResult && (
-				<Card className="w-full p-5 transition-all hover:shadow-md">
+				<Card className="w-full p-4 sm:p-5 md:p-6 transition-all hover:shadow-md">
 					<form
 						id="storyline-form"
 						action={handleSubmit}
@@ -482,35 +483,45 @@ export function Form() {
 								new FormData(e.target as HTMLFormElement),
 							);
 						}}
-						className="space-y-6"
+						className="space-y-4 sm:space-y-6"
 					>
 						{/* Basic Information */}
-						<div className="space-y-4">
-							<h2 className="text-sm font-semibold tracking-tight">
+						<div className="space-y-3 sm:space-y-4">
+							<h2 className="text-xs sm:text-sm font-semibold tracking-tight">
 								Basic Information
 							</h2>
 
 							<div className="space-y-2">
-								<Label htmlFor="idea">Your Idea *</Label>
+								<Label
+									htmlFor="idea"
+									className="text-xs sm:text-sm"
+								>
+									Your Idea *
+								</Label>
 								<Textarea
 									id="idea"
 									name="idea"
 									placeholder="Describe your idea or concept..."
 									required
 									defaultValue={defaultData.idea}
-									className="min-h-24"
+									className="min-h-20 sm:min-h-24 text-sm"
 								/>
 							</div>
 
 							<div className="space-y-2">
-								<Label htmlFor="vision">Vision *</Label>
+								<Label
+									htmlFor="vision"
+									className="text-xs sm:text-sm"
+								>
+									Vision *
+								</Label>
 								<Textarea
 									id="vision"
 									name="vision"
 									placeholder="What's your vision for this project?"
 									required
 									defaultValue={defaultData.vision}
-									className="min-h-20"
+									className="min-h-20 sm:min-h-24 text-sm"
 								/>
 							</div>
 						</div>
@@ -518,12 +529,12 @@ export function Form() {
 						<Separator />
 
 						{/* Platform & Timeline */}
-						<div className="space-y-4">
-							<h2 className="text-sm font-semibold tracking-tight">
+						<div className="space-y-3 sm:space-y-4">
+							<h2 className="text-xs sm:text-sm font-semibold tracking-tight">
 								Platform & Timeline
 							</h2>
 
-							<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+							<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
 								<div className="space-y-2">
 									<Label htmlFor="target_platforms">
 										Target Platforms *
@@ -555,24 +566,33 @@ export function Form() {
 						<Separator />
 
 						{/* Content Strategy */}
-						<div className="space-y-4">
-							<h2 className="text-sm font-semibold tracking-tight">
+						<div className="space-y-3 sm:space-y-4">
+							<h2 className="text-xs sm:text-sm font-semibold tracking-tight">
 								Content Strategy
 							</h2>
 
 							<div className="space-y-2">
-								<Label htmlFor="tone">Tone & Style *</Label>
+								<Label
+									htmlFor="tone"
+									className="text-xs sm:text-sm"
+								>
+									Tone & Style *
+								</Label>
 								<Input
 									id="tone"
 									name="tone"
 									placeholder="e.g., Friendly, motivational, and slightly humorous"
 									required
 									defaultValue={defaultData.tone}
+									className="text-sm"
 								/>
 							</div>
 
 							<div className="space-y-2">
-								<Label htmlFor="core_audience_guess">
+								<Label
+									htmlFor="core_audience_guess"
+									className="text-xs sm:text-sm"
+								>
 									Target Audience *
 								</Label>
 								<Input
@@ -583,11 +603,15 @@ export function Form() {
 									defaultValue={
 										defaultData.core_audience_guess
 									}
+									className="text-sm"
 								/>
 							</div>
 
 							<div className="space-y-2">
-								<Label htmlFor="inspirations_or_competitors">
+								<Label
+									htmlFor="inspirations_or_competitors"
+									className="text-xs sm:text-sm"
+								>
 									Inspirations or Competitors *
 								</Label>
 								<Input
@@ -598,6 +622,7 @@ export function Form() {
 									defaultValue={
 										defaultData.inspirations_or_competitors
 									}
+									className="text-sm"
 								/>
 								<p className="text-xs text-gray-500">
 									Separate multiple names with commas
@@ -608,13 +633,16 @@ export function Form() {
 						<Separator />
 
 						{/* Goals & Constraints */}
-						<div className="space-y-4">
-							<h2 className="text-sm font-semibold tracking-tight">
+						<div className="space-y-3 sm:space-y-4">
+							<h2 className="text-xs sm:text-sm font-semibold tracking-tight">
 								Goals & Constraints
 							</h2>
 
 							<div className="space-y-2">
-								<Label htmlFor="primary_growth_goal">
+								<Label
+									htmlFor="primary_growth_goal"
+									className="text-xs sm:text-sm"
+								>
 									Primary Growth Goal *
 								</Label>
 								<Input
@@ -625,17 +653,23 @@ export function Form() {
 									defaultValue={
 										defaultData.primary_growth_goal
 									}
+									className="text-sm"
 								/>
 							</div>
 
 							<div className="space-y-2">
-								<Label htmlFor="constraints">Constraints</Label>
+								<Label
+									htmlFor="constraints"
+									className="text-xs sm:text-sm"
+								>
+									Constraints
+								</Label>
 								<Textarea
 									id="constraints"
 									name="constraints"
 									placeholder="Any limitations or constraints? (optional)"
 									defaultValue={defaultData.constraints}
-									className="min-h-24"
+									className="min-h-20 sm:min-h-24 text-sm"
 								/>
 								<p className="text-xs text-gray-500">
 									Equipment, resources, or creative
@@ -651,7 +685,7 @@ export function Form() {
 							<Button
 								type="submit"
 								disabled={isLoading}
-								className="rounded-full px-6 py-3 flex-1 sm:flex-none"
+								className="rounded-full px-6 py-3 text-sm sm:text-base min-h-[44px] flex-1 sm:flex-none w-full sm:w-auto"
 							>
 								{isLoading
 									? 'Generating...'
@@ -661,7 +695,7 @@ export function Form() {
 								type="button"
 								variant="outline"
 								onClick={handleReset}
-								className="rounded-full px-6 py-3 flex-1 sm:flex-none"
+								className="rounded-full px-6 py-3 text-sm sm:text-base min-h-[44px] flex-1 sm:flex-none w-full sm:w-auto"
 							>
 								Reset Form
 							</Button>
@@ -672,41 +706,42 @@ export function Form() {
 
 			{/* Results Section */}
 			{parsedResult && (
-				<div className="w-full space-y-6">
-					<div className="text-center mb-8">
-						<h2 className="text-2xl md:text-3xl font-semibold tracking-tight mb-2">
+				<div className="w-full space-y-4 sm:space-y-6">
+					<div className="text-center mb-6 sm:mb-8 px-2">
+						<h2 className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight mb-2">
 							Your Community Fit Storyline
 						</h2>
-						<p className="text-gray-600 text-sm">
+						<p className="text-gray-600 text-xs sm:text-sm">
 							Your personalized content strategy is ready
 						</p>
 					</div>
 
 					{/* Community Market Fit Scores */}
 					{parsedResult.community_market_fit && (
-						<Card className="w-full p-5 transition-all hover:shadow-md hover:-translate-y-0.5">
+						<Card className="w-full p-4 sm:p-5 transition-all hover:shadow-md hover:-translate-y-0.5">
 							<CardHeader className="p-0 pb-4">
 								<CardTitle className="text-sm font-semibold">
 									Community Market Fit Assessment
 								</CardTitle>
 							</CardHeader>
-							<CardContent className="p-0 space-y-6">
-								<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+							<CardContent className="p-0 space-y-4 sm:space-y-6">
+								<div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
 									{Object.entries(
 										parsedResult.community_market_fit
 											.score || {},
 									).map(([key, value]) => (
 										<div
 											key={key}
-											className="flex flex-col items-center p-4 rounded-lg border border-gray-200 bg-slate-50"
+											className="flex flex-col items-center p-3 sm:p-4 rounded-lg border border-gray-200 bg-slate-50"
 										>
-											<div className="text-xs font-medium text-gray-600 mb-2 text-center capitalize">
+											<div className="text-[10px] sm:text-xs font-medium text-gray-600 mb-2 text-center capitalize leading-tight">
 												{key.replace(/_/g, ' ')}
 											</div>
-											<div className="relative w-16 h-16 mb-2">
+											<div className="relative w-12 h-12 sm:w-16 sm:h-16 mb-2">
 												<svg
-													className="transform -rotate-90 w-16 h-16"
+													className="transform -rotate-90 w-full h-full"
 													viewBox="0 0 36 36"
+													preserveAspectRatio="xMidYMid meet"
 												>
 													<path
 														className="text-gray-200"
@@ -730,7 +765,7 @@ export function Form() {
 													/>
 												</svg>
 												<div className="absolute inset-0 flex items-center justify-center">
-													<span className="text-lg font-semibold text-gray-900">
+													<span className="text-sm sm:text-base md:text-lg font-semibold text-gray-900">
 														{value as number}/10
 													</span>
 												</div>
@@ -739,8 +774,8 @@ export function Form() {
 									))}
 								</div>
 								{parsedResult.community_market_fit.summary && (
-									<div className="space-y-2">
-										<h3 className="font-semibold text-xs text-gray-700 mb-3">
+									<div className="space-y-2 mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
+										<h3 className="font-semibold text-xs sm:text-sm text-gray-700 mb-2 sm:mb-3">
 											Key Insights
 										</h3>
 										<ul className="space-y-2">
@@ -748,7 +783,7 @@ export function Form() {
 												(item: string, idx: number) => (
 													<li
 														key={idx}
-														className="flex items-start gap-3 text-xs text-gray-700 leading-relaxed"
+														className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-gray-700 leading-relaxed break-words"
 													>
 														<span className="text-green-600 mt-1">
 															•
@@ -766,54 +801,54 @@ export function Form() {
 
 					{/* IFC Profile */}
 					{parsedResult.ifc_profile && (
-						<Card className="w-full p-5 transition-all hover:shadow-md hover:-translate-y-0.5">
-							<CardHeader className="p-0 pb-4">
-								<CardTitle className="text-sm font-semibold">
+						<Card className="w-full p-4 sm:p-5 transition-all hover:shadow-md hover:-translate-y-0.5">
+							<CardHeader className="p-0 pb-3 sm:pb-4">
+								<CardTitle className="text-xs sm:text-sm font-semibold">
 									Ideal Follower Profile (IFP)
 								</CardTitle>
 							</CardHeader>
-							<CardContent className="p-0 space-y-4">
+							<CardContent className="p-0 space-y-3 sm:space-y-4">
 								<div>
-									<h3 className="font-semibold text-xs text-gray-700 mb-2">
+									<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
 										Demographics
 									</h3>
-									<p className="text-xs text-gray-600 leading-relaxed">
+									<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
 										{parsedResult.ifc_profile
 											.demographics || 'Not provided'}
 									</p>
 								</div>
 								<div>
-									<h3 className="font-semibold text-xs text-gray-700 mb-2">
+									<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
 										Psychographics
 									</h3>
-									<p className="text-xs text-gray-600 leading-relaxed">
+									<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
 										{parsedResult.ifc_profile
 											.psychographics || 'Not provided'}
 									</p>
 								</div>
 								<div>
-									<h3 className="font-semibold text-xs text-gray-700 mb-2">
+									<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
 										Pain Points
 									</h3>
-									<p className="text-xs text-gray-600 leading-relaxed">
+									<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
 										{parsedResult.ifc_profile.pain_points ||
 											'Not provided'}
 									</p>
 								</div>
 								<div>
-									<h3 className="font-semibold text-xs text-gray-700 mb-2">
+									<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
 										Triggers
 									</h3>
-									<p className="text-xs text-gray-600 leading-relaxed">
+									<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
 										{parsedResult.ifc_profile.triggers ||
 											'Not provided'}
 									</p>
 								</div>
 								<div>
-									<h3 className="font-semibold text-xs text-gray-700 mb-2">
+									<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
 										Community Behaviors
 									</h3>
-									<p className="text-xs text-gray-600 leading-relaxed">
+									<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
 										{parsedResult.ifc_profile
 											.community_behaviors ||
 											'Not provided'}
@@ -826,23 +861,25 @@ export function Form() {
 					{/* Personas */}
 					{parsedResult.personas &&
 						parsedResult.personas.length > 0 && (
-							<div className="w-full space-y-6">
-								<h2 className="text-sm font-semibold tracking-tight text-center">
+							<div className="w-full space-y-4 sm:space-y-6">
+								<h2 className="text-xs sm:text-sm font-semibold tracking-tight text-center px-2">
 									Personas & Strategies
 								</h2>
 								<Tabs
 									defaultValue="persona-0"
 									className="w-full"
 								>
-									<TabsList className="grid w-full grid-cols-2 md:grid-cols-5 h-auto p-1">
+									<TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto p-1 gap-1 overflow-x-auto">
 										{parsedResult.personas.map(
 											(persona: any, idx: number) => (
 												<TabsTrigger
 													key={idx}
 													value={`persona-${idx}`}
-													className="text-xs md:text-sm py-2"
+													className="text-[10px] sm:text-xs md:text-sm py-2 min-h-[44px]"
 												>
-													Persona {idx + 1}
+													<span className="truncate">
+														Persona {idx + 1}
+													</span>
 												</TabsTrigger>
 											),
 										)}
@@ -852,9 +889,9 @@ export function Form() {
 											<TabsContent
 												key={idx}
 												value={`persona-${idx}`}
-												className="mt-6 space-y-6"
+												className="mt-4 sm:mt-6 space-y-4 sm:space-y-6"
 											>
-												<Card className="w-full p-5 transition-all hover:shadow-md hover:-translate-y-0.5">
+												<Card className="w-full p-4 sm:p-5 transition-all hover:shadow-md hover:-translate-y-0.5">
 													<CardHeader className="p-0 pb-4">
 														<div className="flex items-start justify-between gap-4">
 															<div>
@@ -892,7 +929,7 @@ export function Form() {
 															</div>
 														)}
 
-														<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+														<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
 															{persona.key_motivation && (
 																<div>
 																	<h3 className="font-semibold text-xs text-gray-700 mb-2">
@@ -923,7 +960,7 @@ export function Form() {
 														</div>
 
 														{persona.storyline && (
-															<div className="rounded-lg border border-gray-200 bg-slate-50 p-5 space-y-4">
+															<div className="rounded-lg border border-gray-200 bg-slate-50 p-4 sm:p-5 space-y-3 sm:space-y-4">
 																<h3 className="font-semibold text-xs text-gray-900 mb-4">
 																	Storyline:{' '}
 																	{persona
@@ -1179,10 +1216,10 @@ export function Form() {
 
 					{/* Fallback for raw JSON if structure doesn't match */}
 					{!parsedResult && result && (
-						<Card className="w-full p-5 bg-slate-50">
+						<Card className="w-full p-4 sm:p-5 bg-slate-50">
 							<CardContent className="p-0">
 								<div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-									<pre className="whitespace-pre-wrap text-sm text-gray-700 leading-relaxed p-6 md:p-8 overflow-x-auto">
+									<pre className="whitespace-pre-wrap text-xs sm:text-sm text-gray-700 leading-relaxed p-4 sm:p-6 md:p-8 overflow-x-auto">
 										{result}
 									</pre>
 								</div>
