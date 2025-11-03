@@ -5,6 +5,15 @@ import { useEffect, useRef } from 'react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Card } from '../ui/card';
+import UserValidationForm from '../user-validation-form/UserValidationForm';
+import {
+	Dialog,
+	DialogContent,
+	DialogTitle,
+	DialogHeader,
+	DialogTrigger,
+	DialogDescription,
+} from '../ui/dialog';
 import Link from 'next/link';
 
 import BackedBy from './BackedBy';
@@ -610,12 +619,29 @@ export default function Hero() {
 					<span className="text-base font-semibold">SheepLoop</span>
 				</div>
 				<div>
-					<Button
-						asChild
-						className="rounded-full px-5 py-2.5 text-sm"
-					>
-						<Link href="/generate">Give it a try ^^</Link>
-					</Button>
+					<Dialog>
+						<DialogTrigger asChild>
+							<Button className="rounded-full px-5 py-2.5 text-sm">
+								Give it a try ^^
+							</Button>
+						</DialogTrigger>
+						<DialogContent className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50 p-6">
+							<DialogHeader>
+								<DialogTitle className="mb-2">
+									<p className="text-lg md:text-xl font-semibold tracking-tight">
+										Thanks for giving SheepLoop a try!
+									</p>
+								</DialogTitle>
+								<DialogDescription className="mb-4 text-sm text-gray-600 leading-relaxed">
+									Please fill in the following form to
+									generate and download a tailored{' '}
+									<span className="font-bold">TikTok</span>{' '}
+									content strategy for your idea.
+								</DialogDescription>
+							</DialogHeader>
+							<UserValidationForm />
+						</DialogContent>
+					</Dialog>
 				</div>
 			</header>
 
