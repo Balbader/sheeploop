@@ -86,7 +86,7 @@ export function Form() {
 				}
 				return prev;
 			});
-		}, 2000); // Move to next step every 2 seconds
+		}, 12000); // Move to next step every 12 seconds
 
 		return () => clearInterval(stepInterval);
 	}, [isLoading]);
@@ -338,38 +338,38 @@ export function Form() {
 	// };
 
 	// E-Gamer Community
-	const defaultData = {
-		idea: 'A community for e-gamers and aspiring streamers who want to grow their audience, improve their gameplay, and connect with like-minded players.',
-		vision: 'Unite competitive and casual gamers under one hub where they can share highlights, strategies, and stories while building a strong personal brand in gaming.',
-		target_platforms: 'TikTok',
-		duration: '1 week',
-		tone: 'Energetic, competitive, and authentic — with gaming slang and humor that resonates with the community',
-		core_audience_guess:
-			'aspiring streamers and competitive players trying to grow an audience',
-		constraints:
-			'Limited setup — only a PC or console with basic recording tools (OBS, Streamlabs), minimal editing experience, focused on short gameplay clips and commentary.',
-		inspirations_or_competitors:
-			'NICKMERCS, Valkyrae, TenZ, Ludwig, Pokimane, and grassroots gaming TikTok creators who mix highlights with personality-driven content.',
-		primary_growth_goal:
-			'Follower growth + Twitch/YouTube traffic + tournament or collab opportunities',
-	};
-
-	// Hip-Hop Community
 	// const defaultData = {
-	// 	idea: 'A creative community for independent hip-hop artists and producers looking to grow their fanbase, collaborate, and share their art with the world.',
-	// 	vision: 'Empower emerging hip-hop artists to build authentic brands, reach new listeners, and thrive through collaboration and consistent content creation.',
+	// 	idea: 'A community for e-gamers and aspiring streamers who want to grow their audience, improve their gameplay, and connect with like-minded players.',
+	// 	vision: 'Unite competitive and casual gamers under one hub where they can share highlights, strategies, and stories while building a strong personal brand in gaming.',
 	// 	target_platforms: 'TikTok',
 	// 	duration: '1 week',
-	// 	tone: 'Confident, authentic, and inspiring — rooted in hustle culture and creative expression',
+	// 	tone: 'Energetic, competitive, and authentic — with gaming slang and humor that resonates with the community',
 	// 	core_audience_guess:
-	// 		'independent rappers, beatmakers, and vocal artists grinding to build an audience',
+	// 		'aspiring streamers and competitive players trying to grow an audience',
 	// 	constraints:
-	// 		'Minimal setup — just a phone, basic mic, and free DAWs or beat-making apps. Can film freestyle sessions, behind-the-scenes studio clips, or lyric breakdowns.',
+	// 		'Limited setup — only a PC or console with basic recording tools (OBS, Streamlabs), minimal editing experience, focused on short gameplay clips and commentary.',
 	// 	inspirations_or_competitors:
-	// 		'Russ, Dax, Token, Armani White, Cordae, and viral underground artists on TikTok who mix personality with raw bars and storytelling.',
+	// 		'NICKMERCS, Valkyrae, TenZ, Ludwig, Pokimane, and grassroots gaming TikTok creators who mix highlights with personality-driven content.',
 	// 	primary_growth_goal:
-	// 		'Fanbase growth + streaming traffic + collaboration opportunities',
+	// 		'Follower growth + Twitch/YouTube traffic + tournament or collab opportunities',
 	// };
+
+	// Hip-Hop Community
+	const defaultData = {
+		idea: 'A creative community for independent hip-hop artists and producers looking to grow their fanbase, collaborate, and share their art with the world.',
+		vision: 'Empower emerging hip-hop artists to build authentic brands, reach new listeners, and thrive through collaboration and consistent content creation.',
+		target_platforms: 'TikTok',
+		duration: '1 week',
+		tone: 'Confident, authentic, and inspiring — rooted in hustle culture and creative expression',
+		core_audience_guess:
+			'independent rappers, beatmakers, and vocal artists grinding to build an audience',
+		constraints:
+			'Minimal setup — just a phone, basic mic, and free DAWs or beat-making apps. Can film freestyle sessions, behind-the-scenes studio clips, or lyric breakdowns.',
+		inspirations_or_competitors:
+			'Russ, Dax, Token, Armani White, Cordae, and viral underground artists on TikTok who mix personality with raw bars and storytelling.',
+		primary_growth_goal:
+			'Fanbase growth + streaming traffic + collaboration opportunities',
+	};
 
 	const handleReset = () => {
 		setResult(null);
