@@ -625,18 +625,15 @@ export default function Hero() {
 								Give it a try ^^
 							</Button>
 						</DialogTrigger>
-						<DialogContent className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50 p-6">
+						<DialogContent >
 							<DialogHeader>
 								<DialogTitle className="mb-2">
-									<p className="text-lg md:text-xl font-semibold tracking-tight">
-										Thanks for giving SheepLoop a try!
-									</p>
+									Thanks for giving SheepLoop a try!
 								</DialogTitle>
-								<DialogDescription className="mb-4 text-sm text-gray-600 leading-relaxed">
-									Please fill in the following form to
-									generate and download a tailored{' '}
-									<span className="font-bold">TikTok</span>{' '}
-									content strategy for your idea.
+								<DialogDescription>
+									Please fill in the following form to generate
+									and download a tailored TikTok content
+									strategy for your idea.
 								</DialogDescription>
 							</DialogHeader>
 							<UserValidationForm />
