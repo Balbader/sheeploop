@@ -619,26 +619,12 @@ export default function Hero() {
 					<span className="text-base font-semibold">SheepLoop</span>
 				</div>
 				<div>
-					<Dialog>
-						<DialogTrigger asChild>
-							<Button className="rounded-full px-5 py-2.5 text-sm">
-								Give it a try ^^
-							</Button>
-						</DialogTrigger>
-						<DialogContent >
-							<DialogHeader>
-								<DialogTitle className="mb-2">
-									Thanks for giving SheepLoop a try!
-								</DialogTitle>
-								<DialogDescription>
-									Please fill in the following form to generate
-									and download a tailored TikTok content
-									strategy for your idea.
-								</DialogDescription>
-							</DialogHeader>
-							<UserValidationForm />
-						</DialogContent>
-					</Dialog>
+					<Button
+						asChild
+						className="rounded-full px-5 py-2.5 text-sm"
+					>
+						<Link href="/generate">Give it a try ^^</Link>
+					</Button>
 				</div>
 			</header>
 

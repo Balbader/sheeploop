@@ -3,7 +3,15 @@
 import { useEffect, useRef } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
-import Link from 'next/link';
+import UserValidationForm from '../user-validation-form/UserValidationForm';
+import {
+	Dialog,
+	DialogTrigger,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogDescription,
+} from '../ui/dialog';
 
 export default function ValueProps() {
 	const icon1Ref = useRef<HTMLDivElement | null>(null);
@@ -116,11 +124,26 @@ export default function ValueProps() {
 				</div>
 
 				<div className="mt-12 flex items-center justify-center">
-					<Button asChild className="rounded-full px-6 py-3 text-sm">
-						<Link href="/generate">
-							Try it now! It&apos;s free.
-						</Link>
-					</Button>
+					<Dialog>
+						<DialogTrigger asChild>
+							<Button className="rounded-full px-5 py-2.5 text-sm">
+								Try it now! It&apos;s free.
+							</Button>
+						</DialogTrigger>
+						<DialogContent>
+							<DialogHeader>
+								<DialogTitle className="mb-2">
+									Thanks for giving SheepLoop a try!
+								</DialogTitle>
+								<DialogDescription>
+									Please fill in the following form to
+									generate and download a tailored TikTok
+									content strategy for your idea.
+								</DialogDescription>
+							</DialogHeader>
+							<UserValidationForm />
+						</DialogContent>
+					</Dialog>
 				</div>
 			</div>
 		</section>
