@@ -693,10 +693,9 @@ export default function Hero() {
 						</span>
 					</h1>
 					<p className="mt-4 text-gray-600 leading-relaxed md:text-lg">
-						Type your idea and SheepLoop will sprint-test it on
-						TikTok.
-						<br /> Get a content strategy, IFP, storyline, and
-						posting schedule to find your community.
+						Type your idea and SheepLoop will draft your community
+						growth plan and sprint-test strategy for TikTok,
+						Instagram and YouTube.
 					</p>
 					<div
 						ref={ctaRef}
