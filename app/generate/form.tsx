@@ -128,9 +128,10 @@ export function Form() {
 				// Create sheep elements
 				for (let i = 0; i < numSheep; i++) {
 					const sheepWrapper = document.createElement('div');
-					sheepWrapper.className = 'absolute pointer-events-none';
+					sheepWrapper.className = 'absolute cursor-pointer';
 					sheepWrapper.style.left = `${Math.random() * 100}%`;
 					sheepWrapper.style.top = '-100px';
+					sheepWrapper.style.zIndex = '10';
 
 					// Speech bubble - responsive sizing
 					const bubble = document.createElement('div');
@@ -169,12 +170,28 @@ export function Form() {
 					bubbleArray.push({ bubble, messageDiv });
 				}
 
+				// Track mouse position for interaction
+				let mouseX = 0;
+				let mouseY = 0;
+				const mouseUpdateHandler = (e: MouseEvent) => {
+					mouseX = e.clientX;
+					mouseY = e.clientY;
+				};
+				window.addEventListener('mousemove', mouseUpdateHandler);
+
 				// Animate each sheep falling
 				sheepArray.forEach((sheep, index) => {
 					const startDelay = index * 0.4;
 					const fallDuration = 7 + Math.random() * 5;
 					const startXPercent = Math.random() * 100;
 					const horizontalDrift = (Math.random() - 0.5) * 60;
+
+					// Store current animation state
+					let currentX = startXPercent;
+					let currentY = -100;
+					let isInteracting = false;
+					let interactionAnim: any = null;
+					let fallAnim: any = null;
 
 					// Set initial position
 					gsap.set(sheep, {
@@ -183,8 +200,8 @@ export function Form() {
 						rotation: 0,
 					});
 
-					// Fall animation
-					const fallAnim = gsap.to(sheep, {
+					// Fall animation - create first so it can be referenced
+					fallAnim = gsap.to(sheep, {
 						y: window.innerHeight + 200,
 						x: `${
 							startXPercent +
@@ -197,6 +214,7 @@ export function Form() {
 						repeat: -1,
 						onRepeat: () => {
 							const newX = Math.random() * 100;
+							currentX = newX;
 							gsap.set(sheep, {
 								x: `${newX}%`,
 								y: -100,
@@ -209,6 +227,127 @@ export function Form() {
 						},
 					});
 
+					// Function to check distance and react to mouse
+					const checkMouseDistance = () => {
+						if (!container || !fallAnim) return;
+
+						const rect = sheep.getBoundingClientRect();
+						const sheepCenterX = rect.left + rect.width / 2;
+						const sheepCenterY = rect.top + rect.height / 2;
+
+						const distance = Math.sqrt(
+							Math.pow(mouseX - sheepCenterX, 2) +
+								Math.pow(mouseY - sheepCenterY, 2),
+						);
+
+						const interactionRadius = 120; // Distance threshold for interaction
+
+						if (distance < interactionRadius && !isInteracting) {
+							isInteracting = true;
+							// Pause fall animation temporarily
+							fallAnim.pause();
+
+							// Calculate direction away from mouse
+							const angle = Math.atan2(
+								sheepCenterY - mouseY,
+								sheepCenterX - mouseX,
+							);
+							// Increased push distance for more dramatic bounce
+							const pushDistance = 120 + Math.random() * 40;
+							const newX =
+								sheepCenterX + Math.cos(angle) * pushDistance;
+							const newY =
+								sheepCenterY + Math.sin(angle) * pushDistance;
+
+							// Convert to percentage for X
+							const newXPercent =
+								(newX / window.innerWidth) * 100;
+
+							// Create a bouncy timeline animation
+							const bounceTimeline = gsap.timeline({
+								onComplete: () => {
+									// Resume fall animation after bounce completes
+									setTimeout(() => {
+										isInteracting = false;
+										fallAnim.resume();
+									}, 200);
+								},
+							});
+
+							// Initial bounce away - main movement with elastic bounce
+							bounceTimeline.to(sheep, {
+								x: `${newXPercent}%`,
+								y: `+=${Math.sin(angle) * pushDistance}`,
+								rotation: `+=${(Math.random() - 0.5) * 540}`,
+								scale: 1.3,
+								duration: 0.6,
+								ease: 'elastic.out(1, 0.5)',
+							});
+
+							// Secondary smaller bounce - creates the bounce effect
+							bounceTimeline.to(sheep, {
+								x: `+=${Math.cos(angle) * 20}`,
+								y: `+=${Math.sin(angle) * 20}`,
+								scale: 1.1,
+								duration: 0.3,
+								ease: 'bounce.out',
+							});
+
+							// Final settle - return to normal scale
+							bounceTimeline.to(sheep, {
+								scale: 1,
+								duration: 0.2,
+								ease: 'power2.out',
+							});
+
+							interactionAnim = bounceTimeline;
+						}
+					};
+
+					// Check mouse distance periodically - more frequent for responsive bouncing
+					const mouseCheckInterval = setInterval(() => {
+						if (isLoading) checkMouseDistance();
+					}, 50);
+
+					// Click interaction - make sheep bounce
+					sheep.addEventListener('click', (e) => {
+						e.stopPropagation();
+						if (interactionAnim) interactionAnim.kill();
+
+						// Bounce animation
+						gsap.to(sheep, {
+							scale: 1.5,
+							rotation: `+=${(Math.random() - 0.5) * 720}`,
+							duration: 0.3,
+							ease: 'back.out(2)',
+							yoyo: true,
+							repeat: 1,
+							onComplete: () => {
+								gsap.to(sheep, {
+									scale: 1,
+									duration: 0.2,
+								});
+							},
+						});
+					});
+
+					// Hover effect - slight scale up
+					sheep.addEventListener('mouseenter', () => {
+						gsap.to(sheep, {
+							scale: 1.15,
+							duration: 0.2,
+							ease: 'power2.out',
+						});
+					});
+
+					sheep.addEventListener('mouseleave', () => {
+						gsap.to(sheep, {
+							scale: 1,
+							duration: 0.2,
+							ease: 'power2.out',
+						});
+					});
+
 					// Gentle rotation animation
 					const rotateAnim = gsap.to(sheep, {
 						rotation: `+=${(Math.random() - 0.5) * 45}`,
@@ -218,6 +357,8 @@ export function Form() {
 						ease: 'sine.inOut',
 						delay: startDelay,
 					});
+
+					allTimers.push(mouseCheckInterval);
 
 					// Speech bubble animations
 					const { bubble, messageDiv } = bubbleArray[index];
@@ -274,6 +415,7 @@ export function Form() {
 				messageTimersRef.current = allTimers;
 
 				cleanupFn = () => {
+					window.removeEventListener('mousemove', mouseUpdateHandler);
 					allAnims.forEach((anim) => anim?.kill());
 					allTimers.forEach((timer) => {
 						clearTimeout(timer);
@@ -405,7 +547,7 @@ export function Form() {
 			{isLoading && (
 				<div
 					ref={sheepContainerRef}
-					className="fixed inset-0 overflow-hidden pointer-events-none"
+					className="fixed inset-0 overflow-hidden"
 					style={{ zIndex: 5 }}
 				/>
 			)}
