@@ -41,10 +41,6 @@ export default function FormSelectionTabs() {
 			const targetY =
 				targetRect.top - tabsListRect.top + targetRect.height / 2;
 
-			// Get current GSAP transform values
-			const currentX = (gsap.getProperty(sheep, 'x') as number) || 0;
-			const currentY = (gsap.getProperty(sheep, 'y') as number) || 0;
-
 			// Calculate target position accounting for sheep width/height
 			const sheepWidth = sheep.offsetWidth;
 			const sheepHeight = sheep.offsetHeight;
@@ -60,90 +56,30 @@ export default function FormSelectionTabs() {
 			const minX = Math.max(leftBound, tabLeft);
 			const maxX = Math.min(rightBound, tabRight - sheepWidth);
 
+			// Get current GSAP transform values and clamp to bounds
+			let currentX = (gsap.getProperty(sheep, 'x') as number) || 0;
+			currentX = Math.max(minX, Math.min(maxX, currentX)); // Clamp current position to bounds
+			const currentY = (gsap.getProperty(sheep, 'y') as number) || 0;
+
 			// Calculate target X and clamp it to stay within tab bounds
 			let finalX = targetX - sheepWidth / 2;
 			finalX = Math.max(minX, Math.min(maxX, finalX)); // Clamp to tab bounds
 			const finalY = targetY - sheepHeight / 2;
 
-			// Calculate distance for jump height (only if moving from another tab)
-			const distance = Math.abs(finalX - currentX);
-			const needsJump = distance > 10; // Only jump if moving significant distance
-			const jumpHeight = needsJump ? Math.min(distance * 0.25, 35) : 0;
-
-			// Determine which direction sheep will walk after landing
+			// Determine which direction sheep will walk
 			const centerX = (minX + maxX) / 2;
 			const willFaceRight = finalX < centerX;
 
-			// Create timeline for smoother animation
-			const tl = gsap.timeline();
+			// Simply position the sheep in the selected tab (no jump)
+			gsap.set(sheep, {
+				x: finalX,
+				y: finalY,
+				rotation: 0,
+				scaleX: willFaceRight ? 1 : -1,
+			});
 
-			if (needsJump) {
-				// Determine jump direction based on movement
-				const movingRight = finalX > currentX;
-				const jumpRotation = movingRight ? 360 : -360;
-
-				// Set direction instantly before jumping
-				gsap.set(sheep, {
-					scaleX: willFaceRight ? 1 : -1, // Face the direction it will walk
-				});
-
-				// Jump animation with rotation
-				tl.to(sheep, {
-					x: finalX,
-					duration: 0.7,
-					ease: 'power2.out',
-					onUpdate: function () {
-						const progress = this.progress();
-						// Smoother jump arc
-						const jumpProgress = Math.sin(progress * Math.PI);
-						// More dynamic rotation
-						const rotationProgress = progress * jumpRotation;
-						gsap.set(sheep, {
-							y: finalY - jumpHeight * jumpProgress,
-							rotation: rotationProgress,
-						});
-					},
-				})
-					// Landing bounce with anticipation
-					.to(
-						sheep,
-						{
-							y: finalY + 3, // Slight squash
-							rotation: 0,
-							duration: 0.15,
-							ease: 'power2.in',
-						},
-						'-=0.05',
-					)
-					// Bounce back up
-					.to(sheep, {
-						y: finalY,
-						duration: 0.2,
-						ease: 'power2.out',
-					});
-			} else {
-				// Just set position if already in tab, but face the right direction
-				gsap.set(sheep, {
-					x: finalX,
-					y: finalY,
-					rotation: 0,
-					scaleX: willFaceRight ? 1 : -1,
-				});
-			}
-
-			// Start walking animation after landing
-			tl.call(
-				() => {
-					startWalkingAnimation(
-						sheep,
-						targetRect,
-						tabsListRect,
-						finalY,
-					);
-				},
-				undefined,
-				needsJump ? '+=0.1' : undefined,
-			);
+			// Start walking animation immediately
+			startWalkingAnimation(sheep, targetRect, tabsListRect, finalY);
 		};
 
 		const startWalkingAnimation = (
