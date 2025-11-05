@@ -16,18 +16,20 @@ export default async function Page() {
 			/>
 
 			<header className="max-w-screen-xl mx-auto px-4 sm:px-6 py-4 sm:py-6 flex items-center justify-between relative z-10">
-				<div className="flex items-center gap-2 sm:gap-3">
-					<Image
-						src="/sheep.png"
-						alt="SheepLoop logo"
-						width={32}
-						height={32}
-						className="rounded flex-shrink-0"
-					/>
-					<span className="text-sm sm:text-base font-semibold">
-						SheepLoop
-					</span>
-				</div>
+				<Link href="/">
+					<div className="flex items-center gap-2 sm:gap-3">
+						<Image
+							src="/sheep.png"
+							alt="SheepLoop logo"
+							width={32}
+							height={32}
+							className="rounded flex-shrink-0"
+						/>
+						<span className="text-sm sm:text-base font-semibold">
+							SheepLoop
+						</span>
+					</div>
+				</Link>
 				<div>
 					<Button
 						asChild

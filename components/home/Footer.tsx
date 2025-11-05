@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Footer() {
 	return (
@@ -20,15 +21,18 @@ export default function Footer() {
 					</div>
 				</div>
 				<nav className="text-xs text-gray-500 flex items-center gap-4">
-					<a href="#" className="hover:text-gray-700">
+					<Link href="/faq" className="hover:text-gray-700">
+						FAQ
+					</Link>
+					<Link href="/privacy" className="hover:text-gray-700">
 						Privacy
-					</a>
-					<a href="#" className="hover:text-gray-700">
+					</Link>
+					<Link href="/terms" className="hover:text-gray-700">
 						Terms
-					</a>
-					<a href="#" className="hover:text-gray-700">
+					</Link>
+					<Link href="/contact" className="hover:text-gray-700">
 						Contact
-					</a>
+					</Link>
 				</nav>
 			</div>
 		</footer>

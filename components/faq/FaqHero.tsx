@@ -6,7 +6,6 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Card } from '../ui/card';
 import Link from 'next/link';
-import BackedBy from './BackedBy';
 
 export default function Hero() {
 	const heroRef = useRef<HTMLDivElement | null>(null);
@@ -757,7 +756,6 @@ export default function Hero() {
 						</span>
 					</div>
 				</Link>
-
 				<div>
 					<Button
 						asChild
@@ -770,172 +768,19 @@ export default function Hero() {
 
 			<div className="max-w-screen-xl mx-auto px-6 pt-6 pb-16 md:pb-24 relative z-10">
 				<div className="mx-auto max-w-3xl text-center">
-					<Badge
-						variant="secondary"
-						className="rounded-full px-3 py-1 text-[11px]"
-					>
-						AI coach for creators
-					</Badge>
-					<h1
-						ref={headlineRef}
-						className="mt-5 text-3xl md:text-5xl font-semibold tracking-tight"
-					>
-						Your AI community growth coach for{' '}
-						<span
-							ref={instaLogoRef}
-							className="inline-flex items-center gap-1.5 pt-3"
+					<div className="mb-8 text-center">
+						<h2
+							data-faq="heading"
+							className="text-3xl font-semibold tracking-tight text-gray-900 md:text-4xl"
 						>
-							<svg
-								className="inline-block w-10 h-10 md:w-12 md:h-12"
-								viewBox="0 0 24 24"
-								aria-label="Instagram"
-							>
-								<defs>
-									<linearGradient
-										id="instagram-gradient"
-										x1="0%"
-										y1="0%"
-										x2="100%"
-										y2="100%"
-									>
-										<stop offset="0%" stopColor="#833AB4" />
-										<stop
-											offset="50%"
-											stopColor="#FD1D1D"
-										/>
-										<stop
-											offset="100%"
-											stopColor="#FCAF45"
-										/>
-									</linearGradient>
-								</defs>
-								<path
-									d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
-									fill="url(#instagram-gradient)"
-								/>
-							</svg>
-							<span className="sr-only">Instagram</span>
-						</span>
-						,{' '}
-						<span
-							ref={tiktokLogoRef}
-							className="inline-flex items-center gap-1.5"
-						>
-							<svg
-								className="inline-block w-10 h-10 md:w-12 md:h-12"
-								viewBox="0 0 24 24"
-								aria-label="TikTok"
-							>
-								<path
-									d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"
-									fill="#000000"
-								/>
-							</svg>
-							<span className="sr-only">TikTok</span>
-						</span>{' '}
-						and{' '}
-						<span
-							ref={youtubeLogoRef}
-							className="inline-flex items-center gap-1.5"
-						>
-							<svg
-								className="inline-block w-10 h-10 md:w-12 md:h-12"
-								viewBox="0 0 24 24"
-								aria-label="YouTube"
-							>
-								<path
-									d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
-									fill="#FF0000"
-								/>
-							</svg>
-							<span className="sr-only">YouTube</span>
-						</span>
-					</h1>
-					<p className="mt-4 text-gray-600 leading-relaxed md:text-lg">
-						Type your idea and SheepLoop will draft your community
-						growth plan and sprint-test strategy for TikTok,
-						Instagram and YouTube.
-					</p>
-					<div
-						ref={ctaRef}
-						className="mt-8 flex items-center justify-center gap-3"
-					>
-						<Button
-							asChild
-							className="rounded-full px-5 py-3 text-sm"
-						>
-							<Link href="/generate">Generate my plan</Link>
-						</Button>
-						<Button
-							asChild
-							variant="outline"
-							className="rounded-full px-5 py-3 text-sm"
-						>
-							<Link href="#how">See how it works</Link>
-						</Button>
+							Frequently asked questions
+						</h2>
+						<p className="mt-3 text-sm text-gray-600 md:text-base">
+							Everything you need to know about using Sheeploop
+							for content workflows.
+						</p>
 					</div>
 				</div>
-
-				<div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-					<Card className="p-5 transition-all hover:shadow-md hover:-translate-y-0.5">
-						<div className="flex items-start gap-3">
-							<div
-								ref={icon1Ref}
-								className="flex-shrink-0 text-2xl"
-							>
-								✨
-							</div>
-							<div className="flex-1">
-								<h3 className="font-semibold text-sm mb-2">
-									Create 'Smart' Shorts
-								</h3>
-								<p className="text-xs text-gray-600 leading-relaxed">
-									A clear understanding of what value 'shorts'
-									must create in order to build momentum.
-								</p>
-							</div>
-						</div>
-					</Card>
-					<Card className="p-5 transition-all hover:shadow-md hover:-translate-y-0.5">
-						<div className="flex items-start gap-3">
-							<div
-								ref={icon2Ref}
-								className="flex-shrink-0 text-2xl"
-							>
-								🎯
-							</div>
-							<div className="flex-1">
-								<h3 className="font-semibold text-sm mb-2">
-									IFP with maximum engagement
-								</h3>
-								<p className="text-xs text-gray-600 leading-relaxed">
-									Find your "Ideal Follower Profile", who
-									exactly will engage with your content.
-								</p>
-							</div>
-						</div>
-					</Card>
-					<Card className="p-5 transition-all hover:shadow-md hover:-translate-y-0.5">
-						<div className="flex items-start gap-3">
-							<div
-								ref={icon3Ref}
-								className="flex-shrink-0 text-2xl"
-							>
-								📌
-							</div>
-							<div className="flex-1">
-								<h3 className="font-semibold text-sm mb-2">
-									Focus on the right topics
-								</h3>
-								<p className="text-xs text-gray-600 leading-relaxed">
-									Which topics to focus on to finding and
-									engaging with your audience.
-								</p>
-							</div>
-						</div>
-					</Card>
-				</div>
-				<BackedBy />
 			</div>
 		</section>
 	);
