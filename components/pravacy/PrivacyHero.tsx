@@ -437,8 +437,8 @@ export default function Hero() {
 							height={32}
 							className="rounded"
 						/>
-						<span className="text-base font-semibold">
-							SheepLoop
+						<span className="text-base font-semibold hover:font-bold">
+							Sheep<span className="text-green-600">Loop</span>
 						</span>
 					</div>
 				</Link>
