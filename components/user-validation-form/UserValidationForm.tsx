@@ -1,10 +1,13 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { apiClient } from '@/lib/api-client';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
+import { log, error, message } from '@/lib/print-helpers';
 import {
 	HoverCard,
 	HoverCardTrigger,
@@ -12,6 +15,7 @@ import {
 } from '../ui/hover-card';
 import Link from 'next/link';
 import { Info } from 'lucide-react';
+import { createUserAction } from '@/actions/create-user.action';
 
 type Inputs = {
 	first_name: string;
@@ -22,6 +26,7 @@ type Inputs = {
 };
 
 export default function UserValidationForm() {
+	const router = useRouter();
 	const {
 		register,
 		handleSubmit,
@@ -29,9 +34,19 @@ export default function UserValidationForm() {
 		formState: { errors, isValid },
 	} = useForm<Inputs>({ mode: 'onChange' });
 
-	const onSubmit: SubmitHandler<Inputs> = (data) => {
-		console.log(data);
-		// TODO: Handle form submission
+	const onSubmit: SubmitHandler<Inputs> = async (data) => {
+		const response = await createUserAction({
+			first_name: data.first_name,
+			last_name: data.last_name,
+			username: data.username,
+			email: data.email,
+			location: data.location,
+		});
+		if (response.success) {
+			router.push('/generate');
+		} else {
+			error(response.message, response);
+		}
 	};
 
 	return (
@@ -186,23 +201,23 @@ export default function UserValidationForm() {
 						<HoverCardContent>
 							<p>Please fill in all fields to continue</p>
 						</HoverCardContent>
-						<Button
-							type="submit"
-							disabled={
-								!(
-									watch('username') &&
-									watch('first_name') &&
-									watch('last_name') &&
-									watch('email') &&
-									watch('location')
-								) || !isValid
-							}
-							className="rounded-full px-6 py-3 text-sm sm:text-base min-h-[44px] w-full sm:w-auto onhover: cursor-pointer"
-						>
-							<Link href="/generate" className="text-white">
+						<Link href="/generate" className="text-white">
+							<Button
+								type="submit"
+								disabled={
+									!(
+										watch('username') &&
+										watch('first_name') &&
+										watch('last_name') &&
+										watch('email') &&
+										watch('location')
+									) || !isValid
+								}
+								className="rounded-full px-6 py-3 text-sm sm:text-base min-h-[44px] w-full sm:w-auto onhover: cursor-pointer"
+							>
 								Continue
-							</Link>
-						</Button>
+							</Button>
+						</Link>
 					</HoverCard>
 				</div>
 			</form>
