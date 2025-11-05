@@ -6,9 +6,11 @@ export const usersTable = sqliteTable('users', {
 		.$defaultFn(() => {
 			return crypto.randomUUID();
 		}),
+	username: text('username', { length: 255 }).notNull().unique(),
 	first_name: text('first_name', { length: 255 }).notNull(),
 	last_name: text('last_name', { length: 255 }).notNull(),
 	email: text('email', { length: 255 }).notNull().unique(),
+	location: text('location', { length: 255 }).notNull(),
 	created_at: integer('created_at', { mode: 'timestamp' })
 		.notNull()
 		.$defaultFn(() => {

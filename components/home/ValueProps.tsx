@@ -130,6 +130,9 @@ export default function ValueProps() {
 							</Button>
 						</DialogTrigger>
 						<DialogContent>
+							<DialogTitle className="sr-only">
+								Sign up or log in to SheepLoop
+							</DialogTitle>
 							<FormSelectionTabs />
 						</DialogContent>
 					</Dialog>
