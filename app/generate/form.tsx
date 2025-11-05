@@ -136,8 +136,9 @@ export function Form() {
 					// Speech bubble - responsive sizing
 					const bubble = document.createElement('div');
 					bubble.className =
-						'absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-white rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 shadow-lg border border-gray-200 whitespace-nowrap max-w-[140px] sm:max-w-none';
+						'absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-white rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 shadow-lg border border-gray-200 whitespace-normal break-words';
 					bubble.style.minWidth = '100px';
+					bubble.style.maxWidth = '220px';
 					bubble.style.opacity = '0';
 					bubble.style.transform = 'scale(0.8)';
 					const messageDiv = document.createElement('div');
@@ -374,6 +375,12 @@ export function Form() {
 						messageIndex =
 							(messageIndex + 1) % FUNNY_MESSAGES.length;
 						messageDiv.textContent = FUNNY_MESSAGES[messageIndex];
+
+						// Dynamically size bubble based on message length
+						const len = messageDiv.textContent?.length ?? 0;
+						const maxPx = len < 40 ? 180 : len < 80 ? 220 : 280;
+						bubble.style.maxWidth = `${maxPx}px`;
+						bubble.style.width = 'auto';
 
 						gsap.to(bubble, {
 							opacity: 1,

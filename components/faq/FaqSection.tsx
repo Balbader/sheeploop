@@ -95,7 +95,21 @@ export default function FaqSection() {
 
 	return (
 		<section ref={containerRef} className="w-full py-16 md:py-24 bg-white">
-			<div className="mx-auto w-full max-w-3xl px-4">
+			<div className="mx-auto w-full max-w-3xl px-4 relative z-10">
+				<div className="mx-auto max-w-3xl text-center relative z-10">
+					<div className="mb-8 text-center">
+						<h2
+							data-faq="heading"
+							className="text-3xl font-semibold tracking-tight text-gray-900 md:text-4xl"
+						>
+							Frequently asked questions
+						</h2>
+						<p className="mt-3 text-sm text-gray-600 md:text-base">
+							Everything you need to know about using Sheeploop
+							for content workflows.
+						</p>
+					</div>
+				</div>
 				<ScrollArea className="h-[480px] md:h-[560px]">
 					<Accordion
 						type="single"
