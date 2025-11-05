@@ -20,20 +20,40 @@ export default function Footer() {
 						</span>
 					</div>
 				</div>
-				<nav className="text-xs text-gray-500 flex items-center gap-4">
-					<Link href="/faq" className="hover:text-gray-700">
-						FAQ
-					</Link>
-					<Link href="/privacy" className="hover:text-gray-700">
-						Privacy
-					</Link>
-					<Link href="/terms" className="hover:text-gray-700">
-						Terms
-					</Link>
-					<Link href="/contact" className="hover:text-gray-700">
-						Contact
-					</Link>
-				</nav>
+				<div className="flex flex-col items-center md:items-end gap-2">
+					<nav className="text-xs text-gray-500 flex items-center gap-4">
+						<Link
+							href="/faq"
+							className="hover:text-green-500 hover:font-bold transition-all duration-300"
+						>
+							FAQ
+						</Link>
+						<Link
+							href="/privacy"
+							className="hover:text-green-500 hover:font-bold transition-all duration-300"
+						>
+							Privacy
+						</Link>
+						<Link
+							href="/terms"
+							className="hover:text-green-500 hover:font-bold transition-all duration-300"
+						>
+							Terms
+						</Link>
+						<Link
+							href="/contact"
+							className="hover:text-green-500 hover:font-bold transition-all duration-300"
+						>
+							Contact
+						</Link>
+					</nav>
+					<div className="text-xs text-gray-500 text-center md:text-right">
+						<span>
+							Copyright © 2025 SheepLoop.llc
+							<br /> All rights reserved.
+						</span>
+					</div>
+				</div>
 			</div>
 		</footer>
 	);
