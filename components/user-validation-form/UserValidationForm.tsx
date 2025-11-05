@@ -201,23 +201,24 @@ export default function UserValidationForm() {
 						<HoverCardContent>
 							<p>Please fill in all fields to continue</p>
 						</HoverCardContent>
-						<Link href="/generate" className="text-white">
-							<Button
-								type="submit"
-								disabled={
-									!(
-										watch('username') &&
-										watch('first_name') &&
-										watch('last_name') &&
-										watch('email') &&
-										watch('location')
-									) || !isValid
-								}
-								className="rounded-full px-6 py-3 text-sm sm:text-base min-h-[44px] w-full sm:w-auto onhover: cursor-pointer"
-							>
-								Continue
-							</Button>
-						</Link>
+						<Button
+							type="button"
+							onClick={handleSubmit(onSubmit)}
+							disabled={
+								!(
+									watch('username') &&
+									watch('first_name') &&
+									watch('last_name') &&
+									watch('email') &&
+									watch('location')
+								) || !isValid
+							}
+							className="rounded-full px-6 py-3 text-sm sm:text-base min-h-[44px] w-full sm:w-auto onhover: cursor-pointer"
+						>
+							<Link href="/generate" className="text-white">
+								Sign Up
+							</Link>
+						</Button>
 					</HoverCard>
 				</div>
 			</form>

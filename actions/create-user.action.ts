@@ -7,7 +7,7 @@ export async function createUserAction(user: typeof usersTable.$inferInsert) {
 	try {
 		message(`Creating user... ${user.username}`);
 		const response = await apiClient
-			.post('/users/create', {
+			.post('users/create', {
 				json: user,
 			})
 			.json<{ success: boolean; message: string; user?: any }>();
