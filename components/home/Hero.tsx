@@ -849,7 +849,9 @@ export default function Hero() {
 							href="/generate"
 							className="relative z-10 flex items-center gap-2"
 						>
-							<span>🎉</span>
+							<span className="group-hover:animate-bounce">
+								✨
+							</span>
 							<span>Give it a try!</span>
 							<span className="group-hover:animate-bounce">
 								✨
