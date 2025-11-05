@@ -126,7 +126,7 @@ export default function ValueProps() {
 				<div className="mt-12 flex items-center justify-center">
 					<Dialog>
 						<DialogTrigger asChild>
-							<Button className="rounded-full px-5 py-2.5 text-sm">
+							<Button className="rounded-full px-5 py-3 text-sm hover:font-bold hover:bg-green-500 hover:text-white">
 								Try it now! It&apos;s free.
 							</Button>
 						</DialogTrigger>
