@@ -7,7 +7,11 @@ export default function Credibility() {
 			<div className="max-w-screen-xl mx-auto px-6">
 				<div className="rounded-2xl border border-gray-200 bg-slate-50 p-6 md:p-10">
 					<h2 className="text-2xl md:text-4xl font-semibold tracking-tight text-center">
-						Built for entrepreneurs.
+						Built for{' '}
+						<span className="text-green-500 font-bold">
+							Authenticity
+						</span>
+						.
 					</h2>
 					<div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
 						<Card className="p-5">
@@ -40,9 +44,9 @@ export default function Credibility() {
 										Testimonial
 									</p>
 									<blockquote className="mt-1 text-gray-800 leading-relaxed">
-										“Before SheepLoop, we posted randomly. Now
-										we have a storyline and schedule that
-										actually builds momentum.”
+										“Before SheepLoop, we posted randomly.
+										Now we have a storyline and schedule
+										that actually builds momentum.”
 									</blockquote>
 								</div>
 							</div>
