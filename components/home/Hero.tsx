@@ -294,32 +294,71 @@ export default function Hero() {
 						delay: 1.2,
 					});
 
-					// Fun hover animations
+					// Balloon inflate and pop animation on hover
 					const handleButtonMouseEnter = () => {
 						if (headerButtonRef.current) {
-							// Wiggle animation
-							const wiggle = gsap.timeline({ repeat: 1 });
-							wiggle.to(headerButtonRef.current, {
-								rotation: -3,
-								duration: 0.1,
-								ease: 'power2.inOut',
-							});
-							wiggle.to(headerButtonRef.current, {
-								rotation: 3,
-								duration: 0.1,
-								ease: 'power2.inOut',
-							});
-							wiggle.to(headerButtonRef.current, {
-								rotation: 0,
-								duration: 0.1,
-								ease: 'power2.inOut',
+							// Balloon inflation and pop timeline
+							const balloon = gsap.timeline();
+
+							// Phase 1: Inflate gradually (like blowing up a balloon)
+							balloon.to(headerButtonRef.current, {
+								scale: 1.15,
+								scaleY: 1.2,
+								scaleX: 1.1,
+								duration: 0.4,
+								ease: 'power1.out',
 							});
 
-							// Scale up
-							gsap.to(headerButtonRef.current, {
-								scale: 1.1,
+							// Phase 2: Keep inflating with slight wobble
+							balloon.to(headerButtonRef.current, {
+								scale: 1.25,
+								scaleY: 1.3,
+								scaleX: 1.15,
+								rotation: 2,
 								duration: 0.3,
-								ease: 'back.out(1.7)',
+								ease: 'power1.out',
+							});
+
+							// Phase 3: Final big inflation
+							balloon.to(headerButtonRef.current, {
+								scale: 1.35,
+								scaleY: 1.4,
+								scaleX: 1.2,
+								rotation: -2,
+								duration: 0.3,
+								ease: 'power1.out',
+							});
+
+							// Phase 4: POP! - Quick expansion then snap
+							balloon.to(headerButtonRef.current, {
+								scale: 1.5,
+								scaleY: 1.6,
+								scaleX: 1.4,
+								rotation: 0,
+								duration: 0.1,
+								ease: 'power2.in',
+							});
+
+							// Phase 5: Snap back down (deflated)
+							balloon.to(headerButtonRef.current, {
+								scale: 1.1,
+								scaleY: 1,
+								scaleX: 1,
+								rotation: 0,
+								duration: 0.2,
+								ease: 'back.out(2)',
+							});
+
+							// Phase 6: Settle with slight bounce
+							balloon.to(headerButtonRef.current, {
+								scale: 1.15,
+								duration: 0.15,
+								ease: 'power2.out',
+							});
+							balloon.to(headerButtonRef.current, {
+								scale: 1.12,
+								duration: 0.15,
+								ease: 'power2.inOut',
 							});
 						}
 					};
@@ -328,6 +367,8 @@ export default function Hero() {
 						if (headerButtonRef.current) {
 							gsap.to(headerButtonRef.current, {
 								scale: 1.03,
+								scaleY: 1,
+								scaleX: 1,
 								rotation: 0,
 								duration: 0.3,
 								ease: 'power2.out',
@@ -843,18 +884,15 @@ export default function Hero() {
 				<div ref={headerButtonRef} className="relative">
 					<Button
 						asChild
-						className="relative rounded-full px-6 py-3 text-sm font-semibold bg-black hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600 text-white shadow-lg hover:shadow-xl hover:shadow-green-500/50 transition-all duration-300 overflow-hidden group"
+						className="relative rounded-full px-6 py-3 text-sm font-semibold bg-black hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600 text-white hover:font-bold shadow-lg hover:shadow-xl hover:shadow-green-500/50 transition-all duration-300 overflow-hidden group"
 					>
 						<Link
 							href="/generate"
 							className="relative z-10 flex items-center gap-2"
 						>
-							<span className="group-hover:animate-bounce">
-								✨
-							</span>
 							<span>Give it a try!</span>
 							<span className="group-hover:animate-bounce">
-								✨
+								🐑
 							</span>
 						</Link>
 					</Button>
@@ -957,14 +995,14 @@ export default function Hero() {
 					>
 						<Button
 							asChild
-							className="rounded-full px-5 py-3 text-sm"
+							className="rounded-md px-5 py-3 text-sm hover:font-bold hover:bg-green-500 hover:text-white"
 						>
 							<Link href="/generate">Generate my plan</Link>
 						</Button>
 						<Button
 							asChild
 							variant="outline"
-							className="rounded-full px-5 py-3 text-sm"
+							className="rounded-md px-5 py-3 text-sm hover:font-bold"
 						>
 							<Link href="#how">See how it works</Link>
 						</Button>
