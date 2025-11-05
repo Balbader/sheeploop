@@ -13,8 +13,8 @@ export default function Home() {
 			<Hero />
 			<PainPoints />
 			<ValueProps />
-			<Credibility />
 			<Competition />
+			<Credibility />
 			<FinalCTA />
 			<FaqSection />
 			<Footer />

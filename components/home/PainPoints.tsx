@@ -88,7 +88,8 @@ export default function PainPoints() {
 		<section id="why" className="py-16 md:py-24">
 			<div className="max-w-screen-xl mx-auto px-6">
 				<h2 className="text-2xl md:text-4xl font-semibold tracking-tight text-center">
-					Why growth feels impossible
+					Why growth feels{' '}
+					<span className="text-red-600 font-bold">impossible</span>
 				</h2>
 				<p className="mt-3 text-gray-600 leading-relaxed text-center max-w-2xl mx-auto">
 					Most creators struggle not from lack of effort, but from

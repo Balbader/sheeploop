@@ -32,6 +32,7 @@ export default function Hero() {
 	const instaLogoRef = useRef<HTMLSpanElement | null>(null);
 	const tiktokLogoRef = useRef<HTMLSpanElement | null>(null);
 	const youtubeLogoRef = useRef<HTMLSpanElement | null>(null);
+	const headerButtonRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
 		if (typeof window === 'undefined') return;
@@ -262,6 +263,87 @@ export default function Hero() {
 							});
 						}
 					});
+				}
+
+				// Animate header button
+				if (headerButtonRef.current) {
+					// Initial state - hidden and scaled down
+					gsap.set(headerButtonRef.current, {
+						opacity: 0,
+						scale: 0.8,
+						y: -10,
+					});
+
+					// Entrance animation
+					gsap.to(headerButtonRef.current, {
+						opacity: 1,
+						scale: 1,
+						y: 0,
+						duration: 0.6,
+						ease: 'back.out(1.4)',
+						delay: 0.4,
+					});
+
+					// Continuous subtle pulse
+					gsap.to(headerButtonRef.current, {
+						scale: 1.03,
+						duration: 2,
+						ease: 'sine.inOut',
+						repeat: -1,
+						yoyo: true,
+						delay: 1.2,
+					});
+
+					// Fun hover animations
+					const handleButtonMouseEnter = () => {
+						if (headerButtonRef.current) {
+							// Wiggle animation
+							const wiggle = gsap.timeline({ repeat: 1 });
+							wiggle.to(headerButtonRef.current, {
+								rotation: -3,
+								duration: 0.1,
+								ease: 'power2.inOut',
+							});
+							wiggle.to(headerButtonRef.current, {
+								rotation: 3,
+								duration: 0.1,
+								ease: 'power2.inOut',
+							});
+							wiggle.to(headerButtonRef.current, {
+								rotation: 0,
+								duration: 0.1,
+								ease: 'power2.inOut',
+							});
+
+							// Scale up
+							gsap.to(headerButtonRef.current, {
+								scale: 1.1,
+								duration: 0.3,
+								ease: 'back.out(1.7)',
+							});
+						}
+					};
+
+					const handleButtonMouseLeave = () => {
+						if (headerButtonRef.current) {
+							gsap.to(headerButtonRef.current, {
+								scale: 1.03,
+								rotation: 0,
+								duration: 0.3,
+								ease: 'power2.out',
+							});
+						}
+					};
+
+					headerButtonRef.current.addEventListener(
+						'mouseenter',
+						handleButtonMouseEnter,
+					);
+
+					headerButtonRef.current.addEventListener(
+						'mouseleave',
+						handleButtonMouseLeave,
+					);
 				}
 
 				// Mouse interaction for background and sheep
@@ -758,13 +840,24 @@ export default function Hero() {
 					</div>
 				</Link>
 
-				<div>
+				<div ref={headerButtonRef} className="relative">
 					<Button
 						asChild
-						className="rounded-full px-5 py-2.5 text-sm"
+						className="relative rounded-full px-6 py-3 text-sm font-semibold bg-black hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600 text-white shadow-lg hover:shadow-xl hover:shadow-green-500/50 transition-all duration-300 overflow-hidden group"
 					>
-						<Link href="/generate">Give it a try ^^</Link>
+						<Link
+							href="/generate"
+							className="relative z-10 flex items-center gap-2"
+						>
+							<span>🎉</span>
+							<span>Give it a try!</span>
+							<span className="group-hover:animate-bounce">
+								✨
+							</span>
+						</Link>
 					</Button>
+					{/* Animated shine effect */}
+					<div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shimmer pointer-events-none" />
 				</div>
 			</header>
 

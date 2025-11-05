@@ -60,7 +60,7 @@ export default function Competition() {
 					{problems.map((problem, index) => (
 						<Card
 							key={index}
-							className="p-6 border-red-200 bg-white hover:shadow-lg transition-shadow relative"
+							className="p-6 bg-white hover:shadow-lg transition-shadow relative"
 						>
 							<div className="flex items-start justify-between mb-4">
 								<div className="text-3xl">{problem.icon}</div>
