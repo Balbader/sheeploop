@@ -9,12 +9,14 @@ export default function Footer() {
 					<Image
 						src="/sheep.png"
 						alt="SheepLoop logo"
-						width={24}
-						height={24}
+						width={36}
+						height={36}
 						className="rounded"
 					/>
 					<div className="flex flex-col">
-						<span className="text-sm font-medium">SheepLoop</span>
+						<span className="text-sm font-semibold">
+							Sheep<span className="text-green-600">Loop</span>
+						</span>
 						<span className="text-xs text-gray-500">
 							Simply follow the path.
 						</span>

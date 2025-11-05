@@ -5,7 +5,7 @@ import Credibility from '../components/home/Credibility';
 import Competition from '../components/home/Competition';
 import FinalCTA from '../components/home/FinalCTA';
 import Footer from '../components/home/Footer';
-import FaqSection from '@/components/faq/FaqSection';
+import HomeFaqSection from '@/components/home/HomeFaqSection';
 
 export default function Home() {
 	return (
@@ -16,7 +16,7 @@ export default function Home() {
 			<Competition />
 			<Credibility />
 			<FinalCTA />
-			<FaqSection />
+			<HomeFaqSection />
 			<Footer />
 		</main>
 	);

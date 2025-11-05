@@ -433,11 +433,11 @@ export default function Hero() {
 						<Image
 							src="/sheep.png"
 							alt="SheepLoop logo"
-							width={32}
-							height={32}
+							width={36}
+							height={36}
 							className="rounded"
 						/>
-						<span className="text-base font-semibold hover:font-bold">
+						<span className="text-base font-semibold">
 							Sheep<span className="text-green-600">Loop</span>
 						</span>
 					</div>
