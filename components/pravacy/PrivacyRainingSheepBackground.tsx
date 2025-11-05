@@ -37,7 +37,6 @@ export default function RainingSheepBackground() {
 					'Your rights matter. We respect them completely.',
 					'Privacy updates? We notify you, not hide them.',
 					'Children under 13? We protect them too.',
-					'International transfers? Secure and compliant.',
 					'Third parties? Only trusted partners.',
 					'Data retention? Only as long as needed.',
 				];
