@@ -11,6 +11,7 @@ export const usersTable = sqliteTable('users', {
 	last_name: text('last_name', { length: 255 }).notNull(),
 	email: text('email', { length: 255 }).notNull().unique(),
 	location: text('location', { length: 255 }).notNull(),
+	login_count: integer('login_count').notNull().default(0),
 	created_at: integer('created_at', { mode: 'timestamp' })
 		.notNull()
 		.$defaultFn(() => {

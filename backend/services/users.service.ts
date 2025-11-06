@@ -29,4 +29,43 @@ export const UsersService = {
 		log('User created', newUser);
 		return newUser;
 	},
+	getUserInfo: async (username?: string, email?: string) => {
+		try {
+			let userName: typeof usersTable.$inferSelect | null = null;
+			let userEmail: typeof usersTable.$inferSelect | null = null;
+			if (username) {
+				userName = await Model.UserModel.findByUsername(username);
+				if (!userName) {
+					error('User not found', username);
+					throw new Error(
+						'User not found with username: ' + username,
+					);
+				}
+			}
+			if (email) {
+				userEmail = await Model.UserModel.findByEmail(email);
+				if (!userEmail) {
+					error('User not found', email);
+					throw new Error('User not found with email: ' + email);
+				}
+			}
+			if (userName && userEmail) {
+				return {
+					success: true,
+					message:
+						'User found with username: ' +
+						username +
+						' and email: ' +
+						email,
+					user: {
+						username: userName.username,
+						email: userEmail.email,
+					},
+				};
+			}
+		} catch (err) {
+			error('Error getting user info', err);
+			throw new Error('Error getting user info');
+		}
+	},
 };

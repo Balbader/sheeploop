@@ -12,6 +12,9 @@ import {
 } from '../ui/hover-card';
 import Link from 'next/link';
 import { Info } from 'lucide-react';
+import { log, error, message } from '@/lib/print-helpers';
+import { useRouter } from 'next/navigation';
+import { users } from '@/backend/services';
 
 type Inputs = {
 	username: string;
@@ -19,6 +22,7 @@ type Inputs = {
 };
 
 export default function LoginForm() {
+	const router = useRouter();
 	const {
 		register,
 		handleSubmit,
@@ -26,8 +30,14 @@ export default function LoginForm() {
 		formState: { errors, isValid },
 	} = useForm<Inputs>({ mode: 'onChange' });
 
-	const onSubmit: SubmitHandler<Inputs> = (data) => {
-		console.log(data);
+	const onSubmit: SubmitHandler<Inputs> = async (data) => {
+		const response = await users.getUserInfo(data.username, data.email);
+		if (response?.success) {
+			message(response.message);
+			router.push('/generate');
+		} else {
+			error(response?.message || 'Error getting user info', response);
+		}
 		// TODO: Handle form submission
 	};
 
@@ -105,6 +115,7 @@ export default function LoginForm() {
 						</HoverCardContent>
 						<Button
 							type="submit"
+							onClick={handleSubmit(onSubmit)}
 							disabled={
 								!(watch('username') && watch('email')) ||
 								!isValid

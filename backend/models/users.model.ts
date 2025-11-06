@@ -7,6 +7,13 @@ export const UserModel = {
 		const result = await db.insert(usersTable).values(user).returning();
 		return result[0];
 	},
+	findByUsername: async (username: string) => {
+		const result = await db
+			.select()
+			.from(usersTable)
+			.where(eq(usersTable.username, username));
+		return result[0] || null;
+	},
 	findByEmail: async (email: string) => {
 		const result = await db
 			.select()

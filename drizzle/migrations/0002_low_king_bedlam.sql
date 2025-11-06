@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `login_count` integer DEFAULT 0 NOT NULL;
