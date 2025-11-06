@@ -9,7 +9,7 @@ export default defineConfig({
 	out: './drizzle/migrations',
 	dialect: 'turso',
 	dbCredentials: {
-		url: Env.get('TURSO_DATABASE_URL'),
-		authToken: Env.get('TURSO_AUTH_TOKEN'),
+		url: Env.get('TURSO_DATABASE_URL')!,
+		authToken: Env.get('TURSO_AUTH_TOKEN')!,
 	},
 });
