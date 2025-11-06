@@ -26,6 +26,14 @@ export const UsersService = {
 
 		message('Creating user...');
 		const newUser = await Model.UserModel.create(userData);
+		// Increment login_count for signup (first login)
+		if (newUser?.id) {
+			await Model.UserModel.incrementLoginCount(newUser.id);
+			// Fetch updated user to return with incremented login_count
+			const updatedUser = await Model.UserModel.findById(newUser.id);
+			log('User created', updatedUser);
+			return updatedUser || newUser;
+		}
 		log('User created', newUser);
 		return newUser;
 	},
@@ -47,6 +55,20 @@ export const UsersService = {
 			}
 		}
 		if (userName && userEmail) {
+			// Verify both username and email belong to the same user
+			if (userName.id !== userEmail.id) {
+				error('Username and email do not match the same user', {
+					username,
+					email,
+				});
+				throw new Error(
+					'Username and email do not match the same user',
+				);
+			}
+			// Increment login_count for successful login
+			if (userName.id) {
+				await Model.UserModel.incrementLoginCount(userName.id);
+			}
 			return {
 				success: true,
 				message:

@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { db } from '@/drizzle';
 import { usersTable } from '@/drizzle/schema/users';
 import { error } from '@/lib/print-helpers';
@@ -31,6 +31,14 @@ export const UserModel = {
 			.select()
 			.from(usersTable)
 			.where(eq(usersTable.id, id));
+		return result[0] || null;
+	},
+	incrementLoginCount: async (userId: string) => {
+		const result = await db
+			.update(usersTable)
+			.set({ login_count: sql`login_count + 1` })
+			.where(eq(usersTable.id, userId))
+			.returning();
 		return result[0] || null;
 	},
 };
