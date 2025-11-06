@@ -18,7 +18,7 @@ export default function Footer() {
 							Sheep<span className="text-green-600">Loop</span>
 						</span>
 						<span className="text-xs text-gray-500">
-							Simply follow the path.
+							Build your flock.
 						</span>
 					</div>
 				</div>
