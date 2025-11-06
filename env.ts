@@ -1,14 +1,14 @@
 import { z } from 'zod';
 
 const envSchema = z.object({
-	OPENAI_API_KEY: z.string(), // to use only if needed
+	OPENAI_API_KEY: z.string().optional(), // to use only if needed
 	ANTHROPIC_API_KEY: z.string(),
 	TURSO_DATABASE_URL: z.string(),
 	TURSO_AUTH_TOKEN: z.string(),
 });
 
 const publicEnv: Record<string, string> = {
-	OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
+	OPENAI_API_KEY: process.env.OPENAI_API_KEY || '',
 	ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY!,
 	TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL!,
 	TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN!,
@@ -32,10 +32,18 @@ export const Env = {
 		}
 	},
 
-	get(key: keyof EnvType): string {
+	get(key: keyof EnvType): string | undefined {
 		if (key.startsWith('NEXT_PUBLIC_')) {
 			return publicEnv[key];
 		}
-		return process.env[key]!;
+		const value = process.env[key];
+		// OPENAI_API_KEY is optional, so return undefined if not set
+		if (key === 'OPENAI_API_KEY') {
+			return value;
+		}
+		if (!value) {
+			throw new Error(`Environment variable ${String(key)} is not set`);
+		}
+		return value;
 	},
 };

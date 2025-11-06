@@ -10,11 +10,10 @@ import {
 	HoverCardTrigger,
 	HoverCardContent,
 } from '../ui/hover-card';
-import Link from 'next/link';
 import { Info } from 'lucide-react';
-import { log, error, message } from '@/lib/print-helpers';
+import { error, message, log } from '@/lib/print-helpers';
 import { useRouter } from 'next/navigation';
-import { users } from '@/backend/services';
+import { getUserInfo } from '@/frontend/models/users.model';
 
 type Inputs = {
 	username: string;
@@ -31,14 +30,18 @@ export default function LoginForm() {
 	} = useForm<Inputs>({ mode: 'onChange' });
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
-		const response = await users.getUserInfo(data.username, data.email);
-		if (response?.success) {
-			message(response.message);
-			router.push('/generate');
+		const response = await getUserInfo(data.username, data.email);
+		if (response.success) {
+			message(
+				'User found with username: ' +
+					response.user?.username +
+					' and email: ' +
+					response.user?.email,
+			);
+			router.push(`/generate/${response.user?.username}`);
 		} else {
-			error(response?.message || 'Error getting user info', response);
+			error(response.message, response);
 		}
-		// TODO: Handle form submission
 	};
 
 	return (
@@ -122,9 +125,7 @@ export default function LoginForm() {
 							}
 							className="rounded-full px-6 py-3 text-sm sm:text-base min-h-[44px] w-full sm:w-auto onhover: cursor-pointer"
 						>
-							<Link href="/generate" className="text-white">
-								Continue
-							</Link>
+							Continue
 						</Button>
 					</HoverCard>
 				</div>

@@ -43,7 +43,7 @@ export default function UserValidationForm() {
 			location: data.location,
 		});
 		if (response.success) {
-			router.push('/generate');
+			router.push(`/generate/${response.user?.username}`);
 		} else {
 			error(response.message, response);
 		}
@@ -215,9 +215,7 @@ export default function UserValidationForm() {
 							}
 							className="rounded-full px-6 py-3 text-sm sm:text-base min-h-[44px] w-full sm:w-auto onhover: cursor-pointer"
 						>
-							<Link href="/generate" className="text-white">
-								Sign Up
-							</Link>
+							Sign Up
 						</Button>
 					</HoverCard>
 				</div>

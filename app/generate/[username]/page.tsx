@@ -36,7 +36,7 @@ export default async function Page() {
 						variant="outline"
 						className="rounded-full px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm min-h-[44px]"
 					>
-						<Link href="/">Back to Home</Link>
+						<Link href="/">Logout</Link>
 					</Button>
 				</div>
 			</header>
