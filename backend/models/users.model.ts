@@ -1,6 +1,7 @@
 import { eq } from 'drizzle-orm';
 import { db } from '@/drizzle';
 import { usersTable } from '@/drizzle/schema/users';
+import { error } from '@/lib/print-helpers';
 
 export const UserModel = {
 	create: async (user: typeof usersTable.$inferInsert) => {
@@ -8,6 +9,10 @@ export const UserModel = {
 		return result[0];
 	},
 	findByUsername: async (username: string) => {
+		if (!username) {
+			error('Username is required', username);
+			return null;
+		}
 		const result = await db
 			.select()
 			.from(usersTable)

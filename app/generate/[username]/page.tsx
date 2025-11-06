@@ -2,8 +2,23 @@ import { Form } from './form';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { redirect } from 'next/navigation';
+import { UserModel } from '@/backend/models/users.model';
 
-export default async function Page() {
+export default async function Page({
+	params,
+}: {
+	params: Promise<{ username: string }>;
+}) {
+	const { username: rawUsername } = await params;
+	const username = decodeURIComponent((rawUsername ?? '').trim());
+	if (!username) {
+		redirect('/');
+	}
+	const user = await UserModel.findByUsername(username);
+	if (!user) {
+		redirect('/');
+	}
 	return (
 		<main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 relative overflow-hidden">
 			{/* Subtle animated background matching hero */}

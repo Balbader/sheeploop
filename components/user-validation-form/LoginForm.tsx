@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
@@ -10,7 +11,8 @@ import {
 	HoverCardTrigger,
 	HoverCardContent,
 } from '../ui/hover-card';
-import { Info } from 'lucide-react';
+import { Alert, AlertDescription } from '../ui/alert';
+import { Info, AlertCircle } from 'lucide-react';
 import { error, message, log } from '@/lib/print-helpers';
 import { useRouter } from 'next/navigation';
 import { getUserInfo } from '@/frontend/models/users.model';
@@ -22,6 +24,8 @@ type Inputs = {
 
 export default function LoginForm() {
 	const router = useRouter();
+	const [loginError, setLoginError] = useState<string | null>(null);
+	const [isLoading, setIsLoading] = useState(false);
 	const {
 		register,
 		handleSubmit,
@@ -30,17 +34,38 @@ export default function LoginForm() {
 	} = useForm<Inputs>({ mode: 'onChange' });
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
-		const response = await getUserInfo(data.username, data.email);
-		if (response.success) {
-			message(
-				'User found with username: ' +
-					response.user?.username +
-					' and email: ' +
-					response.user?.email,
-			);
-			router.push(`/generate/${response.user?.username}`);
-		} else {
-			error(response.message, response);
+		setLoginError(null);
+		setIsLoading(true);
+
+		try {
+			const response = await getUserInfo(data.username, data.email);
+			if (response.success && response.user?.username) {
+				message(
+					'User found with username: ' +
+						response.user.username +
+						' and email: ' +
+						response.user.email,
+				);
+				// Redirect to generate page with username
+				router.push(
+					`/generate/${encodeURIComponent(response.user.username)}`,
+				);
+			} else {
+				setLoginError(
+					response.message ||
+						'User not found. Please enter valid credentials or create an account.',
+				);
+				error(response.message, response);
+				setIsLoading(false);
+			}
+		} catch (err) {
+			const errorMessage =
+				err instanceof Error
+					? err.message
+					: 'An error occurred. Please try again.';
+			setLoginError(errorMessage);
+			error('Login error', err);
+			setIsLoading(false);
 		}
 	};
 
@@ -50,6 +75,14 @@ export default function LoginForm() {
 				onSubmit={handleSubmit(onSubmit)}
 				className="relative z-10 space-y-4 sm:space-y-6"
 			>
+				{/* Error Alert */}
+				{loginError && (
+					<Alert variant="destructive" className="mb-4">
+						<AlertCircle className="h-4 w-4" />
+						<AlertDescription>{loginError}</AlertDescription>
+					</Alert>
+				)}
+
 				{/* Username Field */}
 				<div className="space-y-2 w-1/2">
 					<Label
@@ -121,11 +154,12 @@ export default function LoginForm() {
 							onClick={handleSubmit(onSubmit)}
 							disabled={
 								!(watch('username') && watch('email')) ||
-								!isValid
+								!isValid ||
+								isLoading
 							}
 							className="rounded-full px-6 py-3 text-sm sm:text-base min-h-[44px] w-full sm:w-auto onhover: cursor-pointer"
 						>
-							Continue
+							{isLoading ? 'Loading...' : 'Continue'}
 						</Button>
 					</HoverCard>
 				</div>

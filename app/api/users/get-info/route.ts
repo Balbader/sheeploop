@@ -7,19 +7,29 @@ export async function POST(req: NextRequest) {
 
 		const result = await UsersService.getUserInfo(username, email);
 
-		return NextResponse.json(
-			result ?? { success: false, message: 'User not found' },
-			{ status: result?.success ? 200 : 404 },
-		);
+		if (!result || !result.success) {
+			return NextResponse.json(
+				{
+					success: false,
+					message: 'User not found. Please enter valid credentials or create an account.'
+				},
+				{ status: 404 },
+			);
+		}
+
+		return NextResponse.json(result, { status: 200 });
 	} catch (err: any) {
 		const message = err instanceof Error ? err.message : 'Unknown error';
+		const isNotFound = message?.toLowerCase().includes('not found');
+
 		return NextResponse.json(
-			{ success: false, message },
 			{
-				status: message?.toLowerCase().includes('not found')
-					? 404
-					: 500,
+				success: false,
+				message: isNotFound
+					? 'User not found. Please enter valid credentials or create an account.'
+					: message
 			},
+			{ status: isNotFound ? 404 : 500 },
 		);
 	}
 }
