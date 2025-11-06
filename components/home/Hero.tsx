@@ -5,8 +5,15 @@ import { useEffect, useRef } from 'react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Card } from '../ui/card';
+import {
+	Dialog,
+	DialogTrigger,
+	DialogContent,
+	DialogTitle,
+} from '../ui/dialog';
 import Link from 'next/link';
 import BackedBy from './BackedBy';
+import FormSelectionTabs from '../user-validation-form/FormSelectionTabs';
 
 export default function Hero() {
 	const heroRef = useRef<HTMLDivElement | null>(null);
@@ -882,22 +889,29 @@ export default function Hero() {
 				</Link>
 
 				<div ref={headerButtonRef} className="relative">
-					<Button
-						asChild
-						className="relative rounded-full px-6 py-3 text-sm font-semibold bg-black hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600 text-white hover:font-bold shadow-lg hover:shadow-xl hover:shadow-green-500/50 transition-all duration-300 overflow-hidden group"
-					>
-						<Link
-							href="/generate"
-							className="relative z-10 flex items-center gap-2"
-						>
-							<span>Give it a try!</span>
-							<span className="group-hover:animate-bounce">
-								🐑
-							</span>
-						</Link>
-					</Button>
-					{/* Animated shine effect */}
-					<div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shimmer pointer-events-none" />
+					<Dialog>
+						<DialogTrigger asChild>
+							<Button
+								className="relative rounded-full px-6 py-3 text-sm font-semibold bg-black hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600 text-white hover:font-bold shadow-lg hover:shadow-xl hover:shadow-green-500/50 transition-all duration-300 overflow-hidden group"
+							>
+								{/* Animated shine effect inside link to keep single child for trigger */}
+								<span
+									aria-hidden
+									className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shimmer pointer-events-none"
+								/>
+								<span className="relative">Give it a try!</span>
+								<span className="relative group-hover:animate-bounce">
+									🐑
+								</span>
+							</Button>
+						</DialogTrigger>
+						<DialogContent>
+							<DialogTitle className="sr-only">
+								Sign up or log in to SheepLoop
+							</DialogTitle>
+							<FormSelectionTabs />
+						</DialogContent>
+					</Dialog>
 				</div>
 			</header>
 

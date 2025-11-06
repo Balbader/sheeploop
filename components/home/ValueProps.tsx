@@ -7,7 +7,6 @@ import {
 	Dialog,
 	DialogTrigger,
 	DialogContent,
-	DialogHeader,
 	DialogTitle,
 } from '../ui/dialog';
 import FormSelectionTabs from '../user-validation-form/FormSelectionTabs';
