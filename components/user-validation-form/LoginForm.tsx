@@ -159,7 +159,7 @@ export default function LoginForm() {
 							}
 							className="rounded-full px-6 py-3 text-sm sm:text-base min-h-[44px] w-full sm:w-auto onhover: cursor-pointer"
 						>
-							{isLoading ? 'Loading...' : 'Continue'}
+							{isLoading ? 'Loading...' : 'Log In'}
 						</Button>
 					</HoverCard>
 				</div>

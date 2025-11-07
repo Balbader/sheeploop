@@ -7,7 +7,7 @@ import LoginForm from './LoginForm';
 import UserValidationForm from './UserValidationForm';
 
 export default function FormSelectionTabs() {
-	const [activeTab, setActiveTab] = useState('login');
+	const [activeTab, setActiveTab] = useState('validation');
 	const loginTabRef = useRef<HTMLButtonElement>(null);
 	const validationTabRef = useRef<HTMLButtonElement>(null);
 	const sheepRef = useRef<HTMLDivElement>(null);
@@ -307,17 +307,6 @@ export default function FormSelectionTabs() {
 					className="grid w-full grid-cols-2 relative"
 				>
 					<TabsTrigger
-						ref={loginTabRef}
-						value="login"
-						className={
-							activeTab === 'login'
-								? 'text-green-600 font-bold'
-								: 'text-foreground'
-						}
-					>
-						Log In
-					</TabsTrigger>
-					<TabsTrigger
 						ref={validationTabRef}
 						value="validation"
 						className={
@@ -327,6 +316,17 @@ export default function FormSelectionTabs() {
 						}
 					>
 						Sign Up
+					</TabsTrigger>
+					<TabsTrigger
+						ref={loginTabRef}
+						value="login"
+						className={
+							activeTab === 'login'
+								? 'text-green-600 font-bold'
+								: 'text-foreground'
+						}
+					>
+						Log In
 					</TabsTrigger>
 					<div
 						ref={sheepRef}
