@@ -59,12 +59,14 @@ export default async function Page({
 			<div className="max-w-screen-xl mx-auto px-4 sm:px-6 pt-4 sm:pt-6 pb-12 sm:pb-16 md:pb-24 relative z-10">
 				<div className="mx-auto max-w-3xl text-center mb-6 sm:mb-8 md:mb-12">
 					<h1 className="mt-3 sm:mt-5 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight px-2">
-						Generate Your Community Fit Storyline
+						Shorts Content Strategy
+						<br />
+						Plan Generator
 					</h1>
 					<p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed px-2">
-						Fill in the details about your idea and get a tailored
-						content strategy designed to help you find your
-						community on TikTok.
+						Fill in the details about your idea/goals/constraints
+						and get a tailored content strategy designed to help you
+						find and grow your community.
 					</p>
 				</div>
 				<GenerateMarketingStrategyForm />

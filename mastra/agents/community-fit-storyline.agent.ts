@@ -21,13 +21,29 @@ export const CommunityFitInputSchema = z.object({
 			'Long-term mission or “why this matters.” Why does this deserve to become a community, not just a product?',
 		),
 	target_platforms: z
-		.array(z.enum(['TikTok', 'Instagram Reels', 'YouTube Shorts']))
+		.array(
+			z.enum([
+				'TikTok',
+				'Instagram',
+				'YouTube',
+				'LinkedIn',
+				'X (Twitter)',
+				'Snapchat',
+				'Facebook',
+				'Threads',
+			]),
+		)
 		.describe('Which short-form platforms this sprint is targeting.')
 		.nonempty(),
 	duration: z
 		.string()
 		.describe(
 			"Length of the initial sprint (ex: '1 week', '1 month', '3 months'). Used to size posting frequency.",
+		),
+	posting_frequency: z
+		.string()
+		.describe(
+			"How often we post during the initial sprint, ex: '2 posts/day for 7 days'.",
 		),
 	tone: z
 		.string()
@@ -166,7 +182,7 @@ export const CommunityFitOutputSchema = z.object({
 				platform_behavior: z
 					.string()
 					.describe(
-						'How they consume/post on TikTok / Reels / Shorts. Binge patterns, posting fears, cringe tolerance.',
+						'How they consume/post on the target platforms. Binge patterns, posting fears, cringe tolerance.',
 					),
 				preferred_tone_style: z
 					.string()
@@ -223,7 +239,7 @@ export const CommunityFitOutputSchema = z.object({
 					posting_frequency: z
 						.string()
 						.describe(
-							'How often we post during the 1-week TikTok sprint for this persona, ex: "2 posts/day for 7 days".',
+							'How often we post during the initial sprint for this persona, ex: "2 posts/day for 7 days".',
 						),
 					content_pillars: z
 						.array(
@@ -280,7 +296,7 @@ export const CommunityFitOutputSchema = z.object({
 					.min(3)
 					.max(5)
 					.describe(
-						'3-5 TikTok-ready short scripts tailored to this persona’s storyline and psychology.',
+						'3-5 target platform-ready short scripts tailored to this persona’s storyline and psychology.',
 					),
 			}),
 		)
@@ -300,7 +316,7 @@ export const CommunityFitOutputSchema = z.object({
  * - assess community market fit
  * - define IFC
  * - create 5 personas across 5 market segments
- * - for each persona: storyline, growth strategy, and 1-week TikTok sprint scripts
+ * - for each persona: storyline, growth strategy, and initial sprint scripts
  * - strict JSON output
  */
 
@@ -313,12 +329,12 @@ You are an expert Community Market Fit Strategist. You turn a raw idea into:
 2. An Ideal Follower Profile (IFC).
 3. Five distinct personas across five different target sub-markets.
 4. A storyline for each persona.
-5. A one-week TikTok sprint growth plan for each persona.
+5. A initial sprint growth plan for each persona.
 6. Viral short-form scripts for that persona.
 
 GOAL
 Your job is to engineer FOLLOWER GROWTH through emotionally-resonant, story-driven short video content.
-Your output will be used directly to run a 1-week TikTok sprint.
+Your output will be used directly to run an initial sprint.
 
 CONTEXT INPUTS (will be provided at runtime)
 - idea
@@ -399,20 +415,20 @@ This storyline will be used to generate multiple videos with consistent emotiona
 5. GROWTH STRATEGY PER PERSONA
 -------------------------------------------------
 For each persona:
-- objective for a 1-week TikTok sprint aimed at THEM
-- posting_frequency for that 1-week sprint
+- objective for an initial sprint aimed at THEM
+- posting_frequency for that initial sprint
 - content_pillars: repeatable angles that keep feeding this persona's need
 - engagement_tactics: stitches, duets, challenges, "comment X if..." etc.
 - kpis: how we measure if that persona is moving
 
 All of this must respect:
 - the provided "tone"
-- the provided "duration" (assume sprint = 1 week even if duration input is longer)
+- the provided "duration" (assume sprint = initial duration even if duration input is longer)
 
 -------------------------------------------------
 6. VIRAL SHORT SCRIPTS (3-5 PER PERSONA)
 -------------------------------------------------
-For each persona, generate 3-5 TikTok-native scripts.
+For each persona, generate 3-5 target platform-native scripts.
 Each script MUST have:
 - title (internal label)
 - duration (e.g. "20s", "30s")
@@ -429,7 +445,7 @@ No generic "Like and subscribe." Make it feel like joining a movement.
 7. TONE & PLATFORM
 -------------------------------------------------
 - Honor the "tone" input. If tone is rebellious, attack the common enemy. If tone is calming, promise safety. If tone is clinical, promise control and clarity.
-- Respect the culture of TikTok: fast hook, emotional tension, conversational pacing.
+- Respect the culture of the target platforms: fast hook, emotional tension, conversational pacing.
 
 -------------------------------------------------
 8. OUTPUT RULES
@@ -518,7 +534,7 @@ END OF SPEC.
 export const communityFitStorylineAgent = new Agent({
 	name: 'community-fit-storyline-agent',
 	description:
-		'Assesses community-market fit, defines the IFC, generates 5 distinct personas, and builds a storyline + 1-week TikTok sprint plan + viral scripts for each persona.',
+		'Assesses community-market fit, defines the IFC, generates 5 distinct personas, and builds a storyline + initial sprint plan + viral scripts for each persona.',
 	instructions: SYSTEM_PROMPT,
 	model: 'anthropic/claude-haiku-4-5',
 	tools: {}, // extend in future

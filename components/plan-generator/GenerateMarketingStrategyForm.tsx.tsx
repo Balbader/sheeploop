@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { getCommunityFitStoryline } from '../../actions/get-communiy-fit-story-form.action';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,7 +11,15 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Spinner } from '@/components/ui/spinner';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select';
 import { CheckCircle2, Circle } from 'lucide-react';
+import Image from 'next/image';
 
 const FUNNY_MESSAGES = [
 	'Baa patient! 🐑',
@@ -26,7 +34,50 @@ const FUNNY_MESSAGES = [
 	'Patience is a virtue... 🧘',
 ];
 
-const GENERATION_STEPS = [
+const targetPlatforms = [
+	{
+		id: 1,
+		name: 'TikTok',
+		icon: '/TikTok.png',
+	},
+	{
+		id: 2,
+		name: 'Instagram',
+		icon: '/Instagram.png',
+	},
+	{
+		id: 3,
+		name: 'YouTube',
+		icon: '/YouTube.png',
+	},
+	{
+		id: 4,
+		name: 'LinkedIn',
+		icon: '/LinkedIn.png',
+	},
+	{
+		id: 5,
+		name: 'X (Twitter)',
+		icon: '/X (Twitter).png',
+	},
+	{
+		id: 6,
+		name: 'Snapchat',
+		icon: '/Snapchat.png',
+	},
+	{
+		id: 7,
+		name: 'Facebook',
+		icon: '/Facebook.png',
+	},
+	{
+		id: 8,
+		name: 'Threads',
+		icon: '/Threads.png',
+	},
+];
+
+const getGenerationSteps = (platformName: string = 'TikTok') => [
 	{
 		id: 1,
 		label: 'Analyzing your idea',
@@ -54,7 +105,7 @@ const GENERATION_STEPS = [
 	},
 	{
 		id: 6,
-		label: 'Crafting TikTok scripts',
+		label: `Crafting ${platformName} scripts`,
 		description: 'Writing viral-ready content scripts',
 	},
 	{
@@ -68,14 +119,23 @@ export function GenerateMarketingStrategyForm() {
 	const [result, setResult] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [currentStep, setCurrentStep] = useState(0);
+	const [remainingTime, setRemainingTime] = useState(90); // 1 minute 30 seconds
+	const [selectedPlatform, setSelectedPlatform] = useState<string>('TikTok');
 	const sheepContainerRef = useRef<HTMLDivElement>(null);
 	const animationRefs = useRef<any[]>([]);
 	const messageTimersRef = useRef<NodeJS.Timeout[]>([]);
+
+	// Generate steps dynamically based on selected platform
+	const GENERATION_STEPS = useMemo(
+		() => getGenerationSteps(selectedPlatform),
+		[selectedPlatform],
+	);
 
 	// Simulate progress through steps during loading
 	useEffect(() => {
 		if (!isLoading) {
 			setCurrentStep(0);
+			setRemainingTime(90); // Reset timer
 			return;
 		}
 
@@ -89,6 +149,24 @@ export function GenerateMarketingStrategyForm() {
 		}, 12000); // Move to next step every 12 seconds
 
 		return () => clearInterval(stepInterval);
+	}, [isLoading]);
+
+	// Countdown timer
+	useEffect(() => {
+		if (!isLoading) {
+			return;
+		}
+
+		const timerInterval = setInterval(() => {
+			setRemainingTime((prev) => {
+				if (prev <= 1) {
+					return 0;
+				}
+				return prev - 1;
+			});
+		}, 1000); // Update every second
+
+		return () => clearInterval(timerInterval);
 	}, [isLoading]);
 
 	// Animate raining sheep when loading
@@ -456,18 +534,23 @@ export function GenerateMarketingStrategyForm() {
 	}
 
 	// AI Founder Community
-	// const defaultData = {
-	// 	idea: 'A community of early-stage AI founders who are struggling to get traction on social media.',
-	// 	vision: 'Help early-stage AI founders get traction on social media.',
-	// 	target_platforms: 'TikTok',
-	// 	duration: '1 week',
-	// 	tone: 'Friendly, motivational, and slightly humorous',
-	// 	core_audience_guess: 'burned-out solo creators',
-	// 	constraints:
-	// 		'Solo creator, only an iPhone and CapCut, can film talking head and screen recordings only, no fancy b-roll',
-	// 	inspirations_or_competitors: 'Alex Hormozi, Dee Kay, Ali Abdaal',
-	// 	primary_growth_goal: 'Follower growth + waitlist signups',
-	// };
+	const defaultData = {
+		idea: 'A community of early-stage AI founders who are struggling to get traction on social media.',
+		vision: 'Help early-stage AI founders get traction on social media.',
+		target_platforms: 'TikTok',
+		duration: '1 week',
+		tone: 'Friendly, motivational, and slightly humorous',
+		core_audience_guess: 'burned-out solo creators',
+		constraints:
+			'Solo creator, only an iPhone and CapCut, can film talking head and screen recordings only, no fancy b-roll',
+		inspirations_or_competitors: 'Alex Hormozi, Dee Kay, Ali Abdaal',
+		primary_growth_goal: 'Follower growth + waitlist signups',
+	};
+
+	// Initialize selected platform from defaultData
+	useEffect(() => {
+		setSelectedPlatform(defaultData.target_platforms || 'TikTok');
+	}, []);
 
 	// Cosplay Community
 	// const defaultData = {
@@ -502,23 +585,6 @@ export function GenerateMarketingStrategyForm() {
 	// 	primary_growth_goal:
 	// 		'Follower growth + Twitch/YouTube traffic + tournament or collab opportunities',
 	// };
-
-	// Hip-Hop Community
-	const defaultData = {
-		idea: 'A creative community for independent hip-hop artists and producers looking to grow their fanbase, collaborate, and share their art with the world.',
-		vision: 'Empower emerging hip-hop artists to build authentic brands, reach new listeners, and thrive through collaboration and consistent content creation.',
-		target_platforms: 'TikTok',
-		duration: '1 week',
-		tone: 'Confident, authentic, and inspiring — rooted in hustle culture and creative expression',
-		core_audience_guess:
-			'independent rappers, beatmakers, and vocal artists grinding to build an audience',
-		constraints:
-			'Minimal setup — just a phone, basic mic, and free DAWs or beat-making apps. Can film freestyle sessions, behind-the-scenes studio clips, or lyric breakdowns.',
-		inspirations_or_competitors:
-			'Russ, Dax, Token, Armani White, Cordae, and viral underground artists on TikTok who mix personality with raw bars and storytelling.',
-		primary_growth_goal:
-			'Fanbase growth + streaming traffic + collaboration opportunities',
-	};
 
 	const handleReset = () => {
 		setResult(null);
@@ -573,18 +639,27 @@ export function GenerateMarketingStrategyForm() {
 					<CardContent className="p-0 space-y-6">
 						<div className="space-y-4">
 							<div className="relative">
-								{/* Background progress bar */}
-								<div className="h-2 sm:h-3 w-full bg-gray-100 rounded-full overflow-hidden">
-									{/* Green gradient progress bar with shimmer effect */}
-									<div
-										className="h-full rounded-full transition-all duration-500 ease-out progress-shimmer"
-										style={{
-											width: `${progressPercentage}%`,
-											background:
-												'linear-gradient(90deg, rgba(34, 197, 94, 0.8) 0%, rgba(22, 163, 74, 1) 35%, rgba(34, 197, 94, 1) 50%, rgba(22, 163, 74, 1) 65%, rgba(34, 197, 94, 0.8) 100%)',
-											backgroundSize: '200% 100%',
-										}}
-									/>
+								<div className="flex items-center gap-3 mb-2">
+									{/* Background progress bar */}
+									<div className="h-2 sm:h-3 flex-1 bg-gray-100 rounded-full overflow-hidden">
+										{/* Green gradient progress bar with shimmer effect */}
+										<div
+											className="h-full rounded-full transition-all duration-500 ease-out progress-shimmer"
+											style={{
+												width: `${progressPercentage}%`,
+												background:
+													'linear-gradient(90deg, rgba(34, 197, 94, 0.8) 0%, rgba(22, 163, 74, 1) 35%, rgba(34, 197, 94, 1) 50%, rgba(22, 163, 74, 1) 65%, rgba(34, 197, 94, 0.8) 100%)',
+												backgroundSize: '200% 100%',
+											}}
+										/>
+									</div>
+									{/* Timer display */}
+									<div className="flex-shrink-0 text-xs sm:text-sm font-medium text-gray-700 tabular-nums">
+										{Math.floor(remainingTime / 60)}:
+										{(remainingTime % 60)
+											.toString()
+											.padStart(2, '0')}
+									</div>
 								</div>
 								<style
 									dangerouslySetInnerHTML={{
@@ -733,31 +808,215 @@ export function GenerateMarketingStrategyForm() {
 								Platform & Timeline
 							</h2>
 
-							<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-								<div className="space-y-2">
+							<div className="grid grid-cols-3 sm:grid-cols-3 gap-3 sm:gap-4">
+								<div className="space-y-2 col-span-1">
 									<Label htmlFor="target_platforms">
 										Target Platforms *
 									</Label>
-									<Input
-										id="target_platforms"
+									<Select
 										name="target_platforms"
-										placeholder="e.g., TikTok, Instagram, or Both"
-										required
+										value={selectedPlatform}
+										onValueChange={setSelectedPlatform}
 										defaultValue={
 											defaultData.target_platforms
 										}
-									/>
+									>
+										<SelectTrigger>
+											<SelectValue placeholder="Select a target platform" />
+										</SelectTrigger>
+										<SelectContent>
+											<SelectItem value="TikTok">
+												<svg
+													className="size-4"
+													viewBox="0 0 24 24"
+													fill="none"
+												>
+													<path
+														d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"
+														fill="#000000"
+													/>
+												</svg>
+												TikTok
+											</SelectItem>
+											<SelectItem value="Instagram">
+												<svg
+													className="size-4"
+													viewBox="0 0 24 24"
+													fill="none"
+												>
+													<defs>
+														<linearGradient
+															id="instagram-gradient"
+															x1="0%"
+															y1="0%"
+															x2="100%"
+															y2="100%"
+														>
+															<stop
+																offset="0%"
+																stopColor="#E4405F"
+															/>
+															<stop
+																offset="50%"
+																stopColor="#C13584"
+															/>
+															<stop
+																offset="100%"
+																stopColor="#833AB4"
+															/>
+														</linearGradient>
+													</defs>
+													<path
+														d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+														fill="url(#instagram-gradient)"
+													/>
+												</svg>
+												Instagram
+											</SelectItem>
+											<SelectItem value="YouTube">
+												<svg
+													className="size-4"
+													viewBox="0 0 24 24"
+													fill="none"
+												>
+													<path
+														d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+														fill="#FF0000"
+													/>
+												</svg>
+												YouTube
+											</SelectItem>
+											<SelectItem value="LinkedIn">
+												<svg
+													className="size-4"
+													viewBox="0 0 24 24"
+													fill="none"
+												>
+													<path
+														d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+														fill="#0077B5"
+													/>
+												</svg>
+												LinkedIn
+											</SelectItem>
+											<SelectItem value="X (Twitter)">
+												<svg
+													className="size-4"
+													viewBox="0 0 24 24"
+													fill="none"
+												>
+													<path
+														d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+														fill="#000000"
+													/>
+												</svg>
+												X (Twitter)
+											</SelectItem>
+											<SelectItem value="Snapchat">
+												<Image
+													className="w-4 h-4"
+													src="/Snapchat.png"
+													alt="Snapchat"
+													width={24}
+													height={24}
+												/>
+												Snapchat
+											</SelectItem>
+											<SelectItem value="Facebook">
+												<svg
+													className="size-4"
+													viewBox="0 0 24 24"
+													fill="none"
+												>
+													<path
+														d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+														fill="#1877F2"
+													/>
+												</svg>
+												Facebook
+											</SelectItem>
+											<SelectItem value="Threads">
+												<svg
+													className="size-4"
+													viewBox="0 0 24 24"
+													fill="none"
+												>
+													<path
+														d="M12.001.007C5.396.007.007 5.396.007 12.001c0 6.606 5.389 11.995 11.994 11.995S23.995 18.607 23.995 12.001C23.995 5.39 18.606.007 12.001.007zm.135 3.65c1.893 0 3.596.77 4.833 2.006a6.802 6.802 0 0 1 2.006 4.833c0 1.893-.77 3.596-2.006 4.833a6.802 6.802 0 0 1-4.833 2.006c-1.893 0-3.596-.77-4.833-2.006a6.802 6.802 0 0 1-2.006-4.833c0-1.893.77-3.596 2.006-4.833a6.802 6.802 0 0 1 4.833-2.006zm-.135 2.11a4.736 4.736 0 0 0-4.736 4.736 4.736 4.736 0 0 0 4.736 4.736 4.736 4.736 0 0 0 4.736-4.736 4.736 4.736 0 0 0-4.736-4.736zm0 1.582a3.154 3.154 0 1 1 0 6.308 3.154 3.154 0 0 1 0-6.308z"
+														fill="#000000"
+													/>
+												</svg>
+												Threads
+											</SelectItem>
+										</SelectContent>
+									</Select>
 								</div>
-
-								<div className="space-y-2">
+								<div className="space-y-2 col-span-1">
+									<Label
+										htmlFor="posting_frequency"
+										className="text-xs sm:text-sm"
+									>
+										Posting Frequency *
+									</Label>
+									<Select name="posting_frequency">
+										<SelectTrigger>
+											<SelectValue placeholder="Select a posting frequency" />
+										</SelectTrigger>
+										<SelectContent>
+											<SelectItem value="1 post/day">
+												1 post/day
+											</SelectItem>
+											<SelectItem value="2 posts/day">
+												2 posts/day
+											</SelectItem>
+											<SelectItem value="3 posts/day">
+												3 posts/day
+											</SelectItem>
+											<SelectItem value="4 posts/day">
+												4 posts/day
+											</SelectItem>
+											<SelectItem value="5 posts/day">
+												5 posts/day
+											</SelectItem>
+											<SelectItem value="6 posts/day">
+												6 posts/day
+											</SelectItem>
+										</SelectContent>
+									</Select>
+								</div>
+								<div className="space-y-2 col-span-1">
 									<Label htmlFor="duration">Duration *</Label>
-									<Input
-										id="duration"
-										name="duration"
-										placeholder="e.g., 1 week, 30 days"
-										required
-										defaultValue={defaultData.duration}
-									/>
+									<Select name="duration">
+										<SelectTrigger>
+											<SelectValue placeholder="Select a duration" />
+										</SelectTrigger>
+										<SelectContent>
+											<SelectItem value="1 week">
+												1 week
+											</SelectItem>
+											<SelectItem value="2 weeks">
+												2 weeks
+											</SelectItem>
+											<SelectItem value="3 weeks">
+												3 weeks
+											</SelectItem>
+											<SelectItem value="4 weeks">
+												4 weeks
+											</SelectItem>
+											<SelectItem value="5 weeks">
+												5 weeks
+											</SelectItem>
+											<SelectItem value="6 weeks">
+												6 weeks
+											</SelectItem>
+											<SelectItem value="7 weeks">
+												7 weeks
+											</SelectItem>
+											<SelectItem value="8 weeks">
+												8 weeks
+											</SelectItem>
+										</SelectContent>
+									</Select>
 								</div>
 							</div>
 						</div>
