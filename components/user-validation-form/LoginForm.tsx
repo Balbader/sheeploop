@@ -141,7 +141,7 @@ export default function LoginForm() {
 				<Separator />
 
 				{/* Submit Button */}
-				<div className="flex justify-end pt-2">
+				<div className="flex justify-center pt-2">
 					<HoverCard>
 						<HoverCardTrigger asChild>
 							<Info className="w-4 h-4" />
@@ -157,7 +157,7 @@ export default function LoginForm() {
 								!isValid ||
 								isLoading
 							}
-							className="rounded-full px-6 py-3 text-sm sm:text-base min-h-[44px] w-full sm:w-auto onhover: cursor-pointer"
+							className="rounded-full px-5 py-3 text-sm hover:font-bold hover:bg-green-500 hover:text-white"
 						>
 							{isLoading ? 'Loading...' : 'Log In'}
 						</Button>

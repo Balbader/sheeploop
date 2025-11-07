@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../ui/tabs';
 import LoginForm from './LoginForm';
-import UserValidationForm from './UserValidationForm';
+import SignUpForm from './SignUpForm';
 
 export default function FormSelectionTabs() {
 	const [activeTab, setActiveTab] = useState('validation');
@@ -340,7 +340,7 @@ export default function FormSelectionTabs() {
 				<LoginForm />
 			</TabsContent>
 			<TabsContent value="validation">
-				<UserValidationForm />
+				<SignUpForm />
 			</TabsContent>
 		</Tabs>
 	);

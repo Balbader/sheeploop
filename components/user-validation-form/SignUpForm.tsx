@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { apiClient } from '@/lib/api-client';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
@@ -25,7 +24,7 @@ type Inputs = {
 	location: string;
 };
 
-export default function UserValidationForm() {
+export default function SignUpForm() {
 	const router = useRouter();
 	const {
 		register,
@@ -193,7 +192,7 @@ export default function UserValidationForm() {
 				<Separator />
 
 				{/* Submit Button */}
-				<div className="flex justify-end pt-2">
+				<div className="flex justify-center pt-2">
 					<HoverCard>
 						<HoverCardTrigger asChild>
 							<Info className="w-4 h-4" />
@@ -213,7 +212,7 @@ export default function UserValidationForm() {
 									watch('location')
 								) || !isValid
 							}
-							className="rounded-full px-6 py-3 text-sm sm:text-base min-h-[44px] w-full sm:w-auto onhover: cursor-pointer"
+							className="rounded-full px-5 py-3 text-sm hover:font-bold hover:bg-green-500 hover:text-white"
 						>
 							Sign Up
 						</Button>
