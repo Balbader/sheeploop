@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { getCommunityFitStoryline } from './action';
+import { getCommunityFitStoryline } from '../../actions/get-communiy-fit-story-form.action';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -64,7 +64,7 @@ const GENERATION_STEPS = [
 	},
 ];
 
-export function Form() {
+export function GenerateMarketingStrategyForm() {
 	const [result, setResult] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [currentStep, setCurrentStep] = useState(0);

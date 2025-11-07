@@ -1,4 +1,4 @@
-import { Form } from './form';
+import { GenerateMarketingStrategyForm } from '@/components/plan-generator/GenerateMarketingStrategyForm.tsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -67,7 +67,7 @@ export default async function Page({
 						community on TikTok.
 					</p>
 				</div>
-				<Form />
+				<GenerateMarketingStrategyForm />
 			</div>
 		</main>
 	);
