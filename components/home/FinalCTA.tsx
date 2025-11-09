@@ -367,11 +367,20 @@ export default function FinalCTA() {
 						className="px-6 py-10 md:px-10 md:py-14 text-center"
 					>
 						<h2 className="text-2xl md:text-4xl font-semibold tracking-tight">
-							Turn your idea into a community in days, not months.
+							Turn your idea into a community in{' '}
+							<span className="text-green-600 font-bold">
+								weeks
+							</span>
+							, not{' '}
+							<span className="text-red-600 font-bold">
+								months
+							</span>
+							.
 						</h2>
 						<p className="mt-4 text-gray-600 leading-relaxed md:text-lg">
-							Answer a few questions and get your full TikTok &
-							Instagram growth plan.
+							Choose your platform and answer a few questions and
+							get your full shorts campaign and scripts
+							<br /> to start posting today 🚀
 						</p>
 						<div className="mt-8 flex flex-col items-center justify-center gap-3">
 							<Dialog>

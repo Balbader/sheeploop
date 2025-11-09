@@ -94,7 +94,9 @@ export default function ValueProps() {
 		<section id="how" className="py-16 md:py-24 bg-slate-50/50">
 			<div className="max-w-screen-xl mx-auto px-6">
 				<h2 className="text-2xl md:text-4xl font-semibold tracking-tight text-center">
-					SheepLoop does the strategy, you just hit record.
+					Sheep<span className="text-green-600">Loop</span> does the
+					strategy, you just hit{' '}
+					<span className="text-green-600 font-bold">record</span>.
 				</h2>
 				<p className="mt-3 text-gray-600 leading-relaxed text-center max-w-2xl mx-auto">
 					We turn your idea into a content-driven growth engine using

@@ -6,14 +6,16 @@ import Competition from '../components/home/Competition';
 import FinalCTA from '../components/home/FinalCTA';
 import Footer from '../components/home/Footer';
 import HomeFaqSection from '@/components/home/HomeFaqSection';
+import VideoSection from '@/components/home/VideoSection';
 
 export default function Home() {
 	return (
 		<main className="min-h-screen bg-white">
 			<Hero />
-			<PainPoints />
-			<ValueProps />
+			<VideoSection />
 			<Competition />
+			<ValueProps />
+			<PainPoints />
 			<Credibility />
 			<FinalCTA />
 			<HomeFaqSection />

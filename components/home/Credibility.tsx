@@ -21,8 +21,7 @@ export default function Credibility() {
 						</Card>
 						<Card className="p-5">
 							<p className="text-gray-700">
-								Inspired by playbooks from top entrepreneur-led
-								brands.
+								Inspired by playbooks from top content creators.
 							</p>
 						</Card>
 						<Card className="p-5">

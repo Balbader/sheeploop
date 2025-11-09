@@ -1,9 +1,15 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
 
 export default function Competition() {
+	const icon1Ref = useRef<HTMLDivElement | null>(null);
+	const icon2Ref = useRef<HTMLDivElement | null>(null);
+	const icon3Ref = useRef<HTMLDivElement | null>(null);
+	const icon4Ref = useRef<HTMLDivElement | null>(null);
+
 	const problems = [
 		{
 			icon: '🎭',
@@ -12,6 +18,7 @@ export default function Competition() {
 				'Competitors churn out videos that feel scripted and formulaic. Every post follows the same structure, making brands blend into the noise.',
 			evidence: '73% of users skip generic short-form content',
 			badge: 'Fake Feel',
+			ref: icon1Ref,
 		},
 		{
 			icon: '📖',
@@ -20,6 +27,7 @@ export default function Competition() {
 				"Posts exist in isolation. There's no story connecting them, no reason for followers to come back tomorrow. Each video is a standalone act with no sequel.",
 			evidence: '89% of disconnected content fails to retain viewers',
 			badge: 'No Storyline',
+			ref: icon2Ref,
 		},
 		{
 			icon: '🔗',
@@ -29,6 +37,7 @@ export default function Competition() {
 			evidence:
 				'92% correlation between random shorts and perceived inauthenticity',
 			badge: 'Inauthentic',
+			ref: icon3Ref,
 		},
 		{
 			icon: '🎯',
@@ -37,8 +46,87 @@ export default function Competition() {
 				'Content targets everyone and no one. Competitors create videos hoping someone watches, rather than crafting messages for specific communities that actually care.',
 			evidence: 'Low engagement rates despite high posting frequency',
 			badge: 'No Focus',
+			ref: icon4Ref,
 		},
 	];
+
+	useEffect(() => {
+		if (typeof window === 'undefined') return;
+
+		(async () => {
+			try {
+				const { gsap } = await import('gsap');
+				const icons = [
+					icon1Ref.current,
+					icon2Ref.current,
+					icon3Ref.current,
+					icon4Ref.current,
+				].filter(Boolean);
+
+				if (icons.length > 0) {
+					// Initial state - hidden and positioned
+					gsap.set(icons, {
+						opacity: 0,
+						scale: 0.8,
+						y: 20,
+					});
+
+					// Entrance animation with stagger
+					gsap.to(icons, {
+						opacity: 1,
+						scale: 1,
+						y: 0,
+						duration: 0.7,
+						ease: 'power3.out',
+						stagger: 0.1,
+						delay: 0.3,
+					});
+
+					// Continuous animation for each icon - combination of pulse, float, and rotation
+					icons.forEach((icon, index) => {
+						if (icon) {
+							// Set transform origin for smooth rotation
+							gsap.set(icon, {
+								transformOrigin: 'center center',
+							});
+
+							// Continuous pulse animation
+							gsap.to(icon, {
+								scale: 1.15,
+								duration: 2 + index * 0.3,
+								ease: 'sine.inOut',
+								repeat: -1,
+								yoyo: true,
+								delay: 1 + index * 0.2,
+							});
+
+							// Continuous floating animation
+							gsap.to(icon, {
+								y: -10,
+								duration: 2.5 + index * 0.2,
+								ease: 'sine.inOut',
+								repeat: -1,
+								yoyo: true,
+								delay: 1.5 + index * 0.25,
+							});
+
+							// Continuous gentle rotation animation
+							gsap.to(icon, {
+								rotation: 8,
+								duration: 3 + index * 0.3,
+								ease: 'sine.inOut',
+								repeat: -1,
+								yoyo: true,
+								delay: 2 + index * 0.3,
+							});
+						}
+					});
+				}
+			} catch (_) {
+				// no-op if gsap not available
+			}
+		})();
+	}, []);
 
 	return (
 		<section className="py-16 md:py-24">
@@ -63,7 +151,9 @@ export default function Competition() {
 							className="p-6 bg-white hover:shadow-lg transition-shadow relative"
 						>
 							<div className="flex items-start justify-between mb-4">
-								<div className="text-3xl">{problem.icon}</div>
+								<div ref={problem.ref} className="text-3xl">
+									{problem.icon}
+								</div>
 								<Badge
 									variant="destructive"
 									className="text-xs font-medium"
