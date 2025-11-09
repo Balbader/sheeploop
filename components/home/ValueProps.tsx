@@ -18,7 +18,7 @@ export default function ValueProps() {
 	const features = [
 		{
 			k: 'ifp',
-			title: 'Define Your IFP',
+			title: 'Define Your Ideal Follower Profile',
 			desc: 'We analyze your market and tell you who actually cares.',
 			icon: '🎯',
 			ref: icon1Ref,

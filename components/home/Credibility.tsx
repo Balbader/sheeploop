@@ -1,6 +1,15 @@
 'use client';
+import {
+	Dialog,
+	DialogTrigger,
+	DialogContent,
+	DialogTitle,
+} from '../ui/dialog';
+import { Button } from '../ui/button';
 import { Card } from '../ui/card';
+import FormSelectionTabs from '../user-validation-form/FormSelectionTabs';
 import { Avatar, AvatarFallback } from '../ui/avatar';
+
 export default function Credibility() {
 	return (
 		<section className="py-16 md:py-24">
@@ -50,6 +59,21 @@ export default function Credibility() {
 								</div>
 							</div>
 						</Card>
+					</div>
+					<div className="mt-10 flex items-center justify-center">
+						<Dialog>
+							<DialogTrigger asChild>
+								<Button className="rounded-full px-5 py-3 text-sm hover:font-bold hover:bg-green-500 hover:text-white">
+									Try it now!
+								</Button>
+							</DialogTrigger>
+							<DialogContent>
+								<DialogTitle className="sr-only">
+									Sign up or log in to SheepLoop
+								</DialogTitle>
+								<FormSelectionTabs />
+							</DialogContent>
+						</Dialog>
 					</div>
 				</div>
 			</div>
