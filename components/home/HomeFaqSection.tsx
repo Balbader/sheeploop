@@ -28,23 +28,23 @@ export default function HomeFaqSection() {
 			},
 			{
 				q: 'How does the generator work?',
-				a: 'Provide your context, brand tone, and goals. We craft storylines and variations, then you refine and export. Everything stays editable and transparent.',
+				a: 'Provide your context, brand tone, and goals. We craft storylines and variations. All you have to do is follow the plan and post your shorts daily.',
 			},
 			{
-				q: 'Is there a free plan?',
-				a: 'Yes. You can try core features on the free tier and upgrade when you need more seats, usage, or collaboration features.',
+				q: 'Is it free to use?',
+				a: 'Yes. You can try it for free. No credit card required. You can upgrade to a paid plan later if you need more features.',
 			},
 			{
 				q: 'Is the output unique?',
-				a: 'We generate content based on your inputs and constraints. You can iterate and edit to ensure it matches your voice and goals.',
+				a: 'We generate content based on your inputs and constraints. We make sure it is unique and fits your brand voice and goals.',
 			},
 			{
-				q: 'How is pricing structured?',
-				a: 'Pricing is usage-based with team features available on higher tiers. Start free and upgrade as you grow.',
+				q: 'Are you planning to add video generation?',
+				a: 'Yes. We are planning to add video generation in the future. We will let you know when it is ready.',
 			},
 			{
-				q: 'Can I cancel anytime?',
-				a: 'Yes. You can cancel at any time. Your plan remains active until the end of the billing period.',
+				q: 'Do you support scheduling or publishing?',
+				a: 'The generated posting plan includes guidelines to when to post your shorts daily. Direct publishing to platforms is coming soon.',
 			},
 		],
 		[],
