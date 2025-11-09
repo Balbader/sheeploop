@@ -13,8 +13,8 @@ export default function Home() {
 		<main className="min-h-screen bg-white">
 			<Hero />
 			<VideoSection />
-			<Competition />
 			<ValueProps />
+			<Competition />
 			<PainPoints />
 			<Credibility />
 			<FinalCTA />
