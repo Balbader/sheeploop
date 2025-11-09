@@ -997,9 +997,9 @@ export default function Hero() {
 						</span>
 					</h1>
 					<p className="mt-4 text-gray-600 leading-relaxed md:text-lg">
-						Type your idea and SheepLoop will draft your community
-						growth plan and sprint-test strategy for TikTok,
-						Instagram and YouTube.
+						Type your idea and SheepLoop will draft your shorts
+						scripts and community growth plan for Instagram, TikTok
+						and YouTube.
 					</p>
 					<div
 						ref={ctaRef}
@@ -1032,6 +1032,27 @@ export default function Hero() {
 					<Card className="p-5 transition-all hover:shadow-md hover:-translate-y-0.5">
 						<div className="flex items-start gap-3">
 							<div
+								ref={icon2Ref}
+								className="flex-shrink-0 text-2xl"
+							>
+								🎯
+							</div>
+							<div className="flex-1">
+								<h3 className="font-semibold text-sm mb-2">
+									Find your "Ideal Follower Profile"
+								</h3>
+								<p className="text-xs text-gray-600 leading-relaxed">
+									SheepLoop will define your "Ideal Follower
+									Profile".
+									<br /> The crowd that will be most likely to
+									engage with your content.
+								</p>
+							</div>
+						</div>
+					</Card>
+					<Card className="p-5 transition-all hover:shadow-md hover:-translate-y-0.5">
+						<div className="flex items-start gap-3">
+							<div
 								ref={icon1Ref}
 								className="flex-shrink-0 text-2xl"
 							>
@@ -1042,27 +1063,8 @@ export default function Hero() {
 									Create 'Smart' Shorts
 								</h3>
 								<p className="text-xs text-gray-600 leading-relaxed">
-									A clear understanding of what value 'shorts'
-									must create in order to build momentum.
-								</p>
-							</div>
-						</div>
-					</Card>
-					<Card className="p-5 transition-all hover:shadow-md hover:-translate-y-0.5">
-						<div className="flex items-start gap-3">
-							<div
-								ref={icon2Ref}
-								className="flex-shrink-0 text-2xl"
-							>
-								🎯
-							</div>
-							<div className="flex-1">
-								<h3 className="font-semibold text-sm mb-2">
-									IFP with maximum engagement
-								</h3>
-								<p className="text-xs text-gray-600 leading-relaxed">
-									Find your "Ideal Follower Profile", who
-									exactly will engage with your content.
+									SheepLoop will generate 3-5 shorts scripts
+									for each of your "Ideal Follower Profile".
 								</p>
 							</div>
 						</div>
@@ -1077,11 +1079,12 @@ export default function Hero() {
 							</div>
 							<div className="flex-1">
 								<h3 className="font-semibold text-sm mb-2">
-									Focus on the right topics
+									Post your shorts daily
 								</h3>
 								<p className="text-xs text-gray-600 leading-relaxed">
-									Which topics to focus on to finding and
-									engaging with your audience.
+									Based on your "Ideal Follower Profile" and
+									the target platform, SheepLoop will schedule
+									your shorts to be posted daily.
 								</p>
 							</div>
 						</div>
