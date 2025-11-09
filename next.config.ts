@@ -1,7 +1,8 @@
+import { withNextVideo } from "next-video/process";
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
 	serverExternalPackages: ['@mastra/*'],
 };
 
-export default nextConfig;
+export default withNextVideo(nextConfig);
