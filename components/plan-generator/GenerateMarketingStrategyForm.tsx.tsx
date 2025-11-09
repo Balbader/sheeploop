@@ -70,11 +70,6 @@ const targetPlatforms = [
 		name: 'Facebook',
 		icon: '/Facebook.png',
 	},
-	{
-		id: 8,
-		name: 'Threads',
-		icon: '/Threads.png',
-	},
 ];
 
 const getGenerationSteps = (platformName: string = 'TikTok') => [
@@ -119,7 +114,7 @@ export function GenerateMarketingStrategyForm() {
 	const [result, setResult] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [currentStep, setCurrentStep] = useState(0);
-	const [remainingTime, setRemainingTime] = useState(90); // 1 minute 30 seconds
+	const [remainingTime, setRemainingTime] = useState(300); // 5 minutes
 	const [selectedPlatform, setSelectedPlatform] = useState<string>('TikTok');
 	const sheepContainerRef = useRef<HTMLDivElement>(null);
 	const animationRefs = useRef<any[]>([]);
@@ -135,7 +130,7 @@ export function GenerateMarketingStrategyForm() {
 	useEffect(() => {
 		if (!isLoading) {
 			setCurrentStep(0);
-			setRemainingTime(90); // Reset timer
+			setRemainingTime(300); // Reset timer to 5 minutes
 			return;
 		}
 
@@ -934,19 +929,6 @@ export function GenerateMarketingStrategyForm() {
 													/>
 												</svg>
 												Facebook
-											</SelectItem>
-											<SelectItem value="Threads">
-												<svg
-													className="size-4"
-													viewBox="0 0 24 24"
-													fill="none"
-												>
-													<path
-														d="M12.001.007C5.396.007.007 5.396.007 12.001c0 6.606 5.389 11.995 11.994 11.995S23.995 18.607 23.995 12.001C23.995 5.39 18.606.007 12.001.007zm.135 3.65c1.893 0 3.596.77 4.833 2.006a6.802 6.802 0 0 1 2.006 4.833c0 1.893-.77 3.596-2.006 4.833a6.802 6.802 0 0 1-4.833 2.006c-1.893 0-3.596-.77-4.833-2.006a6.802 6.802 0 0 1-2.006-4.833c0-1.893.77-3.596 2.006-4.833a6.802 6.802 0 0 1 4.833-2.006zm-.135 2.11a4.736 4.736 0 0 0-4.736 4.736 4.736 4.736 0 0 0 4.736 4.736 4.736 4.736 0 0 0 4.736-4.736 4.736 4.736 0 0 0-4.736-4.736zm0 1.582a3.154 3.154 0 1 1 0 6.308 3.154 3.154 0 0 1 0-6.308z"
-														fill="#000000"
-													/>
-												</svg>
-												Threads
 											</SelectItem>
 										</SelectContent>
 									</Select>

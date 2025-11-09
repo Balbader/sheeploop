@@ -30,7 +30,6 @@ export const CommunityFitInputSchema = z.object({
 				'X (Twitter)',
 				'Snapchat',
 				'Facebook',
-				'Threads',
 			]),
 		)
 		.describe('Which short-form platforms this sprint is targeting.')

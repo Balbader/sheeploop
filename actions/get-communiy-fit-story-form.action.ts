@@ -22,7 +22,6 @@ export async function getCommunityFitStoryline(formData: FormData) {
 			'X (Twitter)',
 			'Snapchat',
 			'Facebook',
-			'Threads',
 		],
 		duration: formData.get('duration')?.toString() ?? '',
 		posting_frequency: formData.get('posting_frequency')?.toString() ?? '',
