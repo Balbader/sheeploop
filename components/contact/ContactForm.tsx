@@ -77,15 +77,17 @@ export default function ContactForm() {
 		setIsSubmitting(true);
 
 		try {
-			// Simulate API call
-			await new Promise((resolve) => setTimeout(resolve, 1500));
+			const response = await fetch('/api/contact', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(data),
+			});
 
-			// TODO: Replace with actual API call
-			// await fetch('/api/contact', {
-			//   method: 'POST',
-			//   headers: { 'Content-Type': 'application/json' },
-			//   body: JSON.stringify(data),
-			// });
+			const result = await response.json();
+
+			if (!response.ok || !result.success) {
+				throw new Error(result.message || 'Failed to send message');
+			}
 
 			toast.success('Message sent!', {
 				description: "We'll get back to you soon.",
@@ -93,8 +95,13 @@ export default function ContactForm() {
 
 			reset();
 		} catch (error) {
+			const errorMessage =
+				error instanceof Error
+					? error.message
+					: 'Failed to send message. Please try again later.';
+
 			toast.error('Failed to send message', {
-				description: 'Please try again later.',
+				description: errorMessage,
 			});
 		} finally {
 			setIsSubmitting(false);

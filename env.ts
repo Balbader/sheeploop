@@ -5,6 +5,7 @@ const envSchema = z.object({
 	ANTHROPIC_API_KEY: z.string(),
 	TURSO_DATABASE_URL: z.string(),
 	TURSO_AUTH_TOKEN: z.string(),
+	RESEND_API_KEY: z.string().optional(), // Optional for contact form emails
 });
 
 const publicEnv: Record<string, string> = {
@@ -12,6 +13,7 @@ const publicEnv: Record<string, string> = {
 	ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY!,
 	TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL!,
 	TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN!,
+	RESEND_API_KEY: process.env.RESEND_API_KEY || '',
 };
 
 export type EnvType = z.infer<typeof envSchema>;
@@ -37,8 +39,8 @@ export const Env = {
 			return publicEnv[key];
 		}
 		const value = process.env[key];
-		// OPENAI_API_KEY is optional, so return undefined if not set
-		if (key === 'OPENAI_API_KEY') {
+		// OPENAI_API_KEY and RESEND_API_KEY are optional, so return undefined if not set
+		if (key === 'OPENAI_API_KEY' || key === 'RESEND_API_KEY') {
 			return value;
 		}
 		if (!value) {
