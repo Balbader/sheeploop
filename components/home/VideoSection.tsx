@@ -5,7 +5,7 @@ export default function VideoSection() {
 	return (
 		<section className="py-16 md:py-24">
 			<div className="max-w-screen-xl mx-auto px-6">
-				<Video src={SheepLoopVideo} autoplay loop playsInline />
+				<Video src={SheepLoopVideo} playsInline />
 			</div>
 		</section>
 	);
