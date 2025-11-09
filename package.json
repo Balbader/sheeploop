@@ -3,8 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"local": "next dev",
-		"dev": "next dev & npx next-video sync -w",
+		"dev": "next dev --turbo & npx next-video sync -w",
 		"build": "next build",
 		"start": "next start",
 		"lint": "eslint"
