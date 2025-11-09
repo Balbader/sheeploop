@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
 		// Send email to contact@sheeploop.com
 		const { data, error } = await resend.emails.send({
-			from: 'Sheeploop Contact Form <onboarding@resend.dev>', // You'll need to verify your domain with Resend
+			from: 'Sheeploop Contact Form <contact@sheeploop.com>', // You'll need to verify your domain with Resend
 			to: 'contact@sheeploop.com',
 			replyTo: validatedData.email,
 			subject: `Contact Form: ${validatedData.subject}`,
