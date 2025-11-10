@@ -895,17 +895,29 @@ export function GenerateMarketingStrategyForm() {
 											<SelectItem value="2 posts/day">
 												2 posts/day
 											</SelectItem>
-											<SelectItem value="3 posts/day">
-												3 posts/day
+											<SelectItem
+												value="3 posts/day"
+												disabled
+											>
+												3 posts/day (Coming Soon)
 											</SelectItem>
-											<SelectItem value="4 posts/day">
-												4 posts/day
+											<SelectItem
+												value="4 posts/day"
+												disabled
+											>
+												4 posts/day (Coming Soon)
 											</SelectItem>
-											<SelectItem value="5 posts/day">
-												5 posts/day
+											<SelectItem
+												value="5 posts/day"
+												disabled
+											>
+												5 posts/day (Coming Soon)
 											</SelectItem>
-											<SelectItem value="6 posts/day">
-												6 posts/day
+											<SelectItem
+												value="6 posts/day"
+												disabled
+											>
+												6 posts/day (Coming Soon)
 											</SelectItem>
 										</SelectContent>
 									</Select>
@@ -923,29 +935,47 @@ export function GenerateMarketingStrategyForm() {
 											<SelectItem value="2 weeks">
 												2 weeks
 											</SelectItem>
-											<SelectItem value="3 weeks">
-												3 weeks
+											<SelectItem
+												value="3 weeks"
+												disabled
+											>
+												3 weeks (Coming Soon)
 											</SelectItem>
-											<SelectItem value="4 weeks">
-												4 weeks
+											<SelectItem
+												value="4 weeks"
+												disabled
+											>
+												4 weeks (Coming Soon)
 											</SelectItem>
-											<SelectItem value="5 weeks">
-												5 weeks
+											<SelectItem
+												value="5 weeks"
+												disabled
+											>
+												5 weeks (Coming Soon)
 											</SelectItem>
-											<SelectItem value="6 weeks">
-												6 weeks
+											<SelectItem
+												value="6 weeks"
+												disabled
+											>
+												6 weeks (Coming Soon)
 											</SelectItem>
-											<SelectItem value="7 weeks">
-												7 weeks
+											<SelectItem
+												value="7 weeks"
+												disabled
+											>
+												7 weeks (Coming Soon)
 											</SelectItem>
-											<SelectItem value="8 weeks">
-												8 weeks
+											<SelectItem
+												value="8 weeks"
+												disabled
+											>
+												8 weeks (Coming Soon)
 											</SelectItem>
 										</SelectContent>
 									</Select>
 								</div>
 								<div className="space-y-2 col-span-1">
-									<Label htmlFor="device">Device</Label>
+									<Label htmlFor="device">Device *</Label>
 									<Select
 										name="device"
 										value={selectedDevice}
@@ -1026,109 +1056,6 @@ export function GenerateMarketingStrategyForm() {
 
 						<Separator />
 
-						{/* Content Strategy // ! FIX: remove this section and all related inputs -> the agent will handle this*/}
-						<div className="space-y-3 sm:space-y-4">
-							<h2 className="text-xs sm:text-sm font-semibold tracking-tight">
-								Content Strategy
-							</h2>
-
-							<div className="space-y-2">
-								<Label
-									htmlFor="tone"
-									className="text-xs sm:text-sm"
-								>
-									Tone & Style *
-								</Label>
-								<Input
-									id="tone"
-									name="tone"
-									placeholder="e.g., Friendly, motivational, and slightly humorous"
-									required
-									className="text-sm"
-								/>
-							</div>
-
-							<div className="space-y-2">
-								<Label
-									htmlFor="core_audience_guess"
-									className="text-xs sm:text-sm"
-								>
-									Target Audience *
-								</Label>
-								<Input
-									id="core_audience_guess"
-									name="core_audience_guess"
-									placeholder="Who is your ideal audience?"
-									required
-									className="text-sm"
-								/>
-							</div>
-
-							<div className="space-y-2">
-								<Label
-									htmlFor="inspirations_or_competitors"
-									className="text-xs sm:text-sm"
-								>
-									Inspirations or Competitors *
-								</Label>
-								<Input
-									id="inspirations_or_competitors"
-									name="inspirations_or_competitors"
-									placeholder="Comma-separated list (e.g., Alex Hormozi, Dee Kay, Ali Abdaal)"
-									required
-									className="text-sm"
-								/>
-								<p className="text-xs text-gray-500">
-									Separate multiple names with commas
-								</p>
-							</div>
-						</div>
-
-						<Separator />
-
-						{/* Goals & Constraints */}
-						<div className="space-y-3 sm:space-y-4">
-							<h2 className="text-xs sm:text-sm font-semibold tracking-tight">
-								Goals & Constraints
-							</h2>
-
-							<div className="space-y-2">
-								<Label
-									htmlFor="primary_growth_goal"
-									className="text-xs sm:text-sm"
-								>
-									Primary Growth Goal *
-								</Label>
-								<Input
-									id="primary_growth_goal"
-									name="primary_growth_goal"
-									placeholder="e.g., Follower growth + waitlist signups"
-									required
-									className="text-sm"
-								/>
-							</div>
-
-							<div className="space-y-2">
-								<Label
-									htmlFor="constraints"
-									className="text-xs sm:text-sm"
-								>
-									Constraints
-								</Label>
-								<Textarea
-									id="constraints"
-									name="constraints"
-									placeholder="Any limitations or constraints? (optional)"
-									className="min-h-20 sm:min-h-24 text-sm"
-								/>
-								<p className="text-xs text-gray-500">
-									Equipment, resources, or creative
-									limitations
-								</p>
-							</div>
-						</div>
-
-						<Separator />
 
 						{/* Actions */}
 						<div className="flex flex-col sm:flex-row gap-3 pt-2">
