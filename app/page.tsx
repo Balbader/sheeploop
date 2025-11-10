@@ -14,9 +14,9 @@ export default function Home() {
 			<Hero />
 			<VideoSection />
 			<ValueProps />
-			<Competition />
-			<FinalCTA />
 			<PainPoints />
+			<FinalCTA />
+			<Competition />
 			<Credibility />
 			<HomeFaqSection />
 			<Footer />
