@@ -126,7 +126,9 @@ export default function ValueProps() {
 
 				<div className="mt-12 flex items-center justify-center">
 					<p className="text-green-700 italic leading-relaxed text-center font-bold text-xl">
-						&quot;All you have to do is hit record, follow the script, and post your shorts daily.&quot;
+						&quot;All you have to do is hit record, follow the
+						script,<br/> and post your shorts daily to grow your
+						community.&quot;
 					</p>
 				</div>
 

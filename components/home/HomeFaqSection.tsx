@@ -112,13 +112,13 @@ export default function HomeFaqSection() {
 					</Accordion>
 				</ScrollArea>
 
-				<div className="mt-8 text-center">
+				{/* <div className="mt-8 text-center"> // TODO: add faq link later
 					<Link href="/faq">
 						<Button className="rounded-full px-5 py-3 text-sm hover:font-bold hover:bg-green-500 hover:text-white">
 							See all questions
 						</Button>
 					</Link>
-				</div>
+				</div> */}
 			</div>
 		</section>
 	);
