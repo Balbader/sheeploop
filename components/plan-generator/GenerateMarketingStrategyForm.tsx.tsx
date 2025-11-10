@@ -117,6 +117,8 @@ export function GenerateMarketingStrategyForm() {
 	const [remainingTime, setRemainingTime] = useState(300); // 5 minutes
 	const [selectedPlatform, setSelectedPlatform] = useState<string>('TikTok');
 	const [selectedDevice, setSelectedDevice] = useState<string>('');
+	const [selectedTone, setSelectedTone] = useState<string>('');
+	const [selectedObjective, setSelectedObjective] = useState<string>('');
 	const sheepContainerRef = useRef<HTMLDivElement>(null);
 	const animationRefs = useRef<any[]>([]);
 	const messageTimersRef = useRef<NodeJS.Timeout[]>([]);
@@ -532,6 +534,8 @@ export function GenerateMarketingStrategyForm() {
 	const handleReset = () => {
 		setResult(null);
 		setSelectedDevice('');
+		setSelectedTone('');
+		setSelectedObjective('');
 		const form = document.getElementById(
 			'storyline-form',
 		) as HTMLFormElement;
@@ -731,15 +735,73 @@ export function GenerateMarketingStrategyForm() {
 									htmlFor="objective"
 									className="text-xs sm:text-sm"
 								>
-									Your Objective / Goal *
+									Your Objective/Goal *
 								</Label>
-								<Textarea
-									id="objective"
+								<Select
 									name="objective"
-									placeholder="What's your objective / goal for this project?"
+									value={selectedObjective}
+									onValueChange={setSelectedObjective}
 									required
-									className="min-h-20 sm:min-h-24 text-sm"
-								/>
+								>
+									<SelectTrigger>
+										<SelectValue placeholder="Select your objective/goal" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="I want to promote a product">
+											I want to promote a product
+										</SelectItem>
+										<SelectItem value="I want to grow my followers base">
+											I want to grow my followers base
+										</SelectItem>
+										<SelectItem value="I want to get traction towards my site">
+											I want to get traction towards my
+											site
+										</SelectItem>
+										<SelectItem value="I want to build brand awareness">
+											I want to build brand awareness
+										</SelectItem>
+										<SelectItem value="I want to drive sales and conversions">
+											I want to drive sales and
+											conversions
+										</SelectItem>
+										<SelectItem value="I want to establish thought leadership">
+											I want to establish thought
+											leadership
+										</SelectItem>
+										<SelectItem value="I want to engage with my community">
+											I want to engage with my community
+										</SelectItem>
+										<SelectItem value="I want to launch a new product or service">
+											I want to launch a new product or
+											service
+										</SelectItem>
+										<SelectItem value="I want to generate leads">
+											I want to generate leads
+										</SelectItem>
+										<SelectItem value="Other">
+											Other
+										</SelectItem>
+									</SelectContent>
+								</Select>
+								{selectedObjective === 'Other' && (
+									<div className="space-y-2">
+										<Label
+											htmlFor="other_objective"
+											className="text-xs sm:text-sm"
+										>
+											Custom Objective/Goal *
+										</Label>
+										<Input
+											id="other_objective"
+											name="other_objective"
+											placeholder="Describe your objective/goal"
+											required={
+												selectedObjective === 'Other'
+											}
+											className="text-sm"
+										/>
+									</div>
+								)}
 							</div>
 						</div>
 
@@ -751,8 +813,8 @@ export function GenerateMarketingStrategyForm() {
 								Platform & Timeline
 							</h2>
 
-							<div className="grid grid-cols-4 sm:grid-cols-4 gap-3 sm:gap-4">
-								<div className="space-y-2 col-span-2 sm:col-span-1">
+							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+								<div className="space-y-2">
 									<Label htmlFor="target_platforms">
 										Target Platforms *
 									</Label>
@@ -825,7 +887,10 @@ export function GenerateMarketingStrategyForm() {
 												</svg>
 												YouTube
 											</SelectItem>
-											<SelectItem value="LinkedIn">
+											<SelectItem
+												value="LinkedIn"
+												disabled
+											>
 												<svg
 													className="size-4"
 													viewBox="0 0 24 24"
@@ -836,9 +901,12 @@ export function GenerateMarketingStrategyForm() {
 														fill="#0077B5"
 													/>
 												</svg>
-												LinkedIn
+												LinkedIn (Coming Soon)
 											</SelectItem>
-											<SelectItem value="X (Twitter)">
+											<SelectItem
+												value="X (Twitter)"
+												disabled
+											>
 												<svg
 													className="size-4"
 													viewBox="0 0 24 24"
@@ -849,9 +917,12 @@ export function GenerateMarketingStrategyForm() {
 														fill="#000000"
 													/>
 												</svg>
-												X (Twitter)
+												X (Twitter) (Coming Soon)
 											</SelectItem>
-											<SelectItem value="Snapchat">
+											<SelectItem
+												value="Snapchat"
+												disabled
+											>
 												<Image
 													className="w-4 h-4"
 													src="/Snapchat.png"
@@ -859,9 +930,12 @@ export function GenerateMarketingStrategyForm() {
 													width={24}
 													height={24}
 												/>
-												Snapchat
+												Snapchat (Coming Soon)
 											</SelectItem>
-											<SelectItem value="Facebook">
+											<SelectItem
+												value="Facebook"
+												disabled
+											>
 												<svg
 													className="size-4"
 													viewBox="0 0 24 24"
@@ -872,12 +946,12 @@ export function GenerateMarketingStrategyForm() {
 														fill="#1877F2"
 													/>
 												</svg>
-												Facebook
+												Facebook (Coming Soon)
 											</SelectItem>
 										</SelectContent>
 									</Select>
 								</div>
-								<div className="space-y-2 col-span-2 sm:col-span-1">
+								<div className="space-y-2">
 									<Label
 										htmlFor="posting_frequency"
 										className="text-xs sm:text-sm"
@@ -922,7 +996,7 @@ export function GenerateMarketingStrategyForm() {
 										</SelectContent>
 									</Select>
 								</div>
-								<div className="space-y-2 col-span-1">
+								<div className="space-y-2">
 									<Label htmlFor="duration">Duration *</Label>
 									<Select name="duration">
 										<SelectTrigger>
@@ -974,7 +1048,7 @@ export function GenerateMarketingStrategyForm() {
 										</SelectContent>
 									</Select>
 								</div>
-								<div className="space-y-2 col-span-1">
+								<div className="space-y-2">
 									<Label htmlFor="device">Device *</Label>
 									<Select
 										name="device"
@@ -1054,8 +1128,73 @@ export function GenerateMarketingStrategyForm() {
 							)}
 						</div>
 
-						<Separator />
+						{/* Content Strategy // ! FIX: remove this section and all related inputs -> the agent will handle this*/}
+						<div className="space-y-3 sm:space-y-4"></div>
+						<div className="space-y-2">
+							<Label
+								htmlFor="tone"
+								className="text-xs sm:text-sm"
+							>
+								Tone & Style *
+							</Label>
+							<Select
+								name="tone"
+								value={selectedTone}
+								onValueChange={setSelectedTone}
+								required
+							>
+								<SelectTrigger>
+									<SelectValue placeholder="Select a tone & style" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="Friendly, motivational, and slightly humorous">
+										Friendly, motivational, and slightly
+										humorous
+									</SelectItem>
+									<SelectItem value="Professional and authoritative">
+										Professional and authoritative
+									</SelectItem>
+									<SelectItem value="Casual and conversational">
+										Casual and conversational
+									</SelectItem>
+									<SelectItem value="Energetic and enthusiastic">
+										Energetic and enthusiastic
+									</SelectItem>
+									<SelectItem value="Calm and educational">
+										Calm and educational
+									</SelectItem>
+									<SelectItem value="Witty and entertaining">
+										Witty and entertaining
+									</SelectItem>
+									<SelectItem value="Inspirational and uplifting">
+										Inspirational and uplifting
+									</SelectItem>
+									<SelectItem value="Direct and no-nonsense">
+										Direct and no-nonsense
+									</SelectItem>
+									<SelectItem value="Other">Other</SelectItem>
+								</SelectContent>
+							</Select>
+							{selectedTone === 'Other' && (
+								<div className="space-y-2">
+									<Label
+										htmlFor="other_tone"
+										className="text-xs sm:text-sm"
+									>
+										Custom Tone & Style *
+									</Label>
+									<Input
+										id="other_tone"
+										name="other_tone"
+										placeholder="e.g., Friendly, motivational, and slightly humorous"
+										required={selectedTone === 'Other'}
+										className="text-sm"
+									/>
+								</div>
+							)}
+						</div>
 
+						<Separator />
 
 						{/* Actions */}
 						<div className="flex flex-col sm:flex-row gap-3 pt-2">

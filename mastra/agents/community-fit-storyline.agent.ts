@@ -17,9 +17,7 @@ export const CommunityFitInputSchema = z.object({
 		),
 	vision: z
 		.string()
-		.describe(
-			'Long-term mission or “why this matters.” Why does this deserve to become a community, not just a product?',
-		),
+		.describe('What is your objective / goal for this project?'),
 	target_platforms: z
 		.array(
 			z.enum([
@@ -37,12 +35,12 @@ export const CommunityFitInputSchema = z.object({
 	duration: z
 		.string()
 		.describe(
-			"Length of the initial sprint (ex: '1 week', '1 month', '3 months'). Used to size posting frequency.",
+			"Length of the initial sprint (ex: '1 week', '2 weeks'). Used to size posting frequency.",
 		),
 	posting_frequency: z
 		.string()
 		.describe(
-			"How often we post during the initial sprint, ex: '2 posts/day for 7 days'.",
+			"How many posts we post daily during the initial sprint, ex: '2 posts/day for 2 weeks' (3 posts/day for 1 week).",
 		),
 	tone: z
 		.string()
