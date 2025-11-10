@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
-import Link from 'next/link';
+import MaintenanceOngoing from '../maintenance-ongoing/MaintenanceOngoing';
 import {
 	DialogContent,
 	Dialog,
@@ -404,7 +404,8 @@ export default function FinalCTA() {
 									<DialogTitle className="sr-only">
 										Sign up or log in to SheepLoop
 									</DialogTitle>
-									<FormSelectionTabs />
+									{/* <FormSelectionTabs /> // TODO: add form selection tabs later */}
+									<MaintenanceOngoing />
 								</DialogContent>
 							</Dialog>
 							<span className="text-xs text-gray-500 italic">

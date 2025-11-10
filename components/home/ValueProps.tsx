@@ -10,6 +10,7 @@ import {
 	DialogTitle,
 } from '../ui/dialog';
 import FormSelectionTabs from '../user-validation-form/FormSelectionTabs';
+import MaintenanceOngoing from '../maintenance-ongoing/MaintenanceOngoing';
 
 export default function ValueProps() {
 	const icon1Ref = useRef<HTMLDivElement | null>(null);
@@ -134,7 +135,8 @@ export default function ValueProps() {
 							<DialogTitle className="sr-only">
 								Sign up or log in to SheepLoop
 							</DialogTitle>
-							<FormSelectionTabs />
+							{/* <FormSelectionTabs /> // TODO: add form selection tabs later */}
+							<MaintenanceOngoing />
 						</DialogContent>
 					</Dialog>
 				</div>

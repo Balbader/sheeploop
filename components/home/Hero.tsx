@@ -14,6 +14,7 @@ import {
 import Link from 'next/link';
 import BackedBy from './BackedBy';
 import FormSelectionTabs from '../user-validation-form/FormSelectionTabs';
+import MaintenanceOngoing from '../maintenance-ongoing/MaintenanceOngoing';
 
 export default function Hero() {
 	const heroRef = useRef<HTMLDivElement | null>(null);
@@ -907,7 +908,8 @@ export default function Hero() {
 							<DialogTitle className="sr-only">
 								Sign up or log in to SheepLoop
 							</DialogTitle>
-							<FormSelectionTabs />
+							{/* <FormSelectionTabs /> // TODO: add form selection tabs later */}
+							<MaintenanceOngoing />
 						</DialogContent>
 					</Dialog>
 				</div>
@@ -1015,7 +1017,8 @@ export default function Hero() {
 								<DialogTitle className="sr-only">
 									Generate your plan
 								</DialogTitle>
-								<FormSelectionTabs />
+								{/* <FormSelectionTabs /> // TODO: add form selection tabs later */}
+								<MaintenanceOngoing />
 							</DialogContent>
 						</Dialog>
 						<Button
