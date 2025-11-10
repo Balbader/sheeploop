@@ -1018,8 +1018,8 @@ export default function Hero() {
 								<DialogTitle className="sr-only">
 									Generate your plan
 								</DialogTitle>
-								{/* <FormSelectionTabs /> // TODO: add form selection tabs later */}
-								<MaintenanceOngoing />
+								<FormSelectionTabs /> {/* TODO: add form selection tabs later */}
+								{/* <MaintenanceOngoing /> */}
 							</DialogContent>
 						</Dialog>
 						<Button
