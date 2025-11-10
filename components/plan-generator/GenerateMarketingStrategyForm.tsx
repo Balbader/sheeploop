@@ -129,6 +129,9 @@ export function GenerateMarketingStrategyForm() {
 	const sheepContainerRef = useRef<HTMLDivElement>(null);
 	const animationRefs = useRef<any[]>([]);
 	const messageTimersRef = useRef<NodeJS.Timeout[]>([]);
+	const formRef = useRef<HTMLFormElement>(null);
+	const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+	const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
 	// Generate steps dynamically based on selected platform
 	const GENERATION_STEPS = useMemo(
@@ -569,25 +572,118 @@ export function GenerateMarketingStrategyForm() {
 
 	const progressPercentage = (currentStep / GENERATION_STEPS.length) * 100;
 
+	// GSAP animations for form entrance
+	useEffect(() => {
+		if (typeof window === 'undefined' || isLoading) return;
+
+		(async () => {
+			try {
+				const { gsap } = await import('gsap');
+
+				// Animate form sections with stagger (only when form is visible)
+				if (!parsedResult) {
+					const sections = sectionRefs.current.filter(Boolean);
+					if (sections.length > 0) {
+						gsap.set(sections, {
+							opacity: 0,
+							y: 20,
+							scale: 0.98,
+						});
+
+						gsap.to(sections, {
+							opacity: 1,
+							y: 0,
+							scale: 1,
+							duration: 0.6,
+							ease: 'power3.out',
+							stagger: 0.1,
+							delay: 0.2,
+						});
+					}
+
+					// Animate main form card
+					const mainCard = cardRefs.current[0];
+					if (mainCard) {
+						gsap.set(mainCard, {
+							opacity: 0,
+							scale: 0.95,
+							y: 20,
+						});
+
+						gsap.to(mainCard, {
+							opacity: 1,
+							scale: 1,
+							y: 0,
+							duration: 0.6,
+							ease: 'back.out(1.2)',
+							delay: 0.1,
+						});
+					}
+				}
+
+				// Animate result cards with subtle entrance
+				if (parsedResult) {
+					const cards = cardRefs.current.filter(Boolean);
+					if (cards.length > 0) {
+						gsap.set(cards, {
+							opacity: 0,
+							scale: 0.95,
+							y: 20,
+						});
+
+						gsap.to(cards, {
+							opacity: 1,
+							scale: 1,
+							y: 0,
+							duration: 0.6,
+							ease: 'back.out(1.2)',
+							stagger: 0.1,
+							delay: 0.2,
+						});
+
+						// Add subtle continuous float animation to result cards
+						cards.forEach((card, index) => {
+							if (card) {
+								gsap.to(card, {
+									y: -3,
+									duration: 2.5 + index * 0.3,
+									ease: 'sine.inOut',
+									repeat: -1,
+									yoyo: true,
+									delay: 1.5 + index * 0.2,
+								});
+							}
+						});
+					}
+				}
+			} catch (error) {
+				console.error('Failed to load GSAP:', error);
+			}
+		})();
+	}, [isLoading, parsedResult]);
+
 	return (
-		<div className="w-full space-y-4 sm:space-y-6 relative">
+		<div className="w-full space-y-4 sm:space-y-6 relative py-8 md:py-12">
 			{/* Raining Sheep Background */}
 			{isLoading && (
 				<div
 					ref={sheepContainerRef}
 					className="fixed inset-0 overflow-hidden"
-					style={{ zIndex: 5 }}
+					style={{ zIndex: 50 }}
 				/>
 			)}
 
 			{/* Loading Progress */}
 			{isLoading && (
-				<Card className="w-full p-4 sm:p-5 transition-all">
+				<Card className="w-full max-w-4xl mx-auto p-4 sm:p-5 transition-all border border-gray-200 bg-white shadow-lg">
 					<CardHeader className="p-0 pb-4">
 						<div className="flex items-center gap-2">
 							<Spinner className="w-4 h-4 text-green-600" />
-							<CardTitle className="text-sm font-semibold">
-								Generating Your Community Fit Storyline
+							<CardTitle className="text-base sm:text-lg font-semibold text-gray-900">
+								Generating Your Community Fit{' '}
+								<span className="text-green-600">
+									Storyline
+								</span>
 							</CardTitle>
 						</div>
 					</CardHeader>
@@ -702,8 +798,14 @@ export function GenerateMarketingStrategyForm() {
 			)}
 
 			{!isLoading && !parsedResult && (
-				<Card className="w-full p-4 sm:p-5 md:p-6 transition-all hover:shadow-md">
+				<Card
+					ref={(el) => {
+						cardRefs.current[0] = el;
+					}}
+					className="w-full max-w-4xl mx-auto p-4 sm:p-5 md:p-6 transition-all hover:shadow-xl hover:-translate-y-1 border border-gray-200 bg-white"
+				>
 					<form
+						ref={formRef}
 						id="storyline-form"
 						action={handleSubmit}
 						onSubmit={(e) => {
@@ -715,8 +817,13 @@ export function GenerateMarketingStrategyForm() {
 						className="space-y-4 sm:space-y-6"
 					>
 						{/* Basic Information */}
-						<div className="space-y-3 sm:space-y-4">
-							<h2 className="text-xs sm:text-sm font-semibold tracking-tight">
+						<div
+							ref={(el) => {
+								sectionRefs.current[0] = el;
+							}}
+							className="space-y-3 sm:space-y-4"
+						>
+							<h2 className="text-base sm:text-lg md:text-xl font-semibold tracking-tight text-gray-900">
 								Basic Information
 							</h2>
 
@@ -812,11 +919,16 @@ export function GenerateMarketingStrategyForm() {
 							</div>
 						</div>
 
-						<Separator />
+						<Separator className="my-6" />
 
 						{/* Platform & Timeline */}
-						<div className="space-y-3 sm:space-y-4">
-							<h2 className="text-xs sm:text-sm font-semibold tracking-tight">
+						<div
+							ref={(el) => {
+								sectionRefs.current[1] = el;
+							}}
+							className="space-y-3 sm:space-y-4"
+						>
+							<h2 className="text-base sm:text-lg md:text-xl font-semibold tracking-tight text-gray-900">
 								Platform & Timeline
 							</h2>
 
@@ -1135,12 +1247,20 @@ export function GenerateMarketingStrategyForm() {
 							)}
 						</div>
 
-						<div className="space-y-2">
+						<div
+							ref={(el) => {
+								sectionRefs.current[2] = el;
+							}}
+							className="space-y-2"
+						>
 							<Label
 								htmlFor="tone"
-								className="text-xs sm:text-sm"
+								className="text-sm sm:text-base font-medium text-gray-900"
 							>
-								Tone & Style * (Select up to 2)
+								Tone & Style *{' '}
+								<span className="text-gray-500 font-normal text-xs">
+									(Select up to 2)
+								</span>
 							</Label>
 							<Popover
 								open={tonePopoverOpen}
@@ -1395,19 +1515,25 @@ export function GenerateMarketingStrategyForm() {
 
 			{/* Results Section */}
 			{parsedResult && (
-				<div className="w-full space-y-4 sm:space-y-6">
+				<div className="w-full max-w-6xl mx-auto space-y-4 sm:space-y-6">
 					<div className="text-center mb-6 sm:mb-8 px-2">
-						<h2 className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight mb-2">
-							Your Community Fit Storyline
+						<h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight mb-3 text-gray-900">
+							Your Community Fit{' '}
+							<span className="text-green-600">Storyline</span>
 						</h2>
-						<p className="text-gray-600 text-xs sm:text-sm">
+						<p className="text-gray-600 text-sm sm:text-base">
 							Your personalized content strategy is ready
 						</p>
 					</div>
 
 					{/* Community Market Fit Scores */}
 					{parsedResult.community_market_fit && (
-						<Card className="w-full p-4 sm:p-5 transition-all hover:shadow-md hover:-translate-y-0.5">
+						<Card
+							ref={(el) => {
+								cardRefs.current[1] = el;
+							}}
+							className="w-full p-4 sm:p-5 transition-all hover:shadow-xl hover:-translate-y-1 border border-gray-200 bg-white"
+						>
 							<CardHeader className="p-0 pb-4">
 								<CardTitle className="text-sm font-semibold">
 									Community Market Fit Assessment
@@ -1490,7 +1616,12 @@ export function GenerateMarketingStrategyForm() {
 
 					{/* IFC Profile */}
 					{parsedResult.ifc_profile && (
-						<Card className="w-full p-4 sm:p-5 transition-all hover:shadow-md hover:-translate-y-0.5">
+						<Card
+							ref={(el) => {
+								cardRefs.current[2] = el;
+							}}
+							className="w-full p-4 sm:p-5 transition-all hover:shadow-xl hover:-translate-y-1 border border-gray-200 bg-white"
+						>
 							<CardHeader className="p-0 pb-3 sm:pb-4">
 								<CardTitle className="text-xs sm:text-sm font-semibold">
 									Ideal Follower Profile (IFP)
@@ -1580,7 +1711,14 @@ export function GenerateMarketingStrategyForm() {
 												value={`persona-${idx}`}
 												className="mt-4 sm:mt-6 space-y-4 sm:space-y-6"
 											>
-												<Card className="w-full p-4 sm:p-5 transition-all hover:shadow-md hover:-translate-y-0.5">
+												<Card
+													ref={(el) => {
+														cardRefs.current[
+															3 + idx
+														] = el;
+													}}
+													className="w-full p-4 sm:p-5 transition-all hover:shadow-xl hover:-translate-y-1 border border-gray-200 bg-white"
+												>
 													<CardHeader className="p-0 pb-4">
 														<div className="flex items-start justify-between gap-4">
 															<div>
@@ -1846,7 +1984,7 @@ export function GenerateMarketingStrategyForm() {
 																					key={
 																						sIdx
 																					}
-																					className="p-5 border-gray-200 transition-all hover:shadow-md"
+																					className="p-5 border border-gray-200 bg-slate-50/50 transition-all hover:shadow-lg hover:-translate-y-0.5"
 																				>
 																					<div className="flex items-start justify-between mb-3">
 																						<h4 className="font-semibold text-xs text-gray-900">
@@ -1905,7 +2043,7 @@ export function GenerateMarketingStrategyForm() {
 
 					{/* Fallback for raw JSON if structure doesn't match */}
 					{!parsedResult && result && (
-						<Card className="w-full p-4 sm:p-5 bg-slate-50">
+						<Card className="w-full p-4 sm:p-5 bg-slate-50 border border-gray-200">
 							<CardContent className="p-0">
 								<div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
 									<pre className="whitespace-pre-wrap text-xs sm:text-sm text-gray-700 leading-relaxed p-4 sm:p-6 md:p-8 overflow-x-auto">
