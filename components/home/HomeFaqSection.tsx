@@ -32,7 +32,7 @@ export default function HomeFaqSection() {
 			},
 			{
 				q: 'Is it free to use?',
-				a: 'Yes. You can try it for free. No credit card required. You can upgrade to a paid plan later if you need more features.',
+				a: 'Yes. You can try it for free. No credit card required.',
 			},
 			{
 				q: 'Is the output unique?',
