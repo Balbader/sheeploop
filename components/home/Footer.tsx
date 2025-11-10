@@ -24,7 +24,7 @@ export default function Footer() {
 				</div>
 				<div className="flex flex-col items-center md:items-end gap-2">
 					<nav className="text-xs text-gray-500 flex items-center gap-4">
-						{/* <Link
+						{/* <Link // TODO: add faq later>
 							href="/faq"
 							className="hover:text-green-500 hover:font-bold transition-all duration-300"
 						>
