@@ -1118,7 +1118,7 @@ export default function Hero() {
 								</h3>
 								<p className="text-xs text-gray-800 leading-relaxed">
 									Based on your "Ideal Follower Profile" and
-									the target platform,{' '}
+									the platform you choose,{' '}
 									<span className="font-bold">Sheep</span>
 									<span className="font-bold text-green-700">
 										Loop
