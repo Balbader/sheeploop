@@ -1367,17 +1367,24 @@ export function GenerateMarketingStrategyForm() {
 							<Button
 								type="submit"
 								disabled={isLoading}
-								className="rounded-full px-6 py-3 text-sm sm:text-base min-h-[44px] flex-1 sm:flex-none w-full sm:w-auto"
+								className="relative rounded-full px-6 py-3 text-sm font-semibold bg-black hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600 text-white hover:font-bold shadow-lg hover:shadow-xl hover:shadow-green-500/50 transition-all duration-300 overflow-hidden group flex-1 sm:flex-none w-full sm:w-auto min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed"
 							>
-								{isLoading
-									? 'Generating...'
-									: 'Generate Storyline'}
+								{/* Animated shine effect */}
+								<span
+									aria-hidden
+									className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shimmer pointer-events-none"
+								/>
+								<span className="relative">
+									{isLoading
+										? 'Generating...'
+										: 'Generate Storyline'}
+								</span>
 							</Button>
 							<Button
 								type="button"
 								variant="outline"
 								onClick={handleReset}
-								className="rounded-full px-6 py-3 text-sm sm:text-base min-h-[44px] flex-1 sm:flex-none w-full sm:w-auto"
+								className="rounded-full px-5 py-3 text-sm hover:font-bold hover:bg-green-500 hover:text-white transition-all duration-300 flex-1 sm:flex-none w-full sm:w-auto min-h-[44px]"
 							>
 								Reset Form
 							</Button>
