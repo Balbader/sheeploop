@@ -18,23 +18,23 @@ export default function ValueProps() {
 	const icon3Ref = useRef<HTMLDivElement | null>(null);
 	const features = [
 		{
-			k: 'ifp',
-			title: 'Define Your Ideal Follower Profile',
-			desc: 'We analyze your market and tell you who actually cares.',
-			icon: '🎯',
+			k: 'validate',
+			title: '1. Type in your idea and tell us what your goal is',
+			desc: 'We validate your idea and tell you if there is a demand for it. We also define your "Ideal Follower Profile".',
+			icon: '🔍',
 			ref: icon1Ref,
 		},
 		{
 			k: 'storyline',
-			title: 'Storyline Engine',
-			desc: 'We generate a multi-episode narrative your audience can follow.',
+			title: '2. Storyline Engine',
+			desc: 'We generate a multi-episode shorts scripts for each of your "Ideal Follower Profile".',
 			icon: '🎬',
 			ref: icon2Ref,
 		},
 		{
-			k: 'plan',
-			title: 'Daily / Weekly / Monthly Plan',
-			desc: 'Never wonder what to post. We schedule it for you.',
+			k: 'schedule',
+			title: '3. Daily / Weekly / Monthly Plan',
+			desc: 'Based on your "Ideal Follower Profile" and the target platform, we tell you when to post your shorts daily.',
 			icon: '📅',
 			ref: icon3Ref,
 		},
@@ -125,6 +125,12 @@ export default function ValueProps() {
 				</div>
 
 				<div className="mt-12 flex items-center justify-center">
+					<p className="text-green-700 italic leading-relaxed text-center font-bold text-xl">
+						&quot;All you have to do is hit record, follow the script, and post your shorts daily.&quot;
+					</p>
+				</div>
+
+				<div className="mt-8 flex items-center justify-center">
 					<Dialog>
 						<DialogTrigger asChild>
 							<Button className="rounded-full px-5 py-3 text-sm hover:font-bold hover:bg-green-500 hover:text-white">
@@ -132,9 +138,6 @@ export default function ValueProps() {
 							</Button>
 						</DialogTrigger>
 						<DialogContent>
-							<DialogTitle className="sr-only">
-								Sign up or log in to SheepLoop
-							</DialogTitle>
 							{/* <FormSelectionTabs /> // TODO: add form selection tabs later */}
 							<MaintenanceOngoing />
 						</DialogContent>

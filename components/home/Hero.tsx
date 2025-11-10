@@ -1046,8 +1046,9 @@ export default function Hero() {
 									Validate your idea
 								</h3>
 								<p className="text-xs text-gray-800 leading-relaxed">
-									<span className="font-bold text-green-600">
-										SheepLoop
+									<span className="font-bold">Sheep</span>
+									<span className="font-bold text-green-700">
+										Loop
 									</span>{' '}
 									will validate your idea by analyzing the
 									market and telling you if there is a demand
@@ -1069,8 +1070,9 @@ export default function Hero() {
 									Find your "Ideal Follower Profile"
 								</h3>
 								<p className="text-xs text-gray-800 leading-relaxed">
-									<span className="font-bold text-green-600">
-										SheepLoop
+									<span className="font-bold">Sheep</span>
+									<span className="font-bold text-green-700">
+										Loop
 									</span>{' '}
 									will define your "Ideal Follower Profile".
 									The crowd that will be most likely to engage
@@ -1092,8 +1094,9 @@ export default function Hero() {
 									Create 'Smart' Shorts
 								</h3>
 								<p className="text-xs text-gray-800 leading-relaxed">
-									<span className="font-bold text-green-600">
-										SheepLoop
+									<span className="font-bold">Sheep</span>
+									<span className="font-bold text-green-700">
+										Loop
 									</span>{' '}
 									will generate 3-5 shorts scripts for each of
 									your "Ideal Follower Profile".
@@ -1116,8 +1119,9 @@ export default function Hero() {
 								<p className="text-xs text-gray-800 leading-relaxed">
 									Based on your "Ideal Follower Profile" and
 									the target platform,{' '}
-									<span className="font-bold text-green-600">
-										SheepLoop
+									<span className="font-bold">Sheep</span>
+									<span className="font-bold text-green-700">
+										Loop
 									</span>{' '}
 									will schedule your shorts to be posted
 									daily.
