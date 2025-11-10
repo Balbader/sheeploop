@@ -18,7 +18,13 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { CheckCircle2, Circle } from 'lucide-react';
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from '@/components/ui/popover';
+import { CheckCircle2, Circle, ChevronDown, X } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 import Image from 'next/image';
 
 const FUNNY_MESSAGES = [
@@ -117,8 +123,9 @@ export function GenerateMarketingStrategyForm() {
 	const [remainingTime, setRemainingTime] = useState(300); // 5 minutes
 	const [selectedPlatform, setSelectedPlatform] = useState<string>('TikTok');
 	const [selectedDevice, setSelectedDevice] = useState<string>('');
-	const [selectedTone, setSelectedTone] = useState<string>('');
+	const [selectedTones, setSelectedTones] = useState<string[]>([]);
 	const [selectedObjective, setSelectedObjective] = useState<string>('');
+	const [tonePopoverOpen, setTonePopoverOpen] = useState(false);
 	const sheepContainerRef = useRef<HTMLDivElement>(null);
 	const animationRefs = useRef<any[]>([]);
 	const messageTimersRef = useRef<NodeJS.Timeout[]>([]);
@@ -534,7 +541,7 @@ export function GenerateMarketingStrategyForm() {
 	const handleReset = () => {
 		setResult(null);
 		setSelectedDevice('');
-		setSelectedTone('');
+		setSelectedTones([]);
 		setSelectedObjective('');
 		const form = document.getElementById(
 			'storyline-form',
@@ -1128,54 +1135,202 @@ export function GenerateMarketingStrategyForm() {
 							)}
 						</div>
 
-						{/* Content Strategy // ! FIX: remove this section and all related inputs -> the agent will handle this*/}
-						<div className="space-y-3 sm:space-y-4"></div>
 						<div className="space-y-2">
 							<Label
 								htmlFor="tone"
 								className="text-xs sm:text-sm"
 							>
-								Tone & Style *
+								Tone & Style * (Select up to 2)
 							</Label>
-							<Select
-								name="tone"
-								value={selectedTone}
-								onValueChange={setSelectedTone}
-								required
+							<Popover
+								open={tonePopoverOpen}
+								onOpenChange={setTonePopoverOpen}
 							>
-								<SelectTrigger>
-									<SelectValue placeholder="Select a tone & style" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="Friendly, motivational, and slightly humorous">
-										Friendly, motivational, and slightly
-										humorous
-									</SelectItem>
-									<SelectItem value="Professional and authoritative">
-										Professional and authoritative
-									</SelectItem>
-									<SelectItem value="Casual and conversational">
-										Casual and conversational
-									</SelectItem>
-									<SelectItem value="Energetic and enthusiastic">
-										Energetic and enthusiastic
-									</SelectItem>
-									<SelectItem value="Calm and educational">
-										Calm and educational
-									</SelectItem>
-									<SelectItem value="Witty and entertaining">
-										Witty and entertaining
-									</SelectItem>
-									<SelectItem value="Inspirational and uplifting">
-										Inspirational and uplifting
-									</SelectItem>
-									<SelectItem value="Direct and no-nonsense">
-										Direct and no-nonsense
-									</SelectItem>
-									<SelectItem value="Other">Other</SelectItem>
-								</SelectContent>
-							</Select>
-							{selectedTone === 'Other' && (
+								<PopoverTrigger asChild>
+									<Button
+										type="button"
+										variant="outline"
+										className="w-full justify-between text-left font-normal"
+									>
+										<span className="truncate">
+											{selectedTones.length === 0
+												? 'Select tone & style'
+												: selectedTones.length === 1
+												? selectedTones[0]
+												: `${selectedTones.length} selected`}
+										</span>
+										<ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+									</Button>
+								</PopoverTrigger>
+								<PopoverContent
+									className="w-[var(--radix-popover-trigger-width)] p-0"
+									align="start"
+								>
+									<div className="max-h-[300px] overflow-y-auto p-2">
+										<div className="space-y-1">
+											{[
+												'Friendly, motivational, and slightly humorous',
+												'Professional and authoritative',
+												'Casual and conversational',
+												'Energetic and enthusiastic',
+												'Calm and educational',
+												'Witty and entertaining',
+												'Inspirational and uplifting',
+												'Direct and no-nonsense',
+											].map((tone) => (
+												<label
+													key={tone}
+													className="flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-2 rounded transition-colors"
+												>
+													<Checkbox
+														checked={selectedTones.includes(
+															tone,
+														)}
+														onCheckedChange={(
+															checked,
+														) => {
+															if (checked) {
+																if (
+																	selectedTones.length <
+																	2
+																) {
+																	setSelectedTones(
+																		[
+																			...selectedTones,
+																			tone,
+																		],
+																	);
+																}
+															} else {
+																setSelectedTones(
+																	selectedTones.filter(
+																		(t) =>
+																			t !==
+																			tone,
+																	),
+																);
+															}
+														}}
+														disabled={
+															!selectedTones.includes(
+																tone,
+															) &&
+															selectedTones.length >=
+																2
+														}
+													/>
+													<span className="text-sm flex-1">
+														{tone}
+													</span>
+												</label>
+											))}
+											<label className="flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-2 rounded transition-colors">
+												<Checkbox
+													checked={selectedTones.includes(
+														'Other',
+													)}
+													onCheckedChange={(
+														checked,
+													) => {
+														if (checked) {
+															if (
+																selectedTones.length <
+																2
+															) {
+																setSelectedTones(
+																	[
+																		...selectedTones,
+																		'Other',
+																	],
+																);
+															}
+														} else {
+															setSelectedTones(
+																selectedTones.filter(
+																	(t) =>
+																		t !==
+																		'Other',
+																),
+															);
+														}
+													}}
+													disabled={
+														!selectedTones.includes(
+															'Other',
+														) &&
+														selectedTones.length >=
+															2
+													}
+												/>
+												<span className="text-sm">
+													Other
+												</span>
+											</label>
+										</div>
+										{selectedTones.length > 0 && (
+											<div className="border-t p-2 mt-2">
+												<div className="flex items-center justify-between text-xs text-gray-500 mb-2">
+													<span>
+														{selectedTones.length}{' '}
+														of 2 selected
+													</span>
+													{selectedTones.length >
+														0 && (
+														<button
+															type="button"
+															onClick={() => {
+																setSelectedTones(
+																	[],
+																);
+															}}
+															className="text-red-500 hover:text-red-700 flex items-center gap-1"
+														>
+															<X className="h-3 w-3" />
+															Clear
+														</button>
+													)}
+												</div>
+												<div className="flex flex-wrap gap-1">
+													{selectedTones.map(
+														(tone) => (
+															<Badge
+																key={tone}
+																variant="secondary"
+																className="text-xs"
+															>
+																{tone}
+																<button
+																	type="button"
+																	onClick={() => {
+																		setSelectedTones(
+																			selectedTones.filter(
+																				(
+																					t,
+																				) =>
+																					t !==
+																					tone,
+																			),
+																		);
+																	}}
+																	className="ml-1 hover:text-red-500"
+																>
+																	<X className="h-3 w-3" />
+																</button>
+															</Badge>
+														),
+													)}
+												</div>
+											</div>
+										)}
+									</div>
+								</PopoverContent>
+							</Popover>
+							{selectedTones.length > 0 && (
+								<div className="text-xs text-gray-500">
+									{selectedTones.length} of 2 selected
+								</div>
+							)}
+							{selectedTones.includes('Other') && (
 								<div className="space-y-2">
 									<Label
 										htmlFor="other_tone"
@@ -1187,11 +1342,22 @@ export function GenerateMarketingStrategyForm() {
 										id="other_tone"
 										name="other_tone"
 										placeholder="e.g., Friendly, motivational, and slightly humorous"
-										required={selectedTone === 'Other'}
+										required={selectedTones.includes(
+											'Other',
+										)}
 										className="text-sm"
 									/>
 								</div>
 							)}
+							{/* Hidden inputs for form submission */}
+							{selectedTones.map((tone, index) => (
+								<input
+									key={index}
+									type="hidden"
+									name={`tone_${index}`}
+									value={tone}
+								/>
+							))}
 						</div>
 
 						<Separator />
