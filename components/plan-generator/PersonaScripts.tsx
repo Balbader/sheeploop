@@ -14,6 +14,8 @@ interface Script {
 	duration?: string;
 	script?: string;
 	cta?: string;
+	day_of_week?: string;
+	preferred_time?: string;
 }
 
 interface PersonaScriptsProps {
@@ -54,13 +56,36 @@ export function PersonaScripts({
 						className="p-6 border-2 border-gray-200 bg-gradient-to-br from-white to-gray-50/50 transition-all hover:shadow-xl hover:border-green-300 hover:-translate-y-1 shadow-md"
 					>
 						<div className="flex items-start justify-between mb-4">
-							<h4 className="font-bold text-base sm:text-lg text-gray-900">
-								{script.title || `Script ${sIdx + 1}`}
-							</h4>
+							<div className="flex-1">
+								<h4 className="font-bold text-base sm:text-lg text-gray-900 mb-2">
+									{script.title || `Script ${sIdx + 1}`}
+								</h4>
+								{(script.day_of_week ||
+									script.preferred_time) && (
+									<div className="flex items-center gap-2 flex-wrap">
+										{script.day_of_week && (
+											<Badge
+												variant="outline"
+												className="text-xs font-semibold px-2 py-1 bg-blue-50 text-blue-700 border-blue-200"
+											>
+												📅 {script.day_of_week}
+											</Badge>
+										)}
+										{script.preferred_time && (
+											<Badge
+												variant="outline"
+												className="text-xs font-semibold px-2 py-1 bg-purple-50 text-purple-700 border-purple-200"
+											>
+												⏰ {script.preferred_time}
+											</Badge>
+										)}
+									</div>
+								)}
+							</div>
 							{script.duration && (
 								<Badge
 									variant="secondary"
-									className="text-xs font-semibold px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 border border-green-200/50"
+									className="text-xs font-semibold px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 border border-green-200/50 ml-2"
 								>
 									{script.duration}
 								</Badge>

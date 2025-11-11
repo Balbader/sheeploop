@@ -294,12 +294,21 @@ export const CommunityFitOutputSchema = z.object({
 								.describe(
 									"Call to action that matches this persona's psychology. (Follow, comment, stitch, join waitlist.)",
 								),
+							day_of_week: z
+								.string()
+								.describe(
+									'Day of the week to post this script (e.g., "Monday", "Tuesday", "Wednesday", etc.).',
+								),
+							preferred_time: z
+								.string()
+								.describe(
+									'Preferred time to post based on the target platform and audience behavior (e.g., "9:00 AM", "6:00 PM", "12:00 PM"). Should be platform-specific optimal posting time.',
+								),
 						}),
 					)
-					.min(3)
-					.max(5)
+					.min(1)
 					.describe(
-						"3-5 target platform-ready short scripts tailored to this persona's storyline and psychology.",
+						'Array of scripts matching the exact number of posts needed based on posting_frequency and duration. Each script must include day_of_week and preferred_time based on the target platform.',
 					),
 			}),
 		)
@@ -430,20 +439,46 @@ All of this must respect:
 - the provided "duration" (assume sprint = initial duration even if duration input is longer)
 
 -------------------------------------------------
-6. VIRAL SHORT SCRIPTS (3-5 PER PERSONA)
+6. VIRAL SHORT SCRIPTS (EXACT NUMBER BASED ON POSTING FREQUENCY)
 -------------------------------------------------
-For each persona, generate 3-5 target platform-native scripts.
+For each persona, generate the EXACT number of scripts needed based on:
+- posting_frequency (e.g., "2 posts/day")
+- duration (e.g., "1 week", "2 weeks")
+
+CALCULATION EXAMPLE:
+- "2 posts/day" for "1 week" = 2 × 7 = 14 scripts
+- "1 post/day" for "2 weeks" = 1 × 14 = 14 scripts
+- "2 posts/day" for "2 weeks" = 2 × 14 = 28 scripts
+
 Each script MUST have:
 - title (internal label)
 - duration (e.g. "20s", "30s")
 - script (the spoken flow)
 - cta (what we ask them to do at the end)
+- day_of_week (e.g., "Monday", "Tuesday", "Wednesday", etc.)
+- preferred_time (platform-specific optimal posting time)
+
+PLATFORM-SPECIFIC POSTING TIMES:
+Research and use optimal posting times for each target platform:
+- TikTok: 6-10 AM, 7-9 PM (weekdays), 9 AM-12 PM (weekends)
+- Instagram: 11 AM-1 PM, 7-9 PM (weekdays), 10 AM-2 PM (weekends)
+- YouTube Shorts: 2-4 PM, 8-11 PM (weekdays), 9 AM-11 AM (weekends)
+- LinkedIn: 8-10 AM, 12-1 PM (weekdays), avoid weekends
+- X (Twitter): 8-9 AM, 12-1 PM, 5-6 PM (weekdays), 9-10 AM (weekends)
+- Snapchat: 7-9 AM, 12-2 PM, 5-7 PM (weekdays), 10 AM-2 PM (weekends)
+- Facebook: 1-3 PM, 6-9 PM (weekdays), 12-1 PM (weekends)
 
 The script MUST:
 - Hook HARD in first ~2 seconds with a call-out, accusation, confession, or high tension claim.
 - Show a relatable emotional twist or pain.
 - End with a CTA that matches that persona's psychology. (Follow to join the movement / drop your struggle / stitch with your version / etc.)
+- Include in the script text itself a mention of the day of week and preferred time (e.g., "Post this on Monday at 9:00 AM" or "Best posted Tuesday evening at 7:00 PM")
 No generic "Like and subscribe." Make it feel like joining a movement.
+
+DISTRIBUTE SCRIPTS ACROSS DAYS:
+- Spread scripts evenly across the days of the week based on the duration
+- If posting multiple times per day, vary the times (e.g., morning and evening)
+- Ensure each script has a unique day_of_week and preferred_time combination
 
 -------------------------------------------------
 7. TONE & PLATFORM
@@ -463,7 +498,9 @@ No trailing commas.
 
 IMPORTANT:
 personas MUST be length equal to number_of_personas (default: 2, range: 1-5).
-Each persona MUST include scripts length 3 to 5.
+Each persona MUST include scripts matching the EXACT number calculated from posting_frequency × duration.
+For example: "2 posts/day" for "1 week" = 14 scripts, "1 post/day" for "2 weeks" = 14 scripts.
+Each script MUST include day_of_week and preferred_time fields.
 
 EXACT JSON STRUCTURE REQUIRED (use these exact key names):
 {
@@ -515,9 +552,11 @@ EXACT JSON STRUCTURE REQUIRED (use these exact key names):
           "title": "<string>",
           "duration": "<string>",
           "script": "<string>",
-          "cta": "<string>"
+          "cta": "<string>",
+          "day_of_week": "<string>",
+          "preferred_time": "<string>"
         }
-        // 3-5 scripts total
+        // Exact number of scripts based on posting_frequency × duration
       ]
     }
     // number of personas equal to number_of_personas input (1-5)
@@ -556,6 +595,31 @@ export const communityFitStorylineAgent = new Agent({
  * - attempts one repair pass if needed
  */
 
+/**
+ * Calculate the total number of posts needed based on posting frequency and duration
+ */
+function calculatePostCount(
+	postingFrequency: string,
+	duration: string,
+): number {
+	// Extract posts per day from posting_frequency (e.g., "2 posts/day" -> 2)
+	const postsPerDayMatch = postingFrequency.match(
+		/(\d+)\s*posts?\s*\/?\s*day/i,
+	);
+	const postsPerDay = postsPerDayMatch
+		? parseInt(postsPerDayMatch[1], 10)
+		: 1;
+
+	// Extract number of weeks from duration (e.g., "1 week" -> 1, "2 weeks" -> 2)
+	const weeksMatch = duration.match(/(\d+)\s*weeks?/i);
+	const weeks = weeksMatch ? parseInt(weeksMatch[1], 10) : 1;
+
+	// Calculate total posts: posts per day × days per week × number of weeks
+	const totalPosts = postsPerDay * 7 * weeks;
+
+	return totalPosts;
+}
+
 export async function runCommunityFitStoryline(
 	input: z.infer<typeof CommunityFitInputSchema>,
 ) {
@@ -565,9 +629,20 @@ export async function runCommunityFitStoryline(
 	// validate input against schema
 	const parsed = CommunityFitInputSchema.parse(input);
 
+	// Calculate total number of posts needed
+	const totalPosts = calculatePostCount(
+		parsed.posting_frequency,
+		parsed.duration,
+	);
+	log('Calculated total posts needed:', totalPosts);
+
 	// prompt we send to the agent
 	const prompt = [
 		'Using the provided campaign inputs, produce the required JSON output. Return ONLY valid JSON that matches CommunityFitOutputSchema. No extra keys, no comments.',
+		'',
+		`IMPORTANT: You MUST generate EXACTLY ${totalPosts} scripts per persona (calculated from posting_frequency: "${parsed.posting_frequency}" × duration: "${parsed.duration}").`,
+		'Each script must include day_of_week and preferred_time based on the target platform(s).',
+		'',
 		'Inputs:',
 		JSON.stringify(parsed, null, 2),
 	].join('\n');
@@ -1031,6 +1106,8 @@ export async function runCommunityFitStoryline(
 					duration: ensureString(o.duration),
 					script: ensureString(o.script),
 					cta: ensureString(o.cta),
+					day_of_week: ensureString(o.day_of_week),
+					preferred_time: ensureString(o.preferred_time),
 				};
 			})
 			.filter(
@@ -1039,15 +1116,41 @@ export async function runCommunityFitStoryline(
 					s.title.trim() &&
 					s.duration.trim() &&
 					s.script.trim() &&
-					s.cta.trim(),
+					s.cta.trim() &&
+					s.day_of_week.trim() &&
+					s.preferred_time.trim(),
 			);
 	}
 
-	function ensurePersona(p: any): any {
+	function ensurePersona(p: any, expectedScriptCount?: number): any {
 		if (!p || typeof p !== 'object') p = {};
 
 		const storylineArc = p.storyline?.arc ?? {};
 		const growth = p.growth_strategy ?? {};
+
+		let scripts = ensureScriptsArray(p.scripts);
+
+		// If we have an expected script count, ensure we have the right number
+		if (expectedScriptCount !== undefined) {
+			if (scripts.length > expectedScriptCount) {
+				// Trim to expected count
+				scripts = scripts.slice(0, expectedScriptCount);
+			} else if (
+				scripts.length < expectedScriptCount &&
+				scripts.length > 0
+			) {
+				// Duplicate last script to fill the gap (better than empty)
+				while (scripts.length < expectedScriptCount) {
+					const lastScript = scripts[scripts.length - 1];
+					scripts.push({
+						...lastScript,
+						title: `${lastScript.title} (Copy ${
+							scripts.length + 1
+						})`,
+					});
+				}
+			}
+		}
 
 		return {
 			name: ensureString(p.name),
@@ -1079,13 +1182,14 @@ export async function runCommunityFitStoryline(
 				kpis: toStringArray(growth.kpis) ?? [],
 			},
 
-			scripts: ensureScriptsArray(p.scripts),
+			scripts: scripts,
 		};
 	}
 
 	function coerceOutput(
 		value: unknown,
 		targetPersonaCount: number = 2,
+		expectedScriptCount?: number,
 	): unknown {
 		if (!value || typeof value !== 'object') return value;
 
@@ -1140,7 +1244,9 @@ export async function runCommunityFitStoryline(
 		if (!Array.isArray(obj.personas)) {
 			obj.personas = [];
 		}
-		obj.personas = obj.personas.map(ensurePersona);
+		obj.personas = obj.personas.map((p: any) =>
+			ensurePersona(p, expectedScriptCount),
+		);
 
 		// enforce target number of personas – if model gave >target, slice, if <target, pad repeats
 		const targetCount = Math.max(1, Math.min(5, targetPersonaCount));
@@ -1154,7 +1260,7 @@ export async function runCommunityFitStoryline(
 		}
 		// if zero, create targetCount empty skeletons
 		if (obj.personas.length === 0) {
-			const emptyPersona = ensurePersona({});
+			const emptyPersona = ensurePersona({}, expectedScriptCount);
 			obj.personas = Array.from({ length: targetCount }, () => ({
 				...emptyPersona,
 			}));
@@ -1166,6 +1272,13 @@ export async function runCommunityFitStoryline(
 	// Get target number of personas from input
 	const targetPersonaCount = parseInt(parsed.number_of_personas || '2', 10);
 	const personaCount = Math.max(1, Math.min(5, targetPersonaCount));
+
+	// Calculate expected number of scripts per persona
+	const expectedScriptCount = calculatePostCount(
+		parsed.posting_frequency,
+		parsed.duration,
+	);
+	log('Expected scripts per persona:', expectedScriptCount);
 
 	// Normalize key names first
 	const normalized = normalizeKeys(json);
@@ -1186,7 +1299,7 @@ export async function runCommunityFitStoryline(
 	}
 
 	// Try coercion/normalization pass
-	const coerced = coerceOutput(normalized, personaCount);
+	const coerced = coerceOutput(normalized, personaCount, expectedScriptCount);
 	const second = CommunityFitOutputSchema.safeParse(coerced);
 	if (second.success) {
 		// Verify persona count matches expected count after coercion
@@ -1216,7 +1329,10 @@ export async function runCommunityFitStoryline(
 		'  name, segment, description, key_motivation, core_pain_point, platform_behavior, preferred_tone_style.',
 		'- Each persona.storyline must include title, theme, arc {hook, transformation, outcome}, emotional_driver, core_message.',
 		'- Each persona.growth_strategy must include objective, posting_frequency, content_pillars[], engagement_tactics[], kpis[].',
-		'- Each persona.scripts must be an array of 3-5 scripts, each with title, duration, script, cta.',
+		`- Each persona.scripts must be an array with EXACTLY ${expectedScriptCount} scripts (calculated from posting_frequency: "${parsed.posting_frequency}" × duration: "${parsed.duration}").`,
+		'- Each script must include: title, duration, script, cta, day_of_week, preferred_time.',
+		'- day_of_week should be a day name (e.g., "Monday", "Tuesday", etc.).',
+		'- preferred_time should be a time based on the target platform optimal posting times.',
 		'- NO extra top-level keys.',
 		'- NO trailing commas.',
 		'Validation errors:',
@@ -1233,7 +1349,11 @@ export async function runCommunityFitStoryline(
 	log('Repair raw text length:', repair.text.length);
 
 	const repairedJson = extractJsonFromText(repair.text);
-	const repairedCoerced = coerceOutput(repairedJson, personaCount);
+	const repairedCoerced = coerceOutput(
+		repairedJson,
+		personaCount,
+		expectedScriptCount,
+	);
 
 	const finalAttempt = CommunityFitOutputSchema.safeParse(repairedCoerced);
 	log('Final attempt success:', finalAttempt.success);
