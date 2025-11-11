@@ -30,6 +30,7 @@ import {
 	ChevronUp,
 	X,
 	Download,
+	AlertTriangle,
 } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import Image from 'next/image';
@@ -167,6 +168,7 @@ export function GenerateMarketingStrategyForm({
 	const [tonePopoverOpen, setTonePopoverOpen] = useState(false);
 	const [insightsExpanded, setInsightsExpanded] = useState(true);
 	const [ifpExpanded, setIfpExpanded] = useState(true);
+	const [hasDownloadedPlan, setHasDownloadedPlan] = useState(false);
 	const [personaSectionsExpanded, setPersonaSectionsExpanded] = useState<
 		Record<
 			string,
@@ -186,6 +188,8 @@ export function GenerateMarketingStrategyForm({
 	const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 	const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 	const resultCardsAnimatedRef = useRef(false);
+	const downloadButtonRef = useRef<HTMLButtonElement>(null);
+	const downloadButtonAnimatedRef = useRef(false);
 
 	// Generate steps dynamically based on selected platform and number of personas
 	const GENERATION_STEPS = useMemo(
@@ -583,6 +587,7 @@ export function GenerateMarketingStrategyForm({
 	async function handleSubmit(formData: FormData) {
 		setResult(null);
 		setCurrentStep(0);
+		setHasDownloadedPlan(false); // Reset download state for new generation
 		setIsLoading(true);
 		try {
 			const res = await getCommunityFitStoryline(formData, username);
@@ -602,6 +607,8 @@ export function GenerateMarketingStrategyForm({
 		setSelectedTones([]);
 		setSelectedObjective('');
 		setNumberOfPersonas('');
+		setHasDownloadedPlan(false);
+		downloadButtonAnimatedRef.current = false; // Reset animation flag
 		const form = document.getElementById(
 			'storyline-form',
 		) as HTMLFormElement;
@@ -647,6 +654,8 @@ export function GenerateMarketingStrategyForm({
 	// GSAP animations for form entrance
 	useEffect(() => {
 		if (typeof window === 'undefined' || isLoading) return;
+
+		let cleanupFunctions: (() => void)[] = [];
 
 		(async () => {
 			try {
@@ -730,11 +739,125 @@ export function GenerateMarketingStrategyForm({
 							}
 						});
 					}
+
+					// Animate download button with cool effects
+					if (
+						downloadButtonRef.current &&
+						!downloadButtonAnimatedRef.current
+					) {
+						downloadButtonAnimatedRef.current = true;
+						const button = downloadButtonRef.current;
+
+						// Initial state
+						gsap.set(button, {
+							opacity: 0,
+							scale: 0.5,
+							rotation: -180,
+							y: 50,
+						});
+
+						// Entrance animation with bounce and rotation
+						const entranceTimeline = gsap.timeline({ delay: 0.8 });
+						entranceTimeline
+							.to(button, {
+								opacity: 1,
+								scale: 1.2,
+								rotation: 0,
+								y: 0,
+								duration: 0.8,
+								ease: 'back.out(2)',
+							})
+							.to(button, {
+								scale: 1,
+								duration: 0.3,
+								ease: 'power2.out',
+							});
+
+						// Continuous subtle pulse animation
+						gsap.to(button, {
+							scale: 1.05,
+							duration: 2,
+							ease: 'sine.inOut',
+							repeat: -1,
+							yoyo: true,
+							delay: 2,
+						});
+
+						// Hover animations
+						const handleMouseEnter = () => {
+							gsap.to(button, {
+								scale: 1.1,
+								rotation: 5,
+								boxShadow: '0 10px 30px rgba(34, 197, 94, 0.4)',
+								duration: 0.3,
+								ease: 'power2.out',
+							});
+						};
+
+						const handleMouseLeave = () => {
+							gsap.to(button, {
+								scale: 1,
+								rotation: 0,
+								boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+								duration: 0.3,
+								ease: 'power2.out',
+							});
+						};
+
+						// Click animation
+						const handleClick = () => {
+							const clickTimeline = gsap.timeline();
+							clickTimeline
+								.to(button, {
+									scale: 0.95,
+									rotation: -10,
+									duration: 0.1,
+									ease: 'power2.in',
+								})
+								.to(button, {
+									scale: 1.1,
+									rotation: 10,
+									duration: 0.2,
+									ease: 'power2.out',
+								})
+								.to(button, {
+									scale: 1,
+									rotation: 0,
+									duration: 0.2,
+									ease: 'power2.out',
+								});
+						};
+
+						button.addEventListener('mouseenter', handleMouseEnter);
+						button.addEventListener('mouseleave', handleMouseLeave);
+						button.addEventListener('mousedown', handleClick);
+
+						// Store cleanup function
+						cleanupFunctions.push(() => {
+							button.removeEventListener(
+								'mouseenter',
+								handleMouseEnter,
+							);
+							button.removeEventListener(
+								'mouseleave',
+								handleMouseLeave,
+							);
+							button.removeEventListener(
+								'mousedown',
+								handleClick,
+							);
+						});
+					}
 				}
 			} catch (error) {
 				console.error('Failed to load GSAP:', error);
 			}
 		})();
+
+		// Cleanup function
+		return () => {
+			cleanupFunctions.forEach((cleanup) => cleanup());
+		};
 	}, [isLoading, parsedResult]);
 
 	return (
@@ -1520,11 +1643,11 @@ export function GenerateMarketingStrategyForm({
 										>
 											<span className="text-2xl">🎨</span>
 											Tone & Style{' '}
-											<span className="text-red-500">
-												*
-											</span>
-											<span className="text-sm font-normal text-gray-600 ml-2">
+											<span className="text-sm font-normal text-gray-600">
 												(Select up to 2)
+											</span>
+											<span className="text-gray-500 text-sm font-normal">
+												(Optional)
 											</span>
 										</Label>
 										<Popover
@@ -1838,16 +1961,48 @@ export function GenerateMarketingStrategyForm({
 										</span>
 									</h2>
 								</div>
-								<p className="text-gray-700 text-base sm:text-lg font-medium mb-6">
+								<p className="text-gray-700 text-base sm:text-lg font-medium mb-4">
 									Your personalized{' '}
 									<span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm border border-green-200/50 text-green-700 font-semibold shadow-sm">
 										{selectedPlatformInfo?.name}
 									</span>{' '}
 									content strategy is ready
 								</p>
-								{/* Download Buttons */}
+								{/* Warning Bubble */}
+								{!hasDownloadedPlan && parsedResult && (
+									<div className="mb-4 flex justify-center">
+										<div className="relative animate-pulse">
+											<div className="absolute inset-0 bg-orange-200 rounded-full blur-lg opacity-40 animate-ping"></div>
+											<div className="relative bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 border-2 border-orange-300 rounded-xl px-4 py-2.5 shadow-md backdrop-blur-sm max-w-sm">
+												<div className="flex items-start gap-2">
+													<AlertTriangle className="w-4 h-4 text-orange-600 flex-shrink-0 mt-0.5 animate-bounce" />
+													<div className="flex-1">
+														<p className="text-xs font-semibold text-orange-900 mb-0.5">
+															⚠️ Important
+														</p>
+														<p className="text-xs text-orange-800 leading-relaxed">
+															Please do not close
+															or reload this page
+															before downloading
+															your plan.
+															<span className="font-semibold">
+																{' '}
+																You will lose
+																your generated
+																output
+															</span>{' '}
+															if you do.
+														</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								)}
+								{/* Download Button */}
 								<div className="flex flex-wrap items-center justify-center gap-3">
 									<Button
+										ref={downloadButtonRef}
 										onClick={async () => {
 											try {
 												const response = await fetch(
@@ -1891,6 +2046,8 @@ export function GenerateMarketingStrategyForm({
 													document.body.removeChild(
 														a,
 													);
+													// Mark as downloaded to hide warning
+													setHasDownloadedPlan(true);
 												}
 											} catch (error) {
 												console.error(
@@ -1903,123 +2060,7 @@ export function GenerateMarketingStrategyForm({
 										className="bg-white/90 hover:bg-white border-green-300 text-green-700 hover:text-green-800 font-semibold shadow-sm hover:shadow-md transition-all"
 									>
 										<Download className="w-4 h-4 mr-2" />
-										Download PDF
-									</Button>
-									<Button
-										onClick={async () => {
-											try {
-												const response = await fetch(
-													'/api/download',
-													{
-														method: 'POST',
-														headers: {
-															'Content-Type':
-																'application/json',
-														},
-														body: JSON.stringify({
-															data: parsedResult,
-															format: 'csv',
-														}),
-													},
-												);
-												if (response.ok) {
-													const blob =
-														await response.blob();
-													const url =
-														window.URL.createObjectURL(
-															blob,
-														);
-													const a =
-														document.createElement(
-															'a',
-														);
-													a.href = url;
-													a.download = `sheeploop-strategy-${
-														new Date()
-															.toISOString()
-															.split('T')[0]
-													}.csv`;
-													document.body.appendChild(
-														a,
-													);
-													a.click();
-													window.URL.revokeObjectURL(
-														url,
-													);
-													document.body.removeChild(
-														a,
-													);
-												}
-											} catch (error) {
-												console.error(
-													'Error downloading CSV:',
-													error,
-												);
-											}
-										}}
-										variant="outline"
-										className="bg-white/90 hover:bg-white border-green-300 text-green-700 hover:text-green-800 font-semibold shadow-sm hover:shadow-md transition-all"
-									>
-										<Download className="w-4 h-4 mr-2" />
-										Download CSV
-									</Button>
-									<Button
-										onClick={async () => {
-											try {
-												const response = await fetch(
-													'/api/download',
-													{
-														method: 'POST',
-														headers: {
-															'Content-Type':
-																'application/json',
-														},
-														body: JSON.stringify({
-															data: parsedResult,
-															format: 'txt',
-														}),
-													},
-												);
-												if (response.ok) {
-													const blob =
-														await response.blob();
-													const url =
-														window.URL.createObjectURL(
-															blob,
-														);
-													const a =
-														document.createElement(
-															'a',
-														);
-													a.href = url;
-													a.download = `sheeploop-strategy-${
-														new Date()
-															.toISOString()
-															.split('T')[0]
-													}.txt`;
-													document.body.appendChild(
-														a,
-													);
-													a.click();
-													window.URL.revokeObjectURL(
-														url,
-													);
-													document.body.removeChild(
-														a,
-													);
-												}
-											} catch (error) {
-												console.error(
-													'Error downloading TXT:',
-													error,
-												);
-											}
-										}}
-										variant="outline"
-										className="bg-white/90 hover:bg-white border-green-300 text-green-700 hover:text-green-800 font-semibold shadow-sm hover:shadow-md transition-all"
-									>
-										<Download className="w-4 h-4 mr-2" />
-										Download TXT
+										Download Plan
 									</Button>
 								</div>
 							</div>
