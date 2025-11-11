@@ -140,8 +140,8 @@ export default function ValueProps() {
 							</Button>
 						</DialogTrigger>
 						<DialogContent>
-							{/* <FormSelectionTabs /> // TODO: add form selection tabs later */}
-							<MaintenanceOngoing />
+							<FormSelectionTabs />
+							{/* <MaintenanceOngoing /> */}
 						</DialogContent>
 					</Dialog>
 				</div>
