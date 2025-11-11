@@ -168,7 +168,7 @@ export default async function Page({
 				</div>
 			</header>
 
-			<GeneratePageContent />
+			<GeneratePageContent username={user.username} />
 		</main>
 	);
 }

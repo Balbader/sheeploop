@@ -140,10 +140,12 @@ const getGenerationSteps = (
 };
 
 interface GenerateMarketingStrategyFormProps {
+	username?: string;
 	onOutputGenerated?: (hasOutput: boolean) => void;
 }
 
 export function GenerateMarketingStrategyForm({
+	username,
 	onOutputGenerated,
 }: GenerateMarketingStrategyFormProps = {}) {
 	const [result, setResult] = useState<string | null>(null);
@@ -576,7 +578,7 @@ export function GenerateMarketingStrategyForm({
 		setCurrentStep(0);
 		setIsLoading(true);
 		try {
-			const res = await getCommunityFitStoryline(formData);
+			const res = await getCommunityFitStoryline(formData, username);
 			setResult(res);
 			setCurrentStep(GENERATION_STEPS.length); // Mark all steps as complete
 		} catch (error) {

@@ -3,7 +3,11 @@
 import { GenerateMarketingStrategyForm } from '@/components/plan-generator/GenerateMarketingStrategyForm';
 import { useState } from 'react';
 
-export function GeneratePageContent() {
+interface GeneratePageContentProps {
+	username: string;
+}
+
+export function GeneratePageContent({ username }: GeneratePageContentProps) {
 	const [hasOutput, setHasOutput] = useState(false);
 
 	return (
@@ -22,7 +26,10 @@ export function GeneratePageContent() {
 					</p>
 				</div>
 			)}
-			<GenerateMarketingStrategyForm onOutputGenerated={setHasOutput} />
+			<GenerateMarketingStrategyForm
+				username={username}
+				onOutputGenerated={setHasOutput}
+			/>
 		</div>
 	);
 }
