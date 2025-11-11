@@ -634,6 +634,13 @@ export function GenerateMarketingStrategyForm({
 		}
 	}, [parsedResult, onOutputGenerated]);
 
+	// Scroll to top when output is generated
+	useEffect(() => {
+		if (parsedResult && !isLoading) {
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		}
+	}, [parsedResult, isLoading]);
+
 	// Get platform info based on selected platform
 	const selectedPlatformInfo = useMemo(() => {
 		return (
