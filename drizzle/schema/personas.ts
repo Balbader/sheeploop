@@ -6,6 +6,7 @@ export const personasTable = sqliteTable('personas', {
 	user_id: text('user_id').references(() => usersTable.id),
 	plan_id: text('plan_id'), // Reference to go-to-market plan (using text to avoid circular dependency)
 	persona_name: text('persona_name').notNull(),
+	segment: text('segment').notNull(), // Market slice this persona represents
 	description: text('description').notNull(),
 	key_motivation: text('key_motivation').notNull(),
 	core_pain_point: text('core_pain_point').notNull(),

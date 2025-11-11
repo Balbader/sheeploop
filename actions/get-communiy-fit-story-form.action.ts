@@ -12,6 +12,9 @@ import { runCommunityFitStoryline } from '@/mastra/agents/community-fit-storylin
 import { UserModel } from '@/backend/models/users.model';
 import { GoToMarketPlansModel } from '@/backend/models/go-to-market-plans.model';
 import { FormOutputModel } from '@/backend/models/form-output.model';
+import { IfcProfileModel } from '@/backend/models/ifc-profile.model';
+import { PersonasModel } from '@/backend/models/personas.model';
+import { ShortsScriptsModel } from '@/backend/models/shorts-scripts.model';
 import { error, log } from '@/lib/print-helpers';
 
 export async function getCommunityFitStoryline(
@@ -121,6 +124,89 @@ export async function getCommunityFitStoryline(
 					device_name: deviceName || undefined,
 					output_id: outputId,
 				});
+
+				// Extract and save IFC Profile
+				if (result.ifc_profile) {
+					const ifcProfileId = crypto.randomUUID();
+					await IfcProfileModel.create({
+						id: ifcProfileId,
+						user_id: userId,
+						go_to_market_plan_id: planId,
+						demographics: result.ifc_profile.demographics,
+						psychographics: result.ifc_profile.psychographics,
+						pain_points: result.ifc_profile.pain_points,
+						triggers: result.ifc_profile.triggers,
+						community_behaviors:
+							result.ifc_profile.community_behaviors,
+					});
+					log('Saved IFC profile', { ifcProfileId, planId });
+				}
+
+				// Extract and save Personas and their Scripts
+				if (result.personas && Array.isArray(result.personas)) {
+					const personaIds: string[] = [];
+					const allScripts: Array<{
+						id: string;
+						user_id: string;
+						go_to_market_plan_id: string;
+						persona_id: string;
+						title: string;
+						duration: string;
+						script: string;
+						cta: string;
+						day_of_week: string;
+						preferred_time: string;
+					}> = [];
+
+					for (const persona of result.personas) {
+						const personaId = crypto.randomUUID();
+						personaIds.push(personaId);
+
+						// Save persona
+						await PersonasModel.create({
+							id: personaId,
+							user_id: userId,
+							plan_id: planId,
+							persona_name: persona.name,
+							segment: persona.segment,
+							description: persona.description,
+							key_motivation: persona.key_motivation,
+							core_pain_point: persona.core_pain_point,
+							platform_behavior: persona.platform_behavior,
+							preferred_tone_style: persona.preferred_tone_style,
+							storyline: persona.storyline as any, // JSON mode
+							growth_strategy: persona.growth_strategy as any, // JSON mode
+						});
+
+						// Extract and save scripts for this persona
+						if (persona.scripts && Array.isArray(persona.scripts)) {
+							for (const script of persona.scripts) {
+								allScripts.push({
+									id: crypto.randomUUID(),
+									user_id: userId,
+									go_to_market_plan_id: planId,
+									persona_id: personaId,
+									title: script.title,
+									duration: script.duration,
+									script: script.script,
+									cta: script.cta,
+									day_of_week: script.day_of_week,
+									preferred_time: script.preferred_time,
+								});
+							}
+						}
+					}
+
+					// Save all scripts in batch
+					if (allScripts.length > 0) {
+						await ShortsScriptsModel.createMany(allScripts);
+						log('Saved personas and scripts', {
+							personaCount: personaIds.length,
+							scriptCount: allScripts.length,
+							planId,
+						});
+					}
+				}
 
 				log('Saved plan and output to database', {
 					planId,
