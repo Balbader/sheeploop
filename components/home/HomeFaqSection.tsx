@@ -46,6 +46,22 @@ export default function HomeFaqSection() {
 				q: 'Do you support scheduling or publishing?',
 				a: 'The generated posting plan includes guidelines to when to post your shorts daily. Direct publishing to platforms is coming soon.',
 			},
+			{
+				q: 'Can I export the generated content?',
+				a: 'Yes. You can export the generated content in PDF, CSV, and TXT formats. You can also export the generated content in a single JSON file.',
+			},
+			{
+				q: 'Can I edit the generated content and regenerate it?',
+				a: 'No. Not yet. We are a small startup and generating content can be costly. Make sure to be precise and specific with your inputs to get the best results.',
+			},
+			{
+				q: 'How many generations can I do?',
+				a: 'You can do as many generations as you want. There is no limit. However, each generation costs $0.005 (we will cover the cost for you). So, make sure to be precise and specific with your inputs to get the best results.',
+			},
+			{
+				q: 'Can I use Sheeploop for my business?',
+				a: 'Yes. You can use Sheeploop for your business.',
+			},
 		],
 		[],
 	);
