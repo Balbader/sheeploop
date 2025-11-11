@@ -867,7 +867,7 @@ export function GenerateMarketingStrategyForm({
 						ref={(el) => {
 							cardRefs.current[0] = el;
 						}}
-						className="w-full max-w-4xl mx-auto p-4 sm:p-5 md:p-6 transition-all hover:shadow-xl hover:-translate-y-1 border border-gray-200 bg-white"
+						className="w-full max-w-5xl mx-auto p-6 sm:p-8 md:p-10 transition-all hover:shadow-2xl hover:-translate-y-1 border border-gray-200/80 bg-gradient-to-br from-white via-green-50/30 to-white shadow-lg backdrop-blur-sm"
 					>
 						<form
 							ref={formRef}
@@ -879,672 +879,709 @@ export function GenerateMarketingStrategyForm({
 									new FormData(e.target as HTMLFormElement),
 								);
 							}}
-							className="space-y-4 sm:space-y-6"
+							className="space-y-6 sm:space-y-8"
 						>
 							{/* Basic Information */}
 							<div
 								ref={(el) => {
 									sectionRefs.current[0] = el;
 								}}
-								className="space-y-3 sm:space-y-4"
+								className="space-y-4 sm:space-y-5 relative"
 							>
-								<h2 className="text-base sm:text-lg md:text-xl font-semibold tracking-tight text-gray-900">
-									Basic Information
-								</h2>
+								<div className="relative">
+									<div className="absolute inset-0 bg-gradient-to-r from-green-100/50 via-emerald-100/30 to-teal-100/50 rounded-2xl blur-xl opacity-60"></div>
+									<div className="relative bg-gradient-to-br from-green-50/80 via-white to-emerald-50/40 rounded-2xl p-5 sm:p-6 border border-green-100/50 shadow-sm">
+										<h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight mb-5 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent flex items-center gap-2">
+											<span className="text-2xl">✨</span>
+											Basic Information
+										</h2>
 
-								<div className="space-y-2">
-									<Label
-										htmlFor="idea"
-										className="text-xs sm:text-sm"
-									>
-										Your Idea *
-									</Label>
-									<Textarea
-										id="idea"
-										name="idea"
-										placeholder="Describe your idea or concept..."
-										required
-										className="min-h-20 sm:min-h-24 text-sm"
-									/>
-								</div>
-
-								<div className="space-y-2 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-									<div className="space-y-2">
-										<Label
-											htmlFor="objective"
-											className="text-xs sm:text-sm"
-										>
-											Your Objective/Goal *
-										</Label>
-										<Select
-											name="objective"
-											value={selectedObjective}
-											onValueChange={setSelectedObjective}
-											required
-										>
-											<SelectTrigger>
-												<SelectValue placeholder="Select your objective/goal" />
-											</SelectTrigger>
-											<SelectContent>
-												<SelectItem value="I want to promote a product">
-													I want to promote a product
-												</SelectItem>
-												<SelectItem value="I want to grow my followers base">
-													I want to grow my followers
-													base
-												</SelectItem>
-												<SelectItem value="I want to get traction towards my site">
-													I want to get traction
-													towards my site
-												</SelectItem>
-												<SelectItem value="I want to build brand awareness">
-													I want to build brand
-													awareness
-												</SelectItem>
-												<SelectItem value="I want to drive sales and conversions">
-													I want to drive sales and
-													conversions
-												</SelectItem>
-												<SelectItem value="I want to establish thought leadership">
-													I want to establish thought
-													leadership
-												</SelectItem>
-												<SelectItem value="I want to engage with my community">
-													I want to engage with my
-													community
-												</SelectItem>
-												<SelectItem value="I want to launch a new product or service">
-													I want to launch a new
-													product or service
-												</SelectItem>
-												<SelectItem value="I want to generate leads">
-													I want to generate leads
-												</SelectItem>
-												<SelectItem value="Other">
-													Other
-												</SelectItem>
-											</SelectContent>
-										</Select>
-										{selectedObjective === 'Other' && (
-											<div className="space-y-2">
+										<div className="space-y-4">
+											<div className="space-y-2.5">
 												<Label
-													htmlFor="other_objective"
-													className="text-xs sm:text-sm"
+													htmlFor="idea"
+													className="text-sm sm:text-base font-semibold text-gray-800 flex items-center gap-2"
 												>
-													Custom Objective/Goal *
+													<span className="text-green-600">
+														💡
+													</span>
+													Your Idea{' '}
+													<span className="text-red-500">
+														*
+													</span>
 												</Label>
-												<Input
-													id="other_objective"
-													name="other_objective"
-													placeholder="Describe your objective/goal"
-													required={
-														selectedObjective ===
-														'Other'
-													}
-													className="text-sm"
+												<Textarea
+													id="idea"
+													name="idea"
+													placeholder="Describe your idea or concept in detail..."
+													required
+													className="min-h-24 sm:min-h-28 text-sm sm:text-base border-gray-300 bg-white/80 focus:bg-white focus:border-green-500 focus:ring-green-500/20 focus:ring-4 transition-all duration-200 placeholder:text-gray-400 rounded-lg shadow-sm hover:shadow-md"
 												/>
 											</div>
-										)}
-									</div>
 
-									<div className="space-y-2">
-										<Label
-											htmlFor="number_of_personas"
-											className="text-xs sm:text-sm"
-										>
-											Number of Personas *
-										</Label>
-										<Select
-											name="number_of_personas"
-											value={numberOfPersonas}
-											onValueChange={setNumberOfPersonas}
-											required
-										>
-											<SelectTrigger>
-												<SelectValue placeholder="Select number of personas" />
-											</SelectTrigger>
-											<SelectContent>
-												<SelectItem value="1">
-													1 Persona
-												</SelectItem>
-												<SelectItem value="2">
-													2 Personas
-												</SelectItem>
-												<SelectItem value="3" disabled>
-													3 Personas (Coming Soon)
-												</SelectItem>
-												<SelectItem value="4" disabled>
-													4 Personas (Coming Soon)
-												</SelectItem>
-												<SelectItem value="5" disabled>
-													5 Personas (Coming Soon)
-												</SelectItem>
-											</SelectContent>
-										</Select>
+											<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+												<div className="space-y-2.5">
+													<Label
+														htmlFor="objective"
+														className="text-sm sm:text-base font-semibold text-gray-800 flex items-center gap-2"
+													>
+														<span className="text-green-600">
+															🎯
+														</span>
+														Your Objective/Goal{' '}
+														<span className="text-red-500">
+															*
+														</span>
+													</Label>
+													<Select
+														name="objective"
+														value={
+															selectedObjective
+														}
+														onValueChange={
+															setSelectedObjective
+														}
+														required
+													>
+														<SelectTrigger className="w-full h-11 border-gray-300 bg-white/80 focus:border-green-500 focus:ring-green-500/20 focus:ring-4 transition-all duration-200 hover:bg-white hover:shadow-md rounded-lg">
+															<SelectValue placeholder="Select your objective/goal" />
+														</SelectTrigger>
+														<SelectContent className="rounded-lg border-gray-200 shadow-xl">
+															<SelectItem value="I want to promote a product">
+																I want to
+																promote a
+																product
+															</SelectItem>
+															<SelectItem value="I want to grow my followers base">
+																I want to grow
+																my followers
+																base
+															</SelectItem>
+															<SelectItem value="I want to get traction towards my site">
+																I want to get
+																traction towards
+																my site
+															</SelectItem>
+															<SelectItem value="I want to build brand awareness">
+																I want to build
+																brand awareness
+															</SelectItem>
+															<SelectItem value="I want to drive sales and conversions">
+																I want to drive
+																sales and
+																conversions
+															</SelectItem>
+															<SelectItem value="I want to establish thought leadership">
+																I want to
+																establish
+																thought
+																leadership
+															</SelectItem>
+															<SelectItem value="I want to engage with my community">
+																I want to engage
+																with my
+																community
+															</SelectItem>
+															<SelectItem value="I want to launch a new product or service">
+																I want to launch
+																a new product or
+																service
+															</SelectItem>
+															<SelectItem value="I want to generate leads">
+																I want to
+																generate leads
+															</SelectItem>
+															<SelectItem value="Other">
+																Other
+															</SelectItem>
+														</SelectContent>
+													</Select>
+													{selectedObjective ===
+														'Other' && (
+														<div className="space-y-2.5 mt-3">
+															<Label
+																htmlFor="other_objective"
+																className="text-sm font-semibold text-gray-800"
+															>
+																Custom
+																Objective/Goal{' '}
+																<span className="text-red-500">
+																	*
+																</span>
+															</Label>
+															<Input
+																id="other_objective"
+																name="other_objective"
+																placeholder="Describe your objective/goal"
+																required={
+																	selectedObjective ===
+																	'Other'
+																}
+																className="text-sm h-11 border-gray-300 bg-white/80 focus:bg-white focus:border-green-500 focus:ring-green-500/20 focus:ring-4 transition-all duration-200 rounded-lg shadow-sm hover:shadow-md"
+															/>
+														</div>
+													)}
+												</div>
+
+												<div className="space-y-2.5">
+													<Label
+														htmlFor="number_of_personas"
+														className="text-sm sm:text-base font-semibold text-gray-800 flex items-center gap-2"
+													>
+														<span className="text-green-600">
+															👥
+														</span>
+														Number of Personas{' '}
+														<span className="text-red-500">
+															*
+														</span>
+													</Label>
+													<Select
+														name="number_of_personas"
+														value={numberOfPersonas}
+														onValueChange={
+															setNumberOfPersonas
+														}
+														required
+													>
+														<SelectTrigger className="w-full h-11 border-gray-300 bg-white/80 focus:border-green-500 focus:ring-green-500/20 focus:ring-4 transition-all duration-200 hover:bg-white hover:shadow-md rounded-lg">
+															<SelectValue placeholder="Select number of personas" />
+														</SelectTrigger>
+														<SelectContent className="rounded-lg border-gray-200 shadow-xl">
+															<SelectItem value="1">
+																1 Persona
+															</SelectItem>
+															<SelectItem value="2">
+																2 Personas
+															</SelectItem>
+															<SelectItem
+																value="3"
+																disabled
+															>
+																3 Personas
+																(Coming Soon)
+															</SelectItem>
+															<SelectItem
+																value="4"
+																disabled
+															>
+																4 Personas
+																(Coming Soon)
+															</SelectItem>
+															<SelectItem
+																value="5"
+																disabled
+															>
+																5 Personas
+																(Coming Soon)
+															</SelectItem>
+														</SelectContent>
+													</Select>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
-							<Separator className="my-6" />
+							<Separator className="my-8 bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
 
 							{/* Platform & Timeline */}
 							<div
 								ref={(el) => {
 									sectionRefs.current[1] = el;
 								}}
-								className="space-y-3 sm:space-y-4"
+								className="space-y-4 sm:space-y-5 relative"
 							>
-								<h2 className="text-base sm:text-lg md:text-xl font-semibold tracking-tight text-gray-900">
-									Platform & Timeline
-								</h2>
+								<div className="relative">
+									<div className="absolute inset-0 bg-gradient-to-r from-blue-100/50 via-cyan-100/30 to-teal-100/50 rounded-2xl blur-xl opacity-60"></div>
+									<div className="relative bg-gradient-to-br from-blue-50/80 via-white to-cyan-50/40 rounded-2xl p-5 sm:p-6 border border-blue-100/50 shadow-sm">
+										<h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight mb-5 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent flex items-center gap-2">
+											<span className="text-2xl">📱</span>
+											Platform & Timeline
+										</h2>
 
-								<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-									<div className="space-y-2">
-										<Label htmlFor="target_platforms">
-											Target Platforms *
-										</Label>
-										<Select
-											name="target_platforms"
-											onValueChange={setSelectedPlatform}
-										>
-											<SelectTrigger>
-												<SelectValue placeholder="Select a platform" />
-											</SelectTrigger>
-											<SelectContent>
-												<SelectItem value="TikTok">
-													<svg
-														className="size-4"
-														viewBox="0 0 24 24"
-														fill="none"
-													>
-														<path
-															d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"
-															fill="#000000"
-														/>
-													</svg>
-													TikTok
-												</SelectItem>
-												<SelectItem value="Instagram">
-													<svg
-														className="size-4"
-														viewBox="0 0 24 24"
-														fill="none"
-													>
-														<defs>
-															<linearGradient
-																id="instagram-gradient"
-																x1="0%"
-																y1="0%"
-																x2="100%"
-																y2="100%"
+										<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+											<div className="space-y-2.5">
+												<Label
+													htmlFor="target_platforms"
+													className="text-sm sm:text-base font-semibold text-gray-800 flex items-center gap-2"
+												>
+													<span className="text-green-600">
+														🌐
+													</span>
+													Target Platforms{' '}
+													<span className="text-red-500">
+														*
+													</span>
+												</Label>
+												<Select
+													name="target_platforms"
+													onValueChange={
+														setSelectedPlatform
+													}
+												>
+													<SelectTrigger className="w-full h-11 border-gray-300 bg-white/80 focus:border-green-500 focus:ring-green-500/20 focus:ring-4 transition-all duration-200 hover:bg-white hover:shadow-md rounded-lg">
+														<SelectValue placeholder="Select a platform" />
+													</SelectTrigger>
+													<SelectContent className="rounded-lg border-gray-200 shadow-xl">
+														<SelectItem value="TikTok">
+															<svg
+																className="size-4"
+																viewBox="0 0 24 24"
+																fill="none"
 															>
-																<stop
-																	offset="0%"
-																	stopColor="#E4405F"
+																<path
+																	d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"
+																	fill="#000000"
 																/>
-																<stop
-																	offset="50%"
-																	stopColor="#C13584"
+															</svg>
+															TikTok
+														</SelectItem>
+														<SelectItem value="Instagram">
+															<svg
+																className="size-4"
+																viewBox="0 0 24 24"
+																fill="none"
+															>
+																<defs>
+																	<linearGradient
+																		id="instagram-gradient"
+																		x1="0%"
+																		y1="0%"
+																		x2="100%"
+																		y2="100%"
+																	>
+																		<stop
+																			offset="0%"
+																			stopColor="#E4405F"
+																		/>
+																		<stop
+																			offset="50%"
+																			stopColor="#C13584"
+																		/>
+																		<stop
+																			offset="100%"
+																			stopColor="#833AB4"
+																		/>
+																	</linearGradient>
+																</defs>
+																<path
+																	d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+																	fill="url(#instagram-gradient)"
 																/>
-																<stop
-																	offset="100%"
-																	stopColor="#833AB4"
+															</svg>
+															Instagram
+														</SelectItem>
+														<SelectItem value="YouTube">
+															<svg
+																className="size-4"
+																viewBox="0 0 24 24"
+																fill="none"
+															>
+																<path
+																	d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+																	fill="#FF0000"
 																/>
-															</linearGradient>
-														</defs>
-														<path
-															d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
-															fill="url(#instagram-gradient)"
-														/>
-													</svg>
-													Instagram
-												</SelectItem>
-												<SelectItem value="YouTube">
-													<svg
-														className="size-4"
-														viewBox="0 0 24 24"
-														fill="none"
-													>
-														<path
-															d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
-															fill="#FF0000"
-														/>
-													</svg>
-													YouTube
-												</SelectItem>
-												<SelectItem
-													value="LinkedIn"
-													disabled
+															</svg>
+															YouTube
+														</SelectItem>
+														<SelectItem
+															value="LinkedIn"
+															disabled
+														>
+															<svg
+																className="size-4"
+																viewBox="0 0 24 24"
+																fill="none"
+															>
+																<path
+																	d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+																	fill="#0077B5"
+																/>
+															</svg>
+															LinkedIn (Coming
+															Soon)
+														</SelectItem>
+														<SelectItem
+															value="X (Twitter)"
+															disabled
+														>
+															<svg
+																className="size-4"
+																viewBox="0 0 24 24"
+																fill="none"
+															>
+																<path
+																	d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+																	fill="#000000"
+																/>
+															</svg>
+															X (Twitter) (Coming
+															Soon)
+														</SelectItem>
+														<SelectItem
+															value="Snapchat"
+															disabled
+														>
+															<Image
+																className="w-4 h-4"
+																src="/Snapchat.png"
+																alt="Snapchat"
+																width={24}
+																height={24}
+															/>
+															Snapchat (Coming
+															Soon)
+														</SelectItem>
+														<SelectItem
+															value="Facebook"
+															disabled
+														>
+															<svg
+																className="size-4"
+																viewBox="0 0 24 24"
+																fill="none"
+															>
+																<path
+																	d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+																	fill="#1877F2"
+																/>
+															</svg>
+															Facebook (Coming
+															Soon)
+														</SelectItem>
+													</SelectContent>
+												</Select>
+											</div>
+											<div className="space-y-2.5">
+												<Label
+													htmlFor="posting_frequency"
+													className="text-sm sm:text-base font-semibold text-gray-800 flex items-center gap-2"
 												>
-													<svg
-														className="size-4"
-														viewBox="0 0 24 24"
-														fill="none"
-													>
-														<path
-															d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-															fill="#0077B5"
-														/>
-													</svg>
-													LinkedIn (Coming Soon)
-												</SelectItem>
-												<SelectItem
-													value="X (Twitter)"
-													disabled
+													<span className="text-green-600">
+														📅
+													</span>
+													Posting Frequency{' '}
+													<span className="text-red-500">
+														*
+													</span>
+												</Label>
+												<Select name="posting_frequency">
+													<SelectTrigger className="w-full h-11 border-gray-300 bg-white/80 focus:border-green-500 focus:ring-green-500/20 focus:ring-4 transition-all duration-200 hover:bg-white hover:shadow-md rounded-lg">
+														<SelectValue placeholder="Select a posting frequency" />
+													</SelectTrigger>
+													<SelectContent className="rounded-lg border-gray-200 shadow-xl">
+														<SelectItem value="1 post/day">
+															1 post/day
+														</SelectItem>
+														<SelectItem value="2 posts/day">
+															2 posts/day
+														</SelectItem>
+														<SelectItem
+															value="3 posts/day"
+															disabled
+														>
+															3 posts/day (Coming
+															Soon)
+														</SelectItem>
+														<SelectItem
+															value="4 posts/day"
+															disabled
+														>
+															4 posts/day (Coming
+															Soon)
+														</SelectItem>
+														<SelectItem
+															value="5 posts/day"
+															disabled
+														>
+															5 posts/day (Coming
+															Soon)
+														</SelectItem>
+														<SelectItem
+															value="6 posts/day"
+															disabled
+														>
+															6 posts/day (Coming
+															Soon)
+														</SelectItem>
+													</SelectContent>
+												</Select>
+											</div>
+											<div className="space-y-2.5">
+												<Label
+													htmlFor="duration"
+													className="text-sm sm:text-base font-semibold text-gray-800 flex items-center gap-2"
 												>
-													<svg
-														className="size-4"
-														viewBox="0 0 24 24"
-														fill="none"
-													>
-														<path
-															d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-															fill="#000000"
-														/>
-													</svg>
-													X (Twitter) (Coming Soon)
-												</SelectItem>
-												<SelectItem
-													value="Snapchat"
-													disabled
+													<span className="text-green-600">
+														⏱️
+													</span>
+													Duration{' '}
+													<span className="text-red-500">
+														*
+													</span>
+												</Label>
+												<Select name="duration">
+													<SelectTrigger className="w-full h-11 border-gray-300 bg-white/80 focus:border-green-500 focus:ring-green-500/20 focus:ring-4 transition-all duration-200 hover:bg-white hover:shadow-md rounded-lg">
+														<SelectValue placeholder="Select a duration" />
+													</SelectTrigger>
+													<SelectContent className="rounded-lg border-gray-200 shadow-xl">
+														<SelectItem value="1 week">
+															1 week
+														</SelectItem>
+														<SelectItem value="2 weeks">
+															2 weeks
+														</SelectItem>
+														<SelectItem
+															value="3 weeks"
+															disabled
+														>
+															3 weeks (Coming
+															Soon)
+														</SelectItem>
+														<SelectItem
+															value="4 weeks"
+															disabled
+														>
+															4 weeks (Coming
+															Soon)
+														</SelectItem>
+														<SelectItem
+															value="5 weeks"
+															disabled
+														>
+															5 weeks (Coming
+															Soon)
+														</SelectItem>
+														<SelectItem
+															value="6 weeks"
+															disabled
+														>
+															6 weeks (Coming
+															Soon)
+														</SelectItem>
+														<SelectItem
+															value="7 weeks"
+															disabled
+														>
+															7 weeks (Coming
+															Soon)
+														</SelectItem>
+														<SelectItem
+															value="8 weeks"
+															disabled
+														>
+															8 weeks (Coming
+															Soon)
+														</SelectItem>
+													</SelectContent>
+												</Select>
+											</div>
+											<div className="space-y-2.5">
+												<Label
+													htmlFor="device"
+													className="text-sm sm:text-base font-semibold text-gray-800 flex items-center gap-2"
 												>
-													<Image
-														className="w-4 h-4"
-														src="/Snapchat.png"
-														alt="Snapchat"
-														width={24}
-														height={24}
-													/>
-													Snapchat (Coming Soon)
-												</SelectItem>
-												<SelectItem
-													value="Facebook"
-													disabled
+													<span className="text-green-600">
+														📱
+													</span>
+													Device{' '}
+													<span className="text-red-500">
+														*
+													</span>
+												</Label>
+												<Select
+													name="device"
+													value={selectedDevice}
+													onValueChange={
+														setSelectedDevice
+													}
 												>
-													<svg
-														className="size-4"
-														viewBox="0 0 24 24"
-														fill="none"
-													>
-														<path
-															d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
-															fill="#1877F2"
-														/>
-													</svg>
-													Facebook (Coming Soon)
-												</SelectItem>
-											</SelectContent>
-										</Select>
-									</div>
-									<div className="space-y-2">
-										<Label
-											htmlFor="posting_frequency"
-											className="text-xs sm:text-sm"
-										>
-											Posting Frequency *
-										</Label>
-										<Select name="posting_frequency">
-											<SelectTrigger>
-												<SelectValue placeholder="Select a posting frequency" />
-											</SelectTrigger>
-											<SelectContent>
-												<SelectItem value="1 post/day">
-													1 post/day
-												</SelectItem>
-												<SelectItem value="2 posts/day">
-													2 posts/day
-												</SelectItem>
-												<SelectItem
-													value="3 posts/day"
-													disabled
+													<SelectTrigger className="w-full h-11 border-gray-300 bg-white/80 focus:border-green-500 focus:ring-green-500/20 focus:ring-4 transition-all duration-200 hover:bg-white hover:shadow-md rounded-lg">
+														<SelectValue placeholder="Select a device" />
+													</SelectTrigger>
+													<SelectContent className="rounded-lg border-gray-200 shadow-xl">
+														<SelectItem value="iPhone 5s">
+															iPhone
+														</SelectItem>
+														<SelectItem value="Android">
+															Android
+														</SelectItem>
+														<SelectItem value="Other">
+															Other
+														</SelectItem>
+													</SelectContent>
+												</Select>
+											</div>
+										</div>
+
+										{/* Device Details for iPhone, Android and Other */}
+										{(selectedDevice.startsWith('iPhone') ||
+											selectedDevice === 'Android' ||
+											selectedDevice === 'Other') && (
+											<div className="space-y-2.5 mt-4">
+												<Label
+													htmlFor={
+														selectedDevice.startsWith(
+															'iPhone',
+														)
+															? 'iphone_device_name'
+															: selectedDevice ===
+															  'Android'
+															? 'android_device_name'
+															: 'other_device_name'
+													}
+													className="text-sm sm:text-base font-semibold text-gray-800 flex items-center gap-2"
 												>
-													3 posts/day (Coming Soon)
-												</SelectItem>
-												<SelectItem
-													value="4 posts/day"
-													disabled
-												>
-													4 posts/day (Coming Soon)
-												</SelectItem>
-												<SelectItem
-													value="5 posts/day"
-													disabled
-												>
-													5 posts/day (Coming Soon)
-												</SelectItem>
-												<SelectItem
-													value="6 posts/day"
-													disabled
-												>
-													6 posts/day (Coming Soon)
-												</SelectItem>
-											</SelectContent>
-										</Select>
-									</div>
-									<div className="space-y-2">
-										<Label htmlFor="duration">
-											Duration *
-										</Label>
-										<Select name="duration">
-											<SelectTrigger>
-												<SelectValue placeholder="Select a duration" />
-											</SelectTrigger>
-											<SelectContent>
-												<SelectItem value="1 week">
-													1 week
-												</SelectItem>
-												<SelectItem value="2 weeks">
-													2 weeks
-												</SelectItem>
-												<SelectItem
-													value="3 weeks"
-													disabled
-												>
-													3 weeks (Coming Soon)
-												</SelectItem>
-												<SelectItem
-													value="4 weeks"
-													disabled
-												>
-													4 weeks (Coming Soon)
-												</SelectItem>
-												<SelectItem
-													value="5 weeks"
-													disabled
-												>
-													5 weeks (Coming Soon)
-												</SelectItem>
-												<SelectItem
-													value="6 weeks"
-													disabled
-												>
-													6 weeks (Coming Soon)
-												</SelectItem>
-												<SelectItem
-													value="7 weeks"
-													disabled
-												>
-													7 weeks (Coming Soon)
-												</SelectItem>
-												<SelectItem
-													value="8 weeks"
-													disabled
-												>
-													8 weeks (Coming Soon)
-												</SelectItem>
-											</SelectContent>
-										</Select>
-									</div>
-									<div className="space-y-2">
-										<Label htmlFor="device">Device *</Label>
-										<Select
-											name="device"
-											value={selectedDevice}
-											onValueChange={setSelectedDevice}
-										>
-											<SelectTrigger>
-												<SelectValue placeholder="Select a device" />
-											</SelectTrigger>
-											<SelectContent>
-												<SelectItem value="iPhone 5s">
-													iPhone
-												</SelectItem>
-												<SelectItem value="Android">
-													Android
-												</SelectItem>
-												<SelectItem value="Other">
-													Other
-												</SelectItem>
-											</SelectContent>
-										</Select>
+													<span className="text-green-600">
+														🔧
+													</span>
+													{selectedDevice.startsWith(
+														'iPhone',
+													)
+														? 'iPhone Device Name'
+														: selectedDevice ===
+														  'Android'
+														? 'Android Device Name'
+														: 'Device Name'}{' '}
+													<span className="text-red-500">
+														*
+													</span>
+												</Label>
+												<Input
+													id={
+														selectedDevice.startsWith(
+															'iPhone',
+														)
+															? 'iphone_device_name'
+															: selectedDevice ===
+															  'Android'
+															? 'android_device_name'
+															: 'other_device_name'
+													}
+													name={
+														selectedDevice.startsWith(
+															'iPhone',
+														)
+															? 'iphone_device_name'
+															: selectedDevice ===
+															  'Android'
+															? 'android_device_name'
+															: 'other_device_name'
+													}
+													placeholder={
+														selectedDevice.startsWith(
+															'iPhone',
+														)
+															? `e.g., ${selectedDevice}`
+															: selectedDevice ===
+															  'Android'
+															? 'e.g., Samsung Galaxy S24'
+															: 'e.g., iPad Pro, Windows Phone'
+													}
+													required={
+														selectedDevice.startsWith(
+															'iPhone',
+														) ||
+														selectedDevice ===
+															'Android' ||
+														selectedDevice ===
+															'Other'
+													}
+													className="text-sm h-11 border-gray-300 bg-white/80 focus:bg-white focus:border-green-500 focus:ring-green-500/20 focus:ring-4 transition-all duration-200 rounded-lg shadow-sm hover:shadow-md"
+												/>
+											</div>
+										)}
 									</div>
 								</div>
-
-								{/* Device Details for iPhone, Android and Other */}
-								{(selectedDevice.startsWith('iPhone') ||
-									selectedDevice === 'Android' ||
-									selectedDevice === 'Other') && (
-									<div className="space-y-2">
-										<Label
-											htmlFor={
-												selectedDevice.startsWith(
-													'iPhone',
-												)
-													? 'iphone_device_name'
-													: selectedDevice ===
-													  'Android'
-													? 'android_device_name'
-													: 'other_device_name'
-											}
-										>
-											{selectedDevice.startsWith('iPhone')
-												? 'iPhone Device Name *'
-												: selectedDevice === 'Android'
-												? 'Android Device Name *'
-												: 'Device Name *'}
-										</Label>
-										<Input
-											id={
-												selectedDevice.startsWith(
-													'iPhone',
-												)
-													? 'iphone_device_name'
-													: selectedDevice ===
-													  'Android'
-													? 'android_device_name'
-													: 'other_device_name'
-											}
-											name={
-												selectedDevice.startsWith(
-													'iPhone',
-												)
-													? 'iphone_device_name'
-													: selectedDevice ===
-													  'Android'
-													? 'android_device_name'
-													: 'other_device_name'
-											}
-											placeholder={
-												selectedDevice.startsWith(
-													'iPhone',
-												)
-													? `e.g., ${selectedDevice}`
-													: selectedDevice ===
-													  'Android'
-													? 'e.g., Samsung Galaxy S24'
-													: 'e.g., iPad Pro, Windows Phone'
-											}
-											required={
-												selectedDevice.startsWith(
-													'iPhone',
-												) ||
-												selectedDevice === 'Android' ||
-												selectedDevice === 'Other'
-											}
-											className="text-sm"
-										/>
-									</div>
-								)}
 							</div>
 
 							<div
 								ref={(el) => {
 									sectionRefs.current[2] = el;
 								}}
-								className="space-y-2"
+								className="space-y-4 sm:space-y-5 relative"
 							>
-								<Label
-									htmlFor="tone"
-									className="text-sm sm:text-base font-medium text-gray-900"
-								>
-									Tone & Style *{' '}
-									<span className="text-gray-500 font-normal text-xs">
-										(Select up to 2)
-									</span>
-								</Label>
-								<Popover
-									open={tonePopoverOpen}
-									onOpenChange={setTonePopoverOpen}
-								>
-									<PopoverTrigger asChild>
-										<Button
-											type="button"
-											variant="outline"
-											className="w-full justify-between text-left font-normal"
+								<div className="relative">
+									<div className="absolute inset-0 bg-gradient-to-r from-purple-100/50 via-pink-100/30 to-rose-100/50 rounded-2xl blur-xl opacity-60"></div>
+									<div className="relative bg-gradient-to-br from-purple-50/80 via-white to-pink-50/40 rounded-2xl p-5 sm:p-6 border border-purple-100/50 shadow-sm">
+										<Label
+											htmlFor="tone"
+											className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight mb-5 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent flex items-center gap-2"
 										>
-											<span className="truncate">
-												{selectedTones.length === 0
-													? 'Select tone & style'
-													: selectedTones.length === 1
-													? selectedTones[0]
-													: `${selectedTones.length} selected`}
+											<span className="text-2xl">🎨</span>
+											Tone & Style{' '}
+											<span className="text-red-500">
+												*
 											</span>
-											<ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-										</Button>
-									</PopoverTrigger>
-									<PopoverContent
-										className="w-[var(--radix-popover-trigger-width)] p-0"
-										align="start"
-									>
-										<div className="max-h-[300px] overflow-y-auto p-2">
-											<div className="space-y-1">
-												{[
-													'Friendly, motivational, and slightly humorous',
-													'Professional and authoritative',
-													'Casual and conversational',
-													'Energetic and enthusiastic',
-													'Calm and educational',
-													'Witty and entertaining',
-													'Inspirational and uplifting',
-													'Direct and no-nonsense',
-												].map((tone) => (
-													<label
-														key={tone}
-														className="flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-2 rounded transition-colors"
-													>
-														<Checkbox
-															checked={selectedTones.includes(
-																tone,
-															)}
-															onCheckedChange={(
-																checked,
-															) => {
-																if (checked) {
-																	if (
-																		selectedTones.length <
-																		2
-																	) {
-																		setSelectedTones(
-																			[
-																				...selectedTones,
-																				tone,
-																			],
-																		);
-																	}
-																} else {
-																	setSelectedTones(
-																		selectedTones.filter(
-																			(
-																				t,
-																			) =>
-																				t !==
-																				tone,
-																		),
-																	);
-																}
-															}}
-															disabled={
-																!selectedTones.includes(
-																	tone,
-																) &&
-																selectedTones.length >=
-																	2
-															}
-														/>
-														<span className="text-sm flex-1">
-															{tone}
-														</span>
-													</label>
-												))}
-												<label className="flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-2 rounded transition-colors">
-													<Checkbox
-														checked={selectedTones.includes(
-															'Other',
-														)}
-														onCheckedChange={(
-															checked,
-														) => {
-															if (checked) {
-																if (
-																	selectedTones.length <
-																	2
-																) {
-																	setSelectedTones(
-																		[
-																			...selectedTones,
-																			'Other',
-																		],
-																	);
-																}
-															} else {
-																setSelectedTones(
-																	selectedTones.filter(
-																		(t) =>
-																			t !==
-																			'Other',
-																	),
-																);
-															}
-														}}
-														disabled={
-															!selectedTones.includes(
-																'Other',
-															) &&
-															selectedTones.length >=
-																2
-														}
-													/>
-													<span className="text-sm">
-														Other
+											<span className="text-sm font-normal text-gray-600 ml-2">
+												(Select up to 2)
+											</span>
+										</Label>
+										<Popover
+											open={tonePopoverOpen}
+											onOpenChange={setTonePopoverOpen}
+										>
+											<PopoverTrigger asChild>
+												<Button
+													type="button"
+													variant="outline"
+													className="w-full h-11 justify-between text-left font-normal border-gray-300 bg-white/80 focus:border-green-500 focus:ring-green-500/20 focus:ring-4 transition-all duration-200 hover:bg-white hover:shadow-md rounded-lg"
+												>
+													<span className="truncate">
+														{selectedTones.length ===
+														0
+															? 'Select tone & style'
+															: selectedTones.length ===
+															  1
+															? selectedTones[0]
+															: `${selectedTones.length} selected`}
 													</span>
-												</label>
-											</div>
-											{selectedTones.length > 0 && (
-												<div className="border-t p-2 mt-2">
-													<div className="flex items-center justify-between text-xs text-gray-500 mb-2">
-														<span>
-															{
-																selectedTones.length
-															}{' '}
-															of 2 selected
-														</span>
-														{selectedTones.length >
-															0 && (
-															<button
-																type="button"
-																onClick={() => {
-																	setSelectedTones(
-																		[],
-																	);
-																}}
-																className="text-red-500 hover:text-red-700 flex items-center gap-1"
+													<ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+												</Button>
+											</PopoverTrigger>
+											<PopoverContent
+												className="w-[var(--radix-popover-trigger-width)] p-0 rounded-lg border-gray-200 shadow-xl"
+												align="start"
+											>
+												<div className="max-h-[300px] overflow-y-auto p-3">
+													<div className="space-y-1.5">
+														{[
+															'Friendly, motivational, and slightly humorous',
+															'Professional and authoritative',
+															'Casual and conversational',
+															'Energetic and enthusiastic',
+															'Calm and educational',
+															'Witty and entertaining',
+															'Inspirational and uplifting',
+															'Direct and no-nonsense',
+														].map((tone) => (
+															<label
+																key={tone}
+																className="flex items-center gap-3 cursor-pointer hover:bg-green-50/50 p-2.5 rounded-lg transition-all duration-200 hover:shadow-sm border border-transparent hover:border-green-100"
 															>
-																<X className="h-3 w-3" />
-																Clear
-															</button>
-														)}
-													</div>
-													<div className="flex flex-wrap gap-1">
-														{selectedTones.map(
-															(tone) => (
-																<Badge
-																	key={tone}
-																	variant="secondary"
-																	className="text-xs"
-																>
-																	{tone}
-																	<button
-																		type="button"
-																		onClick={() => {
+																<Checkbox
+																	checked={selectedTones.includes(
+																		tone,
+																	)}
+																	onCheckedChange={(
+																		checked,
+																	) => {
+																		if (
+																			checked
+																		) {
+																			if (
+																				selectedTones.length <
+																				2
+																			) {
+																				setSelectedTones(
+																					[
+																						...selectedTones,
+																						tone,
+																					],
+																				);
+																			}
+																		} else {
 																			setSelectedTones(
 																				selectedTones.filter(
 																					(
@@ -1554,80 +1591,210 @@ export function GenerateMarketingStrategyForm({
 																						tone,
 																				),
 																			);
+																		}
+																	}}
+																	disabled={
+																		!selectedTones.includes(
+																			tone,
+																		) &&
+																		selectedTones.length >=
+																			2
+																	}
+																/>
+																<span className="text-sm flex-1 text-gray-700">
+																	{tone}
+																</span>
+															</label>
+														))}
+														<label className="flex items-center gap-3 cursor-pointer hover:bg-green-50/50 p-2.5 rounded-lg transition-all duration-200 hover:shadow-sm border border-transparent hover:border-green-100">
+															<Checkbox
+																checked={selectedTones.includes(
+																	'Other',
+																)}
+																onCheckedChange={(
+																	checked,
+																) => {
+																	if (
+																		checked
+																	) {
+																		if (
+																			selectedTones.length <
+																			2
+																		) {
+																			setSelectedTones(
+																				[
+																					...selectedTones,
+																					'Other',
+																				],
+																			);
+																		}
+																	} else {
+																		setSelectedTones(
+																			selectedTones.filter(
+																				(
+																					t,
+																				) =>
+																					t !==
+																					'Other',
+																			),
+																		);
+																	}
+																}}
+																disabled={
+																	!selectedTones.includes(
+																		'Other',
+																	) &&
+																	selectedTones.length >=
+																		2
+																}
+															/>
+															<span className="text-sm text-gray-700">
+																Other
+															</span>
+														</label>
+													</div>
+													{selectedTones.length >
+														0 && (
+														<div className="border-t border-gray-200 p-3 mt-3 bg-gray-50/50 rounded-lg">
+															<div className="flex items-center justify-between text-xs sm:text-sm text-gray-600 mb-2.5 font-medium">
+																<span>
+																	{
+																		selectedTones.length
+																	}{' '}
+																	of 2
+																	selected
+																</span>
+																{selectedTones.length >
+																	0 && (
+																	<button
+																		type="button"
+																		onClick={() => {
+																			setSelectedTones(
+																				[],
+																			);
 																		}}
-																		className="ml-1 hover:text-red-500"
+																		className="text-red-500 hover:text-red-700 flex items-center gap-1"
 																	>
 																		<X className="h-3 w-3" />
+																		Clear
 																	</button>
-																</Badge>
-															),
-														)}
-													</div>
+																)}
+															</div>
+															<div className="flex flex-wrap gap-2">
+																{selectedTones.map(
+																	(tone) => (
+																		<Badge
+																			key={
+																				tone
+																			}
+																			variant="secondary"
+																			className="text-xs px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border border-green-200 hover:from-green-200 hover:to-emerald-200 transition-all duration-200"
+																		>
+																			{
+																				tone
+																			}
+																			<button
+																				type="button"
+																				onClick={() => {
+																					setSelectedTones(
+																						selectedTones.filter(
+																							(
+																								t,
+																							) =>
+																								t !==
+																								tone,
+																						),
+																					);
+																				}}
+																				className="ml-1.5 hover:text-red-500 transition-colors"
+																			>
+																				<X className="h-3 w-3" />
+																			</button>
+																		</Badge>
+																	),
+																)}
+															</div>
+														</div>
+													)}
 												</div>
-											)}
-										</div>
-									</PopoverContent>
-								</Popover>
-								{selectedTones.length > 0 && (
-									<div className="text-xs text-gray-500">
-										{selectedTones.length} of 2 selected
+											</PopoverContent>
+										</Popover>
+										{selectedTones.length > 0 && (
+											<div className="text-sm text-gray-600 mt-3 font-medium">
+												{selectedTones.length} of 2
+												selected
+											</div>
+										)}
+										{selectedTones.includes('Other') && (
+											<div className="space-y-2.5 mt-4">
+												<Label
+													htmlFor="other_tone"
+													className="text-sm sm:text-base font-semibold text-gray-800"
+												>
+													Custom Tone & Style{' '}
+													<span className="text-red-500">
+														*
+													</span>
+												</Label>
+												<Input
+													id="other_tone"
+													name="other_tone"
+													placeholder="e.g., Friendly, motivational, and slightly humorous"
+													required={selectedTones.includes(
+														'Other',
+													)}
+													className="text-sm h-11 border-gray-300 bg-white/80 focus:bg-white focus:border-green-500 focus:ring-green-500/20 focus:ring-4 transition-all duration-200 rounded-lg shadow-sm hover:shadow-md"
+												/>
+											</div>
+										)}
 									</div>
-								)}
-								{selectedTones.includes('Other') && (
-									<div className="space-y-2">
-										<Label
-											htmlFor="other_tone"
-											className="text-xs sm:text-sm"
-										>
-											Custom Tone & Style *
-										</Label>
-										<Input
-											id="other_tone"
-											name="other_tone"
-											placeholder="e.g., Friendly, motivational, and slightly humorous"
-											required={selectedTones.includes(
-												'Other',
-											)}
-											className="text-sm"
-										/>
-									</div>
-								)}
-								{/* Hidden inputs for form submission */}
-								{selectedTones.map((tone, index) => (
-									<input
-										key={index}
-										type="hidden"
-										name={`tone_${index}`}
-										value={tone}
-									/>
-								))}
+								</div>
 							</div>
+							{/* Hidden inputs for form submission */}
+							{selectedTones.map((tone, index) => (
+								<input
+									key={index}
+									type="hidden"
+									name={`tone_${index}`}
+									value={tone}
+								/>
+							))}
 
-							<Separator />
+							<Separator className="my-8 bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
 
 							{/* Actions */}
-							<div className="flex flex-col sm:flex-row gap-3 pt-2">
+							<div className="flex flex-col sm:flex-row gap-4 pt-4">
 								<Button
 									type="submit"
 									disabled={isLoading}
-									className="relative rounded-full px-6 py-3 text-sm font-semibold bg-black hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600 text-white hover:font-bold shadow-lg hover:shadow-xl hover:shadow-green-500/50 transition-all duration-300 overflow-hidden group flex-1 sm:flex-none w-full sm:w-auto min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed"
+									className="relative rounded-full px-8 py-4 text-base font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 hover:from-green-500 hover:via-green-600 hover:to-emerald-600 text-white shadow-xl hover:shadow-2xl hover:shadow-green-500/50 transition-all duration-300 overflow-hidden group flex-1 sm:flex-none w-full sm:w-auto min-h-[52px] disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"
 								>
 									{/* Animated shine effect */}
 									<span
 										aria-hidden
 										className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shimmer pointer-events-none"
 									/>
-									<span className="relative">
-										{isLoading
-											? 'Generating...'
-											: 'Generate Storyline'}
+									<span className="relative flex items-center justify-center gap-2">
+										{isLoading ? (
+											<>
+												<Spinner className="w-4 h-4" />
+												Generating...
+											</>
+										) : (
+											<>
+												<span>Generate Storyline</span>
+												<span className="text-lg">
+													🚀
+												</span>
+											</>
+										)}
 									</span>
 								</Button>
 								<Button
 									type="button"
 									variant="outline"
 									onClick={handleReset}
-									className="rounded-full px-5 py-3 text-sm hover:font-bold hover:bg-green-500 hover:text-white transition-all duration-300 flex-1 sm:flex-none w-full sm:w-auto min-h-[44px]"
+									className="rounded-full px-6 py-4 text-base font-semibold border-2 border-gray-300 hover:border-green-500 hover:bg-green-50 hover:text-green-700 transition-all duration-300 flex-1 sm:flex-none w-full sm:w-auto min-h-[52px] hover:shadow-md transform hover:scale-105"
 								>
 									Reset Form
 								</Button>
