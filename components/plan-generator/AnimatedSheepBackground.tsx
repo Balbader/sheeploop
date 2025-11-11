@@ -153,10 +153,11 @@ export function AnimatedSheepBackground() {
 			{/* Subtle animated background */}
 			<div
 				ref={backgroundRef}
-				className="absolute inset-0 opacity-80 pointer-events-none"
+				className="fixed inset-0 opacity-80 pointer-events-none"
 				style={{
 					background:
 						'radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.35) 0%, transparent 60%)',
+					zIndex: 0,
 				}}
 			/>
 
@@ -164,7 +165,7 @@ export function AnimatedSheepBackground() {
 			{/* Group 1: 2 sheep - UP */}
 			<div
 				ref={sheep1Ref}
-				className="absolute bottom-[30%] left-[8%] w-24 h-24 pointer-events-none opacity-40"
+				className="fixed bottom-[30%] left-[8%] w-24 h-24 pointer-events-none opacity-40"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -177,7 +178,7 @@ export function AnimatedSheepBackground() {
 			</div>
 			<div
 				ref={sheep2Ref}
-				className="absolute bottom-[28%] left-[13%] w-[88px] h-[88px] pointer-events-none opacity-35"
+				className="fixed bottom-[28%] left-[13%] w-[88px] h-[88px] pointer-events-none opacity-35"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -191,7 +192,7 @@ export function AnimatedSheepBackground() {
 			{/* Group 2: 3 sheep - DOWN */}
 			<div
 				ref={sheep3Ref}
-				className="absolute bottom-[12%] left-[22%] w-20 h-20 pointer-events-none opacity-30"
+				className="fixed bottom-[12%] left-[22%] w-20 h-20 pointer-events-none opacity-30"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -204,7 +205,7 @@ export function AnimatedSheepBackground() {
 			</div>
 			<div
 				ref={sheep4Ref}
-				className="absolute bottom-[10%] left-[28%] w-[80px] h-[80px] pointer-events-none opacity-38"
+				className="fixed bottom-[10%] left-[28%] w-[80px] h-[80px] pointer-events-none opacity-38"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -217,7 +218,7 @@ export function AnimatedSheepBackground() {
 			</div>
 			<div
 				ref={sheep5Ref}
-				className="absolute bottom-[11%] left-[34%] w-[72px] h-[72px] pointer-events-none opacity-33"
+				className="fixed bottom-[11%] left-[34%] w-[72px] h-[72px] pointer-events-none opacity-33"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -231,7 +232,7 @@ export function AnimatedSheepBackground() {
 			{/* Group 3: 2 sheep - UP */}
 			<div
 				ref={sheep6Ref}
-				className="absolute bottom-[28%] left-[42%] w-[76px] h-[76px] pointer-events-none opacity-32"
+				className="fixed bottom-[28%] left-[42%] w-[76px] h-[76px] pointer-events-none opacity-32"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -244,7 +245,7 @@ export function AnimatedSheepBackground() {
 			</div>
 			<div
 				ref={sheep7Ref}
-				className="absolute bottom-[27%] left-[48%] w-[74px] h-[74px] pointer-events-none opacity-36"
+				className="fixed bottom-[27%] left-[48%] w-[74px] h-[74px] pointer-events-none opacity-36"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -258,7 +259,7 @@ export function AnimatedSheepBackground() {
 			{/* Group 4: 3 sheep - DOWN */}
 			<div
 				ref={sheep8Ref}
-				className="absolute bottom-[14%] left-[56%] w-[70px] h-[70px] pointer-events-none opacity-34"
+				className="fixed bottom-[14%] left-[56%] w-[70px] h-[70px] pointer-events-none opacity-34"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -271,7 +272,7 @@ export function AnimatedSheepBackground() {
 			</div>
 			<div
 				ref={sheep9Ref}
-				className="absolute bottom-[12%] left-[62%] w-[68px] h-[68px] pointer-events-none opacity-31"
+				className="fixed bottom-[12%] left-[62%] w-[68px] h-[68px] pointer-events-none opacity-31"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -284,7 +285,7 @@ export function AnimatedSheepBackground() {
 			</div>
 			<div
 				ref={sheep10Ref}
-				className="absolute bottom-[13%] left-[68%] w-[82px] h-[82px] pointer-events-none opacity-37"
+				className="fixed bottom-[13%] left-[68%] w-[82px] h-[82px] pointer-events-none opacity-37"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -298,7 +299,7 @@ export function AnimatedSheepBackground() {
 			{/* Group 5: 2 sheep - UP */}
 			<div
 				ref={sheep11Ref}
-				className="absolute bottom-[26%] left-[76%] w-[65px] h-[65px] pointer-events-none opacity-29"
+				className="fixed bottom-[26%] left-[76%] w-[65px] h-[65px] pointer-events-none opacity-29"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -311,7 +312,7 @@ export function AnimatedSheepBackground() {
 			</div>
 			<div
 				ref={sheep12Ref}
-				className="absolute bottom-[25%] left-[82%] w-[78px] h-[78px] pointer-events-none opacity-35"
+				className="fixed bottom-[25%] left-[82%] w-[78px] h-[78px] pointer-events-none opacity-35"
 				style={{ zIndex: 2 }}
 			>
 				<Image
@@ -326,7 +327,8 @@ export function AnimatedSheepBackground() {
 			{/* Hidden div to track mouse movement */}
 			<div
 				ref={pageRef}
-				className="absolute inset-0 pointer-events-none"
+				className="fixed inset-0 pointer-events-none"
+				style={{ zIndex: 0 }}
 			/>
 		</>
 	);

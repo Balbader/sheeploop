@@ -21,11 +21,11 @@ export default async function Page({
 		redirect('/');
 	}
 	return (
-		<main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 relative overflow-hidden">
+		<main className="bg-gradient-to-b from-slate-50 via-white to-slate-50 relative">
 			<AnimatedSheepBackground />
-			{/* Prairie background */}
+			{/* Prairie background - fixed to viewport */}
 			<div
-				className="absolute inset-0 pointer-events-none overflow-hidden"
+				className="fixed inset-0 pointer-events-none overflow-hidden"
 				style={{ zIndex: 0 }}
 			>
 				{/* Sky gradient */}
@@ -84,7 +84,7 @@ export default async function Page({
 			</div>
 			{/* Clouds in top section */}
 			<div
-				className="absolute top-0 left-0 w-full h-1/4 pointer-events-none overflow-hidden"
+				className="fixed top-0 left-0 w-full h-1/4 pointer-events-none overflow-hidden"
 				style={{ zIndex: 0 }}
 			>
 				{/* Cloud 1 */}
