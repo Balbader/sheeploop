@@ -17,7 +17,7 @@ export const goToMarketPlansTable = sqliteTable('go_to_market_plans', {
 	device_name: text('device_name'), // specific device name if device is selected (optional)
 
 	// Output from community-fit-storyline agent (stored as JSON string)
-	output: text('output').notNull(), // Complete JSON output matching CommunityFitOutputSchema
+	output_id: text('output_id'), // Reference to form_output (using text to avoid circular dependency)
 
 	created_at: integer('created_at', { mode: 'timestamp' })
 		.notNull()
