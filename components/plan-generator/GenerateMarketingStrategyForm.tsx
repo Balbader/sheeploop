@@ -85,43 +85,56 @@ const targetPlatforms = [
 	},
 ];
 
-const getGenerationSteps = (platformName: string = 'TikTok') => [
-	{
-		id: 1,
-		label: 'Analyzing your idea',
-		description: 'Processing your concept and vision',
-	},
-	{
-		id: 2,
-		label: 'Assessing community market fit',
-		description: 'Calculating engagement potential',
-	},
-	{
-		id: 3,
-		label: 'Creating ideal follower profile',
-		description: 'Defining your target audience',
-	},
-	{
-		id: 4,
-		label: 'Generating personas',
-		description: 'Building 5 distinct user profiles',
-	},
-	{
-		id: 5,
-		label: 'Building storylines',
-		description: 'Crafting narrative arcs per persona',
-	},
-	{
-		id: 6,
-		label: `Crafting ${platformName} scripts`,
-		description: 'Writing viral-ready content scripts',
-	},
-	{
-		id: 7,
-		label: 'Finalizing strategy',
-		description: 'Compiling your complete plan',
-	},
-];
+const getGenerationSteps = (
+	platformName: string = 'TikTok',
+	numberOfPersonas: string = '2',
+) => {
+	const personaCount = numberOfPersonas ? parseInt(numberOfPersonas, 10) : 2;
+	const personaText =
+		personaCount === 1
+			? '1 distinct user profile'
+			: `${personaCount} distinct user profiles`;
+
+	return [
+		{
+			id: 1,
+			label: 'Analyzing your idea',
+			description: 'Processing your concept and vision',
+		},
+		{
+			id: 2,
+			label: 'Assessing community market fit',
+			description: 'Calculating engagement potential',
+		},
+		{
+			id: 3,
+			label: 'Creating ideal follower profile',
+			description: 'Defining your target audience',
+		},
+		{
+			id: 4,
+			label: 'Generating personas',
+			description: `Building ${personaText}`,
+		},
+		{
+			id: 5,
+			label: 'Building storylines',
+			description: `Crafting narrative arcs for ${personaCount} ${
+				personaCount === 1 ? 'persona' : 'personas'
+			}`,
+		},
+		{
+			id: 6,
+			label: `Crafting ${platformName} scripts`,
+			description: 'Writing viral-ready content scripts',
+		},
+		{
+			id: 7,
+			label: 'Finalizing strategy',
+			description: 'Compiling your complete plan',
+		},
+	];
+};
 
 export function GenerateMarketingStrategyForm() {
 	const [result, setResult] = useState<string | null>(null);
@@ -144,10 +157,10 @@ export function GenerateMarketingStrategyForm() {
 	const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 	const resultCardsAnimatedRef = useRef(false);
 
-	// Generate steps dynamically based on selected platform
+	// Generate steps dynamically based on selected platform and number of personas
 	const GENERATION_STEPS = useMemo(
-		() => getGenerationSteps(selectedPlatform),
-		[selectedPlatform],
+		() => getGenerationSteps(selectedPlatform, numberOfPersonas),
+		[selectedPlatform, numberOfPersonas],
 	);
 
 	// Simulate progress through steps during loading
@@ -1578,32 +1591,39 @@ export function GenerateMarketingStrategyForm() {
 
 			{/* Results Section */}
 			{parsedResult && (
-				<div className="w-full max-w-6xl mx-auto space-y-4 sm:space-y-6">
-					<div className="text-center mb-6 sm:mb-8 px-2">
-						<div className="flex items-center justify-center gap-3 mb-3">
-							{selectedPlatformInfo && (
-								<Image
-									src={selectedPlatformInfo.icon}
-									alt={selectedPlatformInfo.name}
-									width={40}
-									height={40}
-									className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
-								/>
-							)}
-							<h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-gray-900">
-								Your Community Fit{' '}
-								<span className="text-green-600">
-									Storyline
-								</span>
-							</h2>
+				<div className="w-full max-w-6xl mx-auto space-y-6 sm:space-y-8">
+					{/* Enhanced Header */}
+					<div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 border border-green-100/50 p-8 sm:p-10 md:p-12 mb-8">
+						<div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-green-100/20 via-transparent to-transparent"></div>
+						<div className="relative text-center">
+							<div className="flex items-center justify-center gap-4 mb-4">
+								{selectedPlatformInfo && (
+									<div className="relative">
+										<div className="absolute inset-0 bg-white rounded-full blur-xl opacity-50"></div>
+										<Image
+											src={selectedPlatformInfo.icon}
+											alt={selectedPlatformInfo.name}
+											width={56}
+											height={56}
+											className="relative w-12 h-12 sm:w-14 sm:h-14 object-contain drop-shadow-lg"
+										/>
+									</div>
+								)}
+								<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
+									Your Community Fit{' '}
+									<span className="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent">
+										Storyline
+									</span>
+								</h2>
+							</div>
+							<p className="text-gray-700 text-base sm:text-lg font-medium">
+								Your personalized{' '}
+								<span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm border border-green-200/50 text-green-700 font-semibold shadow-sm">
+									{selectedPlatformInfo?.name}
+								</span>{' '}
+								content strategy is ready
+							</p>
 						</div>
-						<p className="text-gray-600 text-sm sm:text-base">
-							Your personalized{' '}
-							<span className="font-semibold text-gray-900">
-								{selectedPlatformInfo?.name}
-							</span>{' '}
-							content strategy is ready
-						</p>
 					</div>
 
 					{/* Community Market Fit Scores */}
@@ -1612,36 +1632,53 @@ export function GenerateMarketingStrategyForm() {
 							ref={(el) => {
 								cardRefs.current[1] = el;
 							}}
-							className="w-full p-4 sm:p-5 transition-all hover:shadow-xl hover:-translate-y-1 border border-gray-200 bg-white"
+							className="w-full p-6 sm:p-8 transition-all hover:shadow-2xl hover:shadow-green-100/50 border-2 border-gray-100 bg-gradient-to-br from-white to-gray-50/50 shadow-lg"
 						>
-							<CardHeader className="p-0 pb-4">
-								<CardTitle className="text-sm font-semibold">
-									Community Market Fit Assessment
-								</CardTitle>
+							<CardHeader className="p-0 pb-6">
+								<div className="flex items-center gap-3">
+									<div className="p-2 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg">
+										<svg
+											className="w-5 h-5 text-white"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+											/>
+										</svg>
+									</div>
+									<CardTitle className="text-lg sm:text-xl font-bold text-gray-900">
+										Community Market Fit Assessment
+									</CardTitle>
+								</div>
 							</CardHeader>
-							<CardContent className="p-0 space-y-4 sm:space-y-6">
-								<div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+							<CardContent className="p-0 space-y-6">
+								<div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
 									{Object.entries(
 										parsedResult.community_market_fit
 											.score || {},
 									).map(([key, value]) => (
 										<div
 											key={key}
-											className="flex flex-col items-center p-3 sm:p-4 rounded-lg border border-gray-200 bg-slate-50"
+											className="group flex flex-col items-center p-4 sm:p-5 rounded-xl border-2 border-gray-100 bg-white hover:border-green-200 hover:shadow-lg transition-all duration-300"
 										>
-											<div className="text-[10px] sm:text-xs font-medium text-gray-600 mb-2 text-center capitalize leading-tight">
+											<div className="text-[10px] sm:text-xs font-semibold text-gray-600 mb-3 text-center capitalize leading-tight">
 												{key.replace(/_/g, ' ')}
 											</div>
-											<div className="relative w-12 h-12 sm:w-16 sm:h-16 mb-2">
+											<div className="relative w-16 h-16 sm:w-20 sm:h-20 mb-2">
 												<svg
-													className="transform -rotate-90 w-full h-full"
+													className="transform -rotate-90 w-full h-full drop-shadow-sm"
 													viewBox="0 0 36 36"
 													preserveAspectRatio="xMidYMid meet"
 												>
 													<path
-														className="text-gray-200"
+														className="text-gray-100"
 														stroke="currentColor"
-														strokeWidth="3"
+														strokeWidth="3.5"
 														fill="none"
 														d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
 													/>
@@ -1650,7 +1687,8 @@ export function GenerateMarketingStrategyForm() {
 															value as number,
 														)}
 														stroke="currentColor"
-														strokeWidth="3"
+														strokeWidth="3.5"
+														strokeLinecap="round"
 														strokeDasharray={`${
 															(value as number) *
 															10
@@ -1660,8 +1698,11 @@ export function GenerateMarketingStrategyForm() {
 													/>
 												</svg>
 												<div className="absolute inset-0 flex items-center justify-center">
-													<span className="text-sm sm:text-base md:text-lg font-semibold text-gray-900">
-														{value as number}/10
+													<span className="text-base sm:text-lg md:text-xl font-bold text-gray-900">
+														{value as number}
+														<span className="text-xs sm:text-sm text-gray-500 font-normal">
+															/10
+														</span>
 													</span>
 												</div>
 											</div>
@@ -1669,7 +1710,7 @@ export function GenerateMarketingStrategyForm() {
 									))}
 								</div>
 								{parsedResult.community_market_fit.summary && (
-									<div className="space-y-2 mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
+									<div className="space-y-2 mt-6 pt-6 border-t-2 border-gray-100">
 										<button
 											type="button"
 											onClick={() =>
@@ -1677,19 +1718,36 @@ export function GenerateMarketingStrategyForm() {
 													!insightsExpanded,
 												)
 											}
-											className="flex items-center justify-between w-full text-left"
+											className="flex items-center justify-between w-full text-left group"
 										>
-											<h3 className="font-semibold text-xs sm:text-sm text-gray-700">
-												Key Insights
-											</h3>
+											<div className="flex items-center gap-3">
+												<div className="p-1.5 rounded-lg bg-gradient-to-br from-green-100 to-emerald-100 group-hover:from-green-200 group-hover:to-emerald-200 transition-colors">
+													<svg
+														className="w-4 h-4 text-green-700"
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke="currentColor"
+													>
+														<path
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															strokeWidth={2}
+															d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+														/>
+													</svg>
+												</div>
+												<h3 className="font-bold text-sm sm:text-base text-gray-900">
+													Key Insights
+												</h3>
+											</div>
 											{insightsExpanded ? (
-												<ChevronUp className="w-4 h-4 text-gray-500" />
+												<ChevronUp className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors" />
 											) : (
-												<ChevronDown className="w-4 h-4 text-gray-500" />
+												<ChevronDown className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors" />
 											)}
 										</button>
 										{insightsExpanded && (
-											<ul className="space-y-2 mt-2 sm:mt-3">
+											<ul className="space-y-3 mt-4">
 												{parsedResult.community_market_fit.summary.map(
 													(
 														item: string,
@@ -1697,12 +1755,12 @@ export function GenerateMarketingStrategyForm() {
 													) => (
 														<li
 															key={idx}
-															className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-gray-700 leading-relaxed break-words"
+															className="flex items-start gap-3 text-sm sm:text-base text-gray-700 leading-relaxed break-words p-3 rounded-lg bg-gradient-to-r from-green-50/50 to-emerald-50/50 border border-green-100/50"
 														>
-															<span className="text-green-600 mt-1">
-																•
+															<div className="flex-shrink-0 mt-0.5 w-2 h-2 rounded-full bg-gradient-to-br from-green-500 to-emerald-600"></div>
+															<span className="flex-1">
+																{item}
 															</span>
-															<span>{item}</span>
 														</li>
 													),
 												)}
@@ -1720,73 +1778,93 @@ export function GenerateMarketingStrategyForm() {
 							ref={(el) => {
 								cardRefs.current[2] = el;
 							}}
-							className="w-full p-4 sm:p-5 transition-all hover:shadow-xl hover:-translate-y-1 border border-gray-200 bg-white"
+							className="w-full p-6 sm:p-8 transition-all hover:shadow-2xl hover:shadow-blue-100/50 border-2 border-gray-100 bg-gradient-to-br from-white to-blue-50/30 shadow-lg"
 						>
-							<CardHeader className="p-0 pb-3 sm:pb-4">
+							<CardHeader className="p-0 pb-6">
 								<button
 									type="button"
 									onClick={() => setIfpExpanded(!ifpExpanded)}
-									className="flex items-center justify-between w-full text-left"
+									className="flex items-center justify-between w-full text-left group"
 								>
-									<CardTitle className="text-xs sm:text-sm font-semibold">
-										Ideal Follower Profile (IFP)
-									</CardTitle>
+									<div className="flex items-center gap-3">
+										<div className="p-2 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg">
+											<svg
+												className="w-5 h-5 text-white"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke="currentColor"
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													strokeWidth={2}
+													d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+												/>
+											</svg>
+										</div>
+										<CardTitle className="text-lg sm:text-xl font-bold text-gray-900">
+											Ideal Follower Profile (IFP)
+										</CardTitle>
+									</div>
 									{ifpExpanded ? (
-										<ChevronUp className="w-4 h-4 text-gray-500" />
+										<ChevronUp className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors" />
 									) : (
-										<ChevronDown className="w-4 h-4 text-gray-500" />
+										<ChevronDown className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors" />
 									)}
 								</button>
 							</CardHeader>
 							{ifpExpanded && (
-								<CardContent className="p-0 space-y-3 sm:space-y-4">
-									<div>
-										<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
-											Demographics
-										</h3>
-										<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
-											{parsedResult.ifc_profile
-												.demographics || 'Not provided'}
-										</p>
-									</div>
-									<div>
-										<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
-											Psychographics
-										</h3>
-										<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
-											{parsedResult.ifc_profile
-												.psychographics ||
-												'Not provided'}
-										</p>
-									</div>
-									<div>
-										<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
-											Pain Points
-										</h3>
-										<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
-											{parsedResult.ifc_profile
-												.pain_points || 'Not provided'}
-										</p>
-									</div>
-									<div>
-										<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
-											Triggers
-										</h3>
-										<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
-											{parsedResult.ifc_profile
-												.triggers || 'Not provided'}
-										</p>
-									</div>
-									<div>
-										<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
-											Community Behaviors
-										</h3>
-										<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
-											{parsedResult.ifc_profile
-												.community_behaviors ||
-												'Not provided'}
-										</p>
-									</div>
+								<CardContent className="p-0 space-y-5">
+									{[
+										{
+											label: 'Demographics',
+											value: parsedResult.ifc_profile
+												.demographics,
+											icon: '👥',
+										},
+										{
+											label: 'Psychographics',
+											value: parsedResult.ifc_profile
+												.psychographics,
+											icon: '🧠',
+										},
+										{
+											label: 'Pain Points',
+											value: parsedResult.ifc_profile
+												.pain_points,
+											icon: '💔',
+										},
+										{
+											label: 'Triggers',
+											value: parsedResult.ifc_profile
+												.triggers,
+											icon: '⚡',
+										},
+										{
+											label: 'Community Behaviors',
+											value: parsedResult.ifc_profile
+												.community_behaviors,
+											icon: '🤝',
+										},
+									].map((section) => (
+										<div
+											key={section.label}
+											className="p-4 rounded-xl bg-gradient-to-br from-blue-50/50 to-indigo-50/30 border border-blue-100/50 hover:border-blue-200 transition-colors"
+										>
+											<div className="flex items-center gap-2 mb-2.5">
+												<span className="text-lg">
+													{section.icon}
+												</span>
+												<h3 className="font-bold text-sm sm:text-base text-gray-900">
+													{section.label}
+												</h3>
+											</div>
+											<p className="text-sm sm:text-base text-gray-700 leading-relaxed break-words pl-7">
+												{section.value ||
+													'Not provided'}
+											</p>
+										</div>
+									))}
 								</CardContent>
 							)}
 						</Card>
@@ -1795,21 +1873,26 @@ export function GenerateMarketingStrategyForm() {
 					{/* Personas */}
 					{parsedResult.personas &&
 						parsedResult.personas.length > 0 && (
-							<div className="w-full space-y-4 sm:space-y-6">
-								<h2 className="text-xs sm:text-sm font-semibold tracking-tight text-center px-2">
-									Personas & Strategies
-								</h2>
+							<div className="w-full space-y-6 sm:space-y-8">
+								<div className="text-center">
+									<div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-100 to-pink-100 border border-purple-200/50 mb-3">
+										<span className="text-lg">🎯</span>
+										<h2 className="text-base sm:text-lg font-bold text-gray-900">
+											Personas & Strategies
+										</h2>
+									</div>
+								</div>
 								<Tabs
 									defaultValue="persona-0"
 									className="w-full"
 								>
-									<TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto p-1 gap-1 overflow-x-auto">
+									<TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto p-1.5 gap-2 overflow-x-auto bg-gray-100/50 rounded-xl border border-gray-200">
 										{parsedResult.personas.map(
 											(persona: any, idx: number) => (
 												<TabsTrigger
 													key={idx}
 													value={`persona-${idx}`}
-													className="text-[10px] sm:text-xs md:text-sm py-2 min-h-[44px]"
+													className="text-[10px] sm:text-xs md:text-sm py-2.5 min-h-[44px] font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all rounded-lg"
 												>
 													<span className="truncate">
 														Persona {idx + 1}
@@ -1823,7 +1906,7 @@ export function GenerateMarketingStrategyForm() {
 											<TabsContent
 												key={idx}
 												value={`persona-${idx}`}
-												className="mt-4 sm:mt-6 space-y-4 sm:space-y-6"
+												className="mt-6 sm:mt-8 space-y-6"
 											>
 												<Card
 													ref={(el) => {
@@ -1831,22 +1914,41 @@ export function GenerateMarketingStrategyForm() {
 															3 + idx
 														] = el;
 													}}
-													className="w-full p-4 sm:p-5 transition-all hover:shadow-xl hover:-translate-y-1 border border-gray-200 bg-white"
+													className="w-full p-6 sm:p-8 transition-all hover:shadow-2xl hover:shadow-purple-100/50 border-2 border-gray-100 bg-gradient-to-br from-white via-purple-50/20 to-pink-50/20 shadow-lg"
 												>
-													<CardHeader className="p-0 pb-4">
+													<CardHeader className="p-0 pb-6">
 														<div className="flex items-start justify-between gap-4">
-															<div>
-																<CardTitle className="text-sm font-semibold mb-2">
-																	{persona.name ||
-																		`Persona ${
-																			idx +
-																			1
-																		}`}
-																</CardTitle>
+															<div className="flex-1">
+																<div className="flex items-center gap-3 mb-3">
+																	<div className="p-2 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 shadow-lg">
+																		<svg
+																			className="w-5 h-5 text-white"
+																			fill="none"
+																			viewBox="0 0 24 24"
+																			stroke="currentColor"
+																		>
+																			<path
+																				strokeLinecap="round"
+																				strokeLinejoin="round"
+																				strokeWidth={
+																					2
+																				}
+																				d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+																			/>
+																		</svg>
+																	</div>
+																	<CardTitle className="text-xl sm:text-2xl font-bold text-gray-900">
+																		{persona.name ||
+																			`Persona ${
+																				idx +
+																				1
+																			}`}
+																	</CardTitle>
+																</div>
 																{persona.segment && (
 																	<Badge
 																		variant="secondary"
-																		className="mt-1"
+																		className="mt-2 px-3 py-1 text-xs font-semibold bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 border border-purple-200/50"
 																	>
 																		{
 																			persona.segment
@@ -1858,65 +1960,109 @@ export function GenerateMarketingStrategyForm() {
 													</CardHeader>
 													<CardContent className="p-0 space-y-6">
 														{persona.description && (
-															<div>
-																<h3 className="font-semibold text-xs text-gray-700 mb-2">
-																	Description
-																</h3>
-																<p className="text-xs text-gray-600 leading-relaxed">
-																	{
-																		persona.description
-																	}
-																</p>
-															</div>
-														)}
-
-														<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-															{persona.key_motivation && (
-																<div>
-																	<h3 className="font-semibold text-xs text-gray-700 mb-2">
-																		Key
-																		Motivation
+															<div className="rounded-2xl border-2 border-purple-200/50 bg-gradient-to-br from-purple-50/50 via-pink-50/30 to-rose-50/30 p-6 sm:p-8 shadow-lg">
+																<div className="flex items-center gap-3 mb-4 pb-3 border-b-2 border-purple-200/30">
+																	<div className="p-2 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 shadow-md">
+																		<span className="text-2xl">
+																			📝
+																		</span>
+																	</div>
+																	<h3 className="font-bold text-lg sm:text-xl text-gray-900">
+																		Description
 																	</h3>
-																	<p className="text-xs text-gray-600 leading-relaxed">
+																</div>
+																<div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-purple-100/50 shadow-sm">
+																	<p className="text-sm sm:text-base text-gray-700 leading-relaxed">
 																		{
-																			persona.key_motivation
+																			persona.description
 																		}
 																	</p>
 																</div>
+															</div>
+														)}
+
+														<div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+															{persona.key_motivation && (
+																<div className="rounded-2xl border-2 border-amber-200/50 bg-gradient-to-br from-amber-50/50 via-orange-50/30 to-yellow-50/30 p-6 sm:p-8 shadow-lg">
+																	<div className="flex items-center gap-3 mb-4 pb-3 border-b-2 border-amber-200/30">
+																		<div className="p-2 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-md">
+																			<span className="text-2xl">
+																				💪
+																			</span>
+																		</div>
+																		<h3 className="font-bold text-base sm:text-lg text-gray-900">
+																			Key
+																			Motivation
+																		</h3>
+																	</div>
+																	<div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-amber-100/50 shadow-sm">
+																		<p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+																			{
+																				persona.key_motivation
+																			}
+																		</p>
+																	</div>
+																</div>
 															)}
 															{persona.core_pain_point && (
-																<div>
-																	<h3 className="font-semibold text-xs text-gray-700 mb-2">
-																		Core
-																		Pain
-																		Point
-																	</h3>
-																	<p className="text-xs text-gray-600 leading-relaxed">
-																		{
-																			persona.core_pain_point
-																		}
-																	</p>
+																<div className="rounded-2xl border-2 border-red-200/50 bg-gradient-to-br from-red-50/50 via-rose-50/30 to-pink-50/30 p-6 sm:p-8 shadow-lg">
+																	<div className="flex items-center gap-3 mb-4 pb-3 border-b-2 border-red-200/30">
+																		<div className="p-2 rounded-xl bg-gradient-to-br from-red-500 to-rose-600 shadow-md">
+																			<span className="text-2xl">
+																				💔
+																			</span>
+																		</div>
+																		<h3 className="font-bold text-base sm:text-lg text-gray-900">
+																			Core
+																			Pain
+																			Point
+																		</h3>
+																	</div>
+																	<div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-red-100/50 shadow-sm">
+																		<p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+																			{
+																				persona.core_pain_point
+																			}
+																		</p>
+																	</div>
 																</div>
 															)}
 														</div>
 
 														{persona.storyline && (
-															<div className="rounded-lg border border-gray-200 bg-slate-50 p-4 sm:p-5 space-y-3 sm:space-y-4">
-																<h3 className="font-semibold text-xs text-gray-900 mb-4">
-																	Storyline:{' '}
-																	{persona
-																		.storyline
-																		.title ||
-																		'Untitled'}
-																</h3>
+															<div className="rounded-2xl border-2 border-indigo-200/50 bg-gradient-to-br from-indigo-50/50 via-purple-50/30 to-pink-50/30 p-6 sm:p-8 space-y-6 shadow-lg">
+																<div className="flex items-center gap-3 mb-6 pb-4 border-b-2 border-indigo-200/30">
+																	<div className="p-2 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-md">
+																		<span className="text-2xl">
+																			🎬
+																		</span>
+																	</div>
+																	<div>
+																		<h3 className="font-bold text-lg sm:text-xl text-gray-900">
+																			Storyline
+																		</h3>
+																		<p className="text-sm sm:text-base font-semibold text-indigo-700 mt-0.5">
+																			{persona
+																				.storyline
+																				.title ||
+																				'Untitled'}
+																		</p>
+																	</div>
+																</div>
+
 																{persona
 																	.storyline
 																	.theme && (
-																	<div>
-																		<h4 className="font-medium text-xs text-gray-700 mb-1">
-																			Theme
-																		</h4>
-																		<p className="text-xs text-gray-600">
+																	<div className="p-4 rounded-xl bg-white/60 backdrop-blur-sm border border-indigo-100/50 shadow-sm">
+																		<div className="flex items-center gap-2 mb-2.5">
+																			<span className="text-lg">
+																				🎨
+																			</span>
+																			<h4 className="font-bold text-sm sm:text-base text-gray-900">
+																				Theme
+																			</h4>
+																		</div>
+																		<p className="text-sm sm:text-base text-gray-700 leading-relaxed pl-6">
 																			{
 																				persona
 																					.storyline
@@ -1925,115 +2071,165 @@ export function GenerateMarketingStrategyForm() {
 																		</p>
 																	</div>
 																)}
+
 																{persona
 																	.storyline
 																	.arc && (
-																	<div className="space-y-3">
-																		<h4 className="font-medium text-xs text-gray-700">
+																	<div className="space-y-4">
+																		<h4 className="font-bold text-base sm:text-lg text-gray-900 mb-4 flex items-center gap-2">
+																			<span>
+																				📖
+																			</span>
 																			Story
 																			Arc
 																		</h4>
-																		{persona
-																			.storyline
-																			.arc
-																			.hook && (
-																			<div>
-																				<span className="text-xs font-semibold text-gray-600">
-																					Act
-																					I
-																					-
-																					Hook:
-																				</span>
-																				<p className="text-xs text-gray-600 mt-1">
-																					{
-																						persona
-																							.storyline
-																							.arc
-																							.hook
-																					}
-																				</p>
-																			</div>
-																		)}
-																		{persona
-																			.storyline
-																			.arc
-																			.transformation && (
-																			<div>
-																				<span className="text-xs font-semibold text-gray-600">
-																					Act
-																					II
-																					-
-																					Transformation:
-																				</span>
-																				<p className="text-xs text-gray-600 mt-1">
-																					{
-																						persona
-																							.storyline
-																							.arc
-																							.transformation
-																					}
-																				</p>
-																			</div>
-																		)}
-																		{persona
-																			.storyline
-																			.arc
-																			.outcome && (
-																			<div>
-																				<span className="text-xs font-semibold text-gray-600">
-																					Act
-																					III
-																					-
-																					Outcome:
-																				</span>
-																				<p className="text-xs text-gray-600 mt-1">
-																					{
-																						persona
-																							.storyline
-																							.arc
-																							.outcome
-																					}
-																				</p>
-																			</div>
-																		)}
+																		<div className="space-y-4">
+																			{persona
+																				.storyline
+																				.arc
+																				.hook && (
+																				<div className="relative pl-6 border-l-4 border-blue-500 bg-gradient-to-r from-blue-50/50 to-cyan-50/30 p-4 rounded-r-xl">
+																					<div className="absolute -left-3 top-4 w-6 h-6 rounded-full bg-blue-500 border-4 border-white shadow-md flex items-center justify-center">
+																						<span className="text-xs font-bold text-white">
+																							I
+																						</span>
+																					</div>
+																					<h5 className="font-bold text-sm sm:text-base text-blue-900 mb-2">
+																						Act
+																						I
+																						-
+																						Hook
+																					</h5>
+																					<p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+																						{
+																							persona
+																								.storyline
+																								.arc
+																								.hook
+																						}
+																					</p>
+																				</div>
+																			)}
+																			{persona
+																				.storyline
+																				.arc
+																				.transformation && (
+																				<div className="relative pl-6 border-l-4 border-purple-500 bg-gradient-to-r from-purple-50/50 to-pink-50/30 p-4 rounded-r-xl">
+																					<div className="absolute -left-3 top-4 w-6 h-6 rounded-full bg-purple-500 border-4 border-white shadow-md flex items-center justify-center">
+																						<span className="text-xs font-bold text-white">
+																							II
+																						</span>
+																					</div>
+																					<h5 className="font-bold text-sm sm:text-base text-purple-900 mb-2">
+																						Act
+																						II
+																						-
+																						Transformation
+																					</h5>
+																					<p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+																						{
+																							persona
+																								.storyline
+																								.arc
+																								.transformation
+																						}
+																					</p>
+																				</div>
+																			)}
+																			{persona
+																				.storyline
+																				.arc
+																				.outcome && (
+																				<div className="relative pl-6 border-l-4 border-emerald-500 bg-gradient-to-r from-emerald-50/50 to-teal-50/30 p-4 rounded-r-xl">
+																					<div className="absolute -left-3 top-4 w-6 h-6 rounded-full bg-emerald-500 border-4 border-white shadow-md flex items-center justify-center">
+																						<span className="text-xs font-bold text-white">
+																							III
+																						</span>
+																					</div>
+																					<h5 className="font-bold text-sm sm:text-base text-emerald-900 mb-2">
+																						Act
+																						III
+																						-
+																						Outcome
+																					</h5>
+																					<p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+																						{
+																							persona
+																								.storyline
+																								.arc
+																								.outcome
+																						}
+																					</p>
+																				</div>
+																			)}
+																		</div>
 																	</div>
 																)}
+
 																{persona
 																	.storyline
 																	.core_message && (
-																	<div className="pt-3 border-t border-gray-200">
-																		<h4 className="font-medium text-xs text-gray-700 mb-1">
-																			Core
-																			Message
-																		</h4>
-																		<p className="text-xs font-medium text-gray-900 italic">
-																			"
-																			{
-																				persona
-																					.storyline
-																					.core_message
-																			}
-																			"
-																		</p>
+																	<div className="pt-5 mt-5 border-t-2 border-indigo-200/50">
+																		<div className="p-5 rounded-xl bg-gradient-to-br from-indigo-100/50 to-purple-100/30 border-2 border-indigo-200/50 shadow-sm">
+																			<div className="flex items-center gap-2 mb-3">
+																				<span className="text-xl">
+																					💬
+																				</span>
+																				<h4 className="font-bold text-sm sm:text-base text-gray-900">
+																					Core
+																					Message
+																				</h4>
+																			</div>
+																			<div className="pl-7">
+																				<p className="text-sm sm:text-base font-semibold text-gray-900 italic leading-relaxed relative">
+																					<span className="absolute -left-2 text-3xl text-indigo-300/50 leading-none">
+																						"
+																					</span>
+																					<span className="relative z-10">
+																						{
+																							persona
+																								.storyline
+																								.core_message
+																						}
+																					</span>
+																					<span className="text-3xl text-indigo-300/50 leading-none">
+																						"
+																					</span>
+																				</p>
+																			</div>
+																		</div>
 																	</div>
 																)}
 															</div>
 														)}
 
 														{persona.growth_strategy && (
-															<div className="space-y-3 sm:space-y-4">
-																<h3 className="font-semibold text-xs sm:text-sm text-gray-900">
-																	Growth
-																	Strategy
-																</h3>
+															<div className="rounded-2xl border-2 border-teal-200/50 bg-gradient-to-br from-teal-50/50 via-cyan-50/30 to-blue-50/30 p-6 sm:p-8 space-y-6 shadow-lg">
+																<div className="flex items-center gap-3 mb-5 pb-4 border-b-2 border-teal-200/30">
+																	<div className="p-2 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-600 shadow-md">
+																		<span className="text-2xl">
+																			📈
+																		</span>
+																	</div>
+																	<h3 className="font-bold text-lg sm:text-xl text-gray-900">
+																		Growth
+																		Strategy
+																	</h3>
+																</div>
+
 																{persona
 																	.growth_strategy
 																	.objective && (
-																	<div>
-																		<h4 className="font-medium text-[11px] sm:text-xs text-gray-700 mb-1 sm:mb-1.5">
-																			Objective
-																		</h4>
-																		<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
+																	<div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-teal-100/50 shadow-sm">
+																		<div className="flex items-center gap-2 mb-3">
+																			<span className="text-lg">
+																				🎯
+																			</span>
+																			<h4 className="font-bold text-sm sm:text-base text-gray-900">
+																				Objective
+																			</h4>
+																		</div>
+																		<p className="text-sm sm:text-base text-gray-700 leading-relaxed pl-6">
 																			{
 																				persona
 																					.growth_strategy
@@ -2042,6 +2238,7 @@ export function GenerateMarketingStrategyForm() {
 																		</p>
 																	</div>
 																)}
+
 																{persona
 																	.growth_strategy
 																	.content_pillars &&
@@ -2050,12 +2247,17 @@ export function GenerateMarketingStrategyForm() {
 																		.content_pillars
 																		.length >
 																		0 && (
-																		<div>
-																			<h4 className="font-medium text-[11px] sm:text-xs text-gray-700 mb-2 sm:mb-3">
-																				Content
-																				Pillars
-																			</h4>
-																			<div className="flex flex-wrap gap-2 sm:gap-3">
+																		<div className="p-5 rounded-xl bg-white/60 backdrop-blur-sm border border-teal-100/50 shadow-sm">
+																			<div className="flex items-center gap-2 mb-4">
+																				<span className="text-lg">
+																					🏛️
+																				</span>
+																				<h4 className="font-bold text-sm sm:text-base text-gray-900">
+																					Content
+																					Pillars
+																				</h4>
+																			</div>
+																			<div className="flex flex-wrap gap-3 pl-6">
 																				{persona.growth_strategy.content_pillars.map(
 																					(
 																						pillar: string,
@@ -2066,7 +2268,7 @@ export function GenerateMarketingStrategyForm() {
 																								pIdx
 																							}
 																							variant="outline"
-																							className="text-[10px] sm:text-xs px-2 sm:px-2.5 py-1 sm:py-1.5 break-words"
+																							className="text-xs sm:text-sm px-4 py-2 font-semibold bg-gradient-to-r from-teal-100 to-cyan-100 text-teal-800 border-2 border-teal-200/50 hover:border-teal-300 hover:shadow-md transition-all break-words"
 																						>
 																							{
 																								pillar
@@ -2083,26 +2285,28 @@ export function GenerateMarketingStrategyForm() {
 														{persona.scripts &&
 															persona.scripts
 																.length > 0 && (
-																<div className="space-y-4">
-																	<div className="flex items-center gap-2">
+																<div className="space-y-5">
+																	<div className="flex items-center gap-3 pb-2 border-b-2 border-gray-200">
 																		{selectedPlatformInfo && (
-																			<Image
-																				src={
-																					selectedPlatformInfo.icon
-																				}
-																				alt={
-																					selectedPlatformInfo.name
-																				}
-																				width={
-																					20
-																				}
-																				height={
-																					20
-																				}
-																				className="w-4 h-4 sm:w-5 sm:h-5 object-contain"
-																			/>
+																			<div className="p-1.5 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 shadow-md">
+																				<Image
+																					src={
+																						selectedPlatformInfo.icon
+																					}
+																					alt={
+																						selectedPlatformInfo.name
+																					}
+																					width={
+																						24
+																					}
+																					height={
+																						24
+																					}
+																					className="w-5 h-5 sm:w-6 sm:h-6 object-contain"
+																				/>
+																			</div>
 																		)}
-																		<h3 className="font-semibold text-xs text-gray-900">
+																		<h3 className="font-bold text-lg sm:text-xl text-gray-900">
 																			{
 																				selectedPlatformInfo?.name
 																			}{' '}
@@ -2119,10 +2323,10 @@ export function GenerateMarketingStrategyForm() {
 																					key={
 																						sIdx
 																					}
-																					className="p-5 border border-gray-200 bg-slate-50/50 transition-all hover:shadow-lg hover:-translate-y-0.5"
+																					className="p-6 border-2 border-gray-200 bg-gradient-to-br from-white to-gray-50/50 transition-all hover:shadow-xl hover:border-green-300 hover:-translate-y-1 shadow-md"
 																				>
-																					<div className="flex items-start justify-between mb-3">
-																						<h4 className="font-semibold text-xs text-gray-900">
+																					<div className="flex items-start justify-between mb-4">
+																						<h4 className="font-bold text-base sm:text-lg text-gray-900">
 																							{script.title ||
 																								`Script ${
 																									sIdx +
@@ -2132,7 +2336,7 @@ export function GenerateMarketingStrategyForm() {
 																						{script.duration && (
 																							<Badge
 																								variant="secondary"
-																								className="text-xs"
+																								className="text-xs font-semibold px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 border border-green-200/50"
 																							>
 																								{
 																									script.duration
@@ -2141,8 +2345,8 @@ export function GenerateMarketingStrategyForm() {
 																						)}
 																					</div>
 																					{script.script && (
-																						<div className="mb-4">
-																							<p className="text-xs text-gray-700 leading-relaxed whitespace-pre-wrap">
+																						<div className="mb-5 p-4 rounded-lg bg-gray-50/50 border border-gray-100">
+																							<p className="text-sm sm:text-base text-gray-700 leading-relaxed whitespace-pre-wrap">
 																								{
 																									script.script
 																								}
@@ -2150,11 +2354,13 @@ export function GenerateMarketingStrategyForm() {
 																						</div>
 																					)}
 																					{script.cta && (
-																						<div className="pt-3 border-t border-gray-200">
-																							<span className="text-xs font-medium text-gray-600">
-																								CTA:
+																						<div className="pt-4 border-t-2 border-gray-200">
+																							<span className="text-xs font-bold text-gray-600 uppercase tracking-wide">
+																								Call
+																								to
+																								Action:
 																							</span>
-																							<p className="text-xs text-gray-700 mt-1 font-medium">
+																							<p className="text-sm sm:text-base text-gray-900 mt-2 font-semibold bg-gradient-to-r from-green-50 to-emerald-50 p-3 rounded-lg border border-green-200/50">
 																								{
 																									script.cta
 																								}
