@@ -139,7 +139,13 @@ const getGenerationSteps = (
 	];
 };
 
-export function GenerateMarketingStrategyForm() {
+interface GenerateMarketingStrategyFormProps {
+	onOutputGenerated?: (hasOutput: boolean) => void;
+}
+
+export function GenerateMarketingStrategyForm({
+	onOutputGenerated,
+}: GenerateMarketingStrategyFormProps = {}) {
 	const [result, setResult] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [currentStep, setCurrentStep] = useState(0);
@@ -604,6 +610,13 @@ export function GenerateMarketingStrategyForm() {
 	};
 
 	const parsedResult = result ? parseResult(result) : null;
+
+	// Notify parent when output is generated
+	useEffect(() => {
+		if (onOutputGenerated) {
+			onOutputGenerated(!!parsedResult);
+		}
+	}, [parsedResult, onOutputGenerated]);
 
 	// Get platform info based on selected platform
 	const selectedPlatformInfo = useMemo(() => {
