@@ -9,7 +9,6 @@ import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import FormSelectionTabs from '../user-validation-form/FormSelectionTabs';
 import { Avatar, AvatarFallback } from '../ui/avatar';
-import MaintenanceOngoing from '../maintenance-ongoing/MaintenanceOngoing';
 
 export default function Credibility() {
 	return (
@@ -72,8 +71,8 @@ export default function Credibility() {
 								<DialogTitle className="sr-only">
 									Sign up or log in to SheepLoop
 								</DialogTitle>
-								{/* <FormSelectionTabs /> // TODO: add form selection tabs later */}
-								<MaintenanceOngoing />
+								<FormSelectionTabs />
+								{/* <MaintenanceOngoing /> */}
 							</DialogContent>
 						</Dialog>
 					</div>

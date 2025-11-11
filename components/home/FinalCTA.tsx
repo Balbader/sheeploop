@@ -404,8 +404,8 @@ export default function FinalCTA() {
 									<DialogTitle className="sr-only">
 										Sign up or log in to SheepLoop
 									</DialogTitle>
-									{/* <FormSelectionTabs /> // TODO: add form selection tabs later */}
-									<MaintenanceOngoing />
+									<FormSelectionTabs />
+									{/* <MaintenanceOngoing /> */}
 								</DialogContent>
 							</Dialog>
 							<span className="text-xs text-gray-500 italic">
