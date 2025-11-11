@@ -23,9 +23,16 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover';
-import { CheckCircle2, Circle, ChevronDown, X } from 'lucide-react';
+import { CheckCircle2, Circle, ChevronDown, ChevronUp, X } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import Image from 'next/image';
+import TikTokIcon from '@/public/social-media.png';
+import InstagramIcon from '@/public/instagram.png';
+import YouTubeIcon from '@/public/youtube.png';
+import LinkedInIcon from '@/public/linkedin.png';
+import TwitterIcon from '@/public/twitter.png';
+import SnapchatIcon from '@/public/Snapchat.png';
+import FacebookIcon from '@/public/facebook.png';
 
 const FUNNY_MESSAGES = [
 	'Baa patient! 🐑',
@@ -44,37 +51,37 @@ const targetPlatforms = [
 	{
 		id: 1,
 		name: 'TikTok',
-		icon: '/TikTok.png',
+		icon: TikTokIcon,
 	},
 	{
 		id: 2,
 		name: 'Instagram',
-		icon: '/Instagram.png',
+		icon: InstagramIcon,
 	},
 	{
 		id: 3,
 		name: 'YouTube',
-		icon: '/YouTube.png',
+		icon: YouTubeIcon,
 	},
 	{
 		id: 4,
 		name: 'LinkedIn',
-		icon: '/LinkedIn.png',
+		icon: LinkedInIcon,
 	},
 	{
 		id: 5,
 		name: 'X (Twitter)',
-		icon: '/X (Twitter).png',
+		icon: TwitterIcon,
 	},
 	{
 		id: 6,
 		name: 'Snapchat',
-		icon: '/Snapchat.png',
+		icon: SnapchatIcon,
 	},
 	{
 		id: 7,
 		name: 'Facebook',
-		icon: '/Facebook.png',
+		icon: FacebookIcon,
 	},
 ];
 
@@ -127,12 +134,15 @@ export function GenerateMarketingStrategyForm() {
 	const [selectedObjective, setSelectedObjective] = useState<string>('');
 	const [numberOfPersonas, setNumberOfPersonas] = useState<string>('');
 	const [tonePopoverOpen, setTonePopoverOpen] = useState(false);
+	const [insightsExpanded, setInsightsExpanded] = useState(true);
+	const [ifpExpanded, setIfpExpanded] = useState(true);
 	const sheepContainerRef = useRef<HTMLDivElement>(null);
 	const animationRefs = useRef<any[]>([]);
 	const messageTimersRef = useRef<NodeJS.Timeout[]>([]);
 	const formRef = useRef<HTMLFormElement>(null);
 	const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 	const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+	const resultCardsAnimatedRef = useRef(false);
 
 	// Generate steps dynamically based on selected platform
 	const GENERATION_STEPS = useMemo(
@@ -567,6 +577,15 @@ export function GenerateMarketingStrategyForm() {
 
 	const parsedResult = result ? parseResult(result) : null;
 
+	// Get platform info based on selected platform
+	const selectedPlatformInfo = useMemo(() => {
+		return (
+			targetPlatforms.find(
+				(platform) => platform.name === selectedPlatform,
+			) || targetPlatforms[0]
+		); // Fallback to TikTok
+	}, [selectedPlatform]);
+
 	const getScoreColor = (score: number) => {
 		if (score >= 8) return 'bg-green-500';
 		if (score >= 6) return 'bg-yellow-500';
@@ -585,6 +604,8 @@ export function GenerateMarketingStrategyForm() {
 
 				// Animate form sections with stagger (only when form is visible)
 				if (!parsedResult) {
+					// Reset animation flag when results are cleared
+					resultCardsAnimatedRef.current = false;
 					const sections = sectionRefs.current.filter(Boolean);
 					if (sections.length > 0) {
 						gsap.set(sections, {
@@ -624,8 +645,9 @@ export function GenerateMarketingStrategyForm() {
 					}
 				}
 
-				// Animate result cards with subtle entrance
-				if (parsedResult) {
+				// Animate result cards with subtle entrance (only once)
+				if (parsedResult && !resultCardsAnimatedRef.current) {
+					resultCardsAnimatedRef.current = true;
 					const cards = cardRefs.current.filter(Boolean);
 					if (cards.length > 0) {
 						gsap.set(cards, {
@@ -1558,12 +1580,29 @@ export function GenerateMarketingStrategyForm() {
 			{parsedResult && (
 				<div className="w-full max-w-6xl mx-auto space-y-4 sm:space-y-6">
 					<div className="text-center mb-6 sm:mb-8 px-2">
-						<h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight mb-3 text-gray-900">
-							Your Community Fit{' '}
-							<span className="text-green-600">Storyline</span>
-						</h2>
+						<div className="flex items-center justify-center gap-3 mb-3">
+							{selectedPlatformInfo && (
+								<Image
+									src={selectedPlatformInfo.icon}
+									alt={selectedPlatformInfo.name}
+									width={40}
+									height={40}
+									className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
+								/>
+							)}
+							<h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-gray-900">
+								Your Community Fit{' '}
+								<span className="text-green-600">
+									Storyline
+								</span>
+							</h2>
+						</div>
 						<p className="text-gray-600 text-sm sm:text-base">
-							Your personalized content strategy is ready
+							Your personalized{' '}
+							<span className="font-semibold text-gray-900">
+								{selectedPlatformInfo?.name}
+							</span>{' '}
+							content strategy is ready
 						</p>
 					</div>
 
@@ -1631,24 +1670,44 @@ export function GenerateMarketingStrategyForm() {
 								</div>
 								{parsedResult.community_market_fit.summary && (
 									<div className="space-y-2 mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
-										<h3 className="font-semibold text-xs sm:text-sm text-gray-700 mb-2 sm:mb-3">
-											Key Insights
-										</h3>
-										<ul className="space-y-2">
-											{parsedResult.community_market_fit.summary.map(
-												(item: string, idx: number) => (
-													<li
-														key={idx}
-														className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-gray-700 leading-relaxed break-words"
-													>
-														<span className="text-green-600 mt-1">
-															•
-														</span>
-														<span>{item}</span>
-													</li>
-												),
+										<button
+											type="button"
+											onClick={() =>
+												setInsightsExpanded(
+													!insightsExpanded,
+												)
+											}
+											className="flex items-center justify-between w-full text-left"
+										>
+											<h3 className="font-semibold text-xs sm:text-sm text-gray-700">
+												Key Insights
+											</h3>
+											{insightsExpanded ? (
+												<ChevronUp className="w-4 h-4 text-gray-500" />
+											) : (
+												<ChevronDown className="w-4 h-4 text-gray-500" />
 											)}
-										</ul>
+										</button>
+										{insightsExpanded && (
+											<ul className="space-y-2 mt-2 sm:mt-3">
+												{parsedResult.community_market_fit.summary.map(
+													(
+														item: string,
+														idx: number,
+													) => (
+														<li
+															key={idx}
+															className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-gray-700 leading-relaxed break-words"
+														>
+															<span className="text-green-600 mt-1">
+																•
+															</span>
+															<span>{item}</span>
+														</li>
+													),
+												)}
+											</ul>
+										)}
 									</div>
 								)}
 							</CardContent>
@@ -1664,58 +1723,72 @@ export function GenerateMarketingStrategyForm() {
 							className="w-full p-4 sm:p-5 transition-all hover:shadow-xl hover:-translate-y-1 border border-gray-200 bg-white"
 						>
 							<CardHeader className="p-0 pb-3 sm:pb-4">
-								<CardTitle className="text-xs sm:text-sm font-semibold">
-									Ideal Follower Profile (IFP)
-								</CardTitle>
+								<button
+									type="button"
+									onClick={() => setIfpExpanded(!ifpExpanded)}
+									className="flex items-center justify-between w-full text-left"
+								>
+									<CardTitle className="text-xs sm:text-sm font-semibold">
+										Ideal Follower Profile (IFP)
+									</CardTitle>
+									{ifpExpanded ? (
+										<ChevronUp className="w-4 h-4 text-gray-500" />
+									) : (
+										<ChevronDown className="w-4 h-4 text-gray-500" />
+									)}
+								</button>
 							</CardHeader>
-							<CardContent className="p-0 space-y-3 sm:space-y-4">
-								<div>
-									<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
-										Demographics
-									</h3>
-									<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
-										{parsedResult.ifc_profile
-											.demographics || 'Not provided'}
-									</p>
-								</div>
-								<div>
-									<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
-										Psychographics
-									</h3>
-									<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
-										{parsedResult.ifc_profile
-											.psychographics || 'Not provided'}
-									</p>
-								</div>
-								<div>
-									<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
-										Pain Points
-									</h3>
-									<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
-										{parsedResult.ifc_profile.pain_points ||
-											'Not provided'}
-									</p>
-								</div>
-								<div>
-									<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
-										Triggers
-									</h3>
-									<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
-										{parsedResult.ifc_profile.triggers ||
-											'Not provided'}
-									</p>
-								</div>
-								<div>
-									<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
-										Community Behaviors
-									</h3>
-									<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
-										{parsedResult.ifc_profile
-											.community_behaviors ||
-											'Not provided'}
-									</p>
-								</div>
-							</CardContent>
+							{ifpExpanded && (
+								<CardContent className="p-0 space-y-3 sm:space-y-4">
+									<div>
+										<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
+											Demographics
+										</h3>
+										<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
+											{parsedResult.ifc_profile
+												.demographics || 'Not provided'}
+										</p>
+									</div>
+									<div>
+										<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
+											Psychographics
+										</h3>
+										<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
+											{parsedResult.ifc_profile
+												.psychographics ||
+												'Not provided'}
+										</p>
+									</div>
+									<div>
+										<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
+											Pain Points
+										</h3>
+										<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
+											{parsedResult.ifc_profile
+												.pain_points || 'Not provided'}
+										</p>
+									</div>
+									<div>
+										<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
+											Triggers
+										</h3>
+										<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
+											{parsedResult.ifc_profile
+												.triggers || 'Not provided'}
+										</p>
+									</div>
+									<div>
+										<h3 className="font-semibold text-[11px] sm:text-xs text-gray-700 mb-1.5 sm:mb-2">
+											Community Behaviors
+										</h3>
+										<p className="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
+											{parsedResult.ifc_profile
+												.community_behaviors ||
+												'Not provided'}
+										</p>
+									</div>
+								</CardContent>
+							)}
 						</Card>
 					)}
 
@@ -2011,10 +2084,31 @@ export function GenerateMarketingStrategyForm() {
 															persona.scripts
 																.length > 0 && (
 																<div className="space-y-4">
-																	<h3 className="font-semibold text-xs text-gray-900">
-																		TikTok
-																		Scripts
-																	</h3>
+																	<div className="flex items-center gap-2">
+																		{selectedPlatformInfo && (
+																			<Image
+																				src={
+																					selectedPlatformInfo.icon
+																				}
+																				alt={
+																					selectedPlatformInfo.name
+																				}
+																				width={
+																					20
+																				}
+																				height={
+																					20
+																				}
+																				className="w-4 h-4 sm:w-5 sm:h-5 object-contain"
+																			/>
+																		)}
+																		<h3 className="font-semibold text-xs text-gray-900">
+																			{
+																				selectedPlatformInfo?.name
+																			}{' '}
+																			Scripts
+																		</h3>
+																	</div>
 																	<div className="space-y-4">
 																		{persona.scripts.map(
 																			(
