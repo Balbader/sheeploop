@@ -70,6 +70,11 @@ export const CommunityFitInputSchema = z.object({
 			"Single most important growth KPI for this sprint. Ex: 'follower growth on TikTok', 'drive 100 Discord joins', 'validate a storyline'.",
 		)
 		.optional(),
+	number_of_personas: z
+		.string()
+		.describe('Number of personas to generate (1-5).')
+		.optional()
+		.default('2'),
 });
 
 /**
@@ -79,11 +84,12 @@ export const CommunityFitInputSchema = z.object({
  * We are now:
  * - scoring community fit in detail,
  * - defining an Ideal Follower Profile (IFC),
- * - generating 5 personas (5 distinct sub-markets),
+ * - generating the selected number of personas (1-5 distinct sub-markets),
  * - building storyline + growth strategy + TikTok scripts per persona.
  *
  * NOTE:
  * The agent MUST return EXACTLY this shape.
+ * The number of personas matches the number_of_personas input (default: 2).
  */
 
 const Score010 = z
@@ -191,7 +197,7 @@ export const CommunityFitOutputSchema = z.object({
 					title: z
 						.string()
 						.describe(
-							'Storyline headline for THIS persona. Emotional headline they’d repeat.',
+							'Storyline headline for THIS persona. Emotional headline they would repeat.',
 						),
 					theme: z
 						.string()
@@ -212,7 +218,7 @@ export const CommunityFitOutputSchema = z.object({
 						outcome: z
 							.string()
 							.describe(
-								'Act III. Vision of what life looks like if they “join the movement.”',
+								'Act III. Vision of what life looks like if they "join the movement."',
 							),
 					}),
 					emotional_driver: z
@@ -286,21 +292,21 @@ export const CommunityFitOutputSchema = z.object({
 							cta: z
 								.string()
 								.describe(
-									'Call to action that matches this persona’s psychology. (Follow, comment, stitch, join waitlist.)',
+									"Call to action that matches this persona's psychology. (Follow, comment, stitch, join waitlist.)",
 								),
 						}),
 					)
 					.min(3)
 					.max(5)
 					.describe(
-						'3-5 target platform-ready short scripts tailored to this persona’s storyline and psychology.',
+						"3-5 target platform-ready short scripts tailored to this persona's storyline and psychology.",
 					),
 			}),
 		)
-		.min(5)
+		.min(1)
 		.max(5)
 		.describe(
-			'Exactly 5 distinct personas representing 5 different market segments.',
+			'Array of 1-5 distinct personas representing different market segments. The number should match the number_of_personas input.',
 		),
 });
 
@@ -312,7 +318,7 @@ export const CommunityFitOutputSchema = z.object({
  * This prompt reflects the new spec:
  * - assess community market fit
  * - define IFC
- * - create 5 personas across 5 market segments
+ * - create 1-5 personas (as specified in number_of_personas input) across different market segments
  * - for each persona: storyline, growth strategy, and initial sprint scripts
  * - strict JSON output
  */
@@ -324,7 +330,7 @@ ROLE
 You are an expert Community Market Fit Strategist. You turn a raw idea into:
 1. A community-market-fit assessment.
 2. An Ideal Follower Profile (IFC).
-3. Five distinct personas across five different target sub-markets.
+3. The specified number of distinct personas (1-5, as specified in number_of_personas input) across different target sub-markets.
 4. A storyline for each persona.
 5. A initial sprint growth plan for each persona.
 6. Viral short-form scripts for that persona.
@@ -343,6 +349,7 @@ CONTEXT INPUTS (will be provided at runtime)
 - constraints
 - inspirations_or_competitors
 - primary_growth_goal
+- number_of_personas (1-5, default: 2)
 
 TASKS
 
@@ -375,9 +382,9 @@ Include:
 Be specific. Be a little raw. This is not a sanitized marketing persona. This is a real human.
 
 -------------------------------------------------
-3. FIVE PERSONAS / FIVE USER MARKETS
+3. PERSONAS / USER MARKETS
 -------------------------------------------------
-Create exactly 5 personas. Each persona must:
+Create the number of personas specified in number_of_personas (default: 2, range: 1-5). Each persona must:
 - Represent a DISTINCT market slice or audience cluster.
 - NOT be redundant with the others.
 - Have unique motivations, pains, tone preferences, and platform behaviors.
@@ -455,7 +462,7 @@ Do NOT include extra top-level keys.
 No trailing commas.
 
 IMPORTANT:
-personas MUST be length 5.
+personas MUST be length equal to number_of_personas (default: 2, range: 1-5).
 Each persona MUST include scripts length 3 to 5.
 
 EXACT JSON STRUCTURE REQUIRED (use these exact key names):
@@ -513,7 +520,7 @@ EXACT JSON STRUCTURE REQUIRED (use these exact key names):
         // 3-5 scripts total
       ]
     }
-    // exactly 5 personas total
+    // number of personas equal to number_of_personas input (1-5)
   ]
 }
 
@@ -531,7 +538,7 @@ END OF SPEC.
 export const communityFitStorylineAgent = new Agent({
 	name: 'community-fit-storyline-agent',
 	description:
-		'Assesses community-market fit, defines the IFC, generates 5 distinct personas, and builds a storyline + initial sprint plan + viral scripts for each persona.',
+		'Assesses community-market fit, defines the IFC, generates the selected number of distinct personas, and builds a storyline + initial sprint plan + viral scripts for each persona.',
 	instructions: SYSTEM_PROMPT,
 	model: 'anthropic/claude-haiku-4-5',
 	tools: {}, // extend in future
@@ -1076,7 +1083,10 @@ export async function runCommunityFitStoryline(
 		};
 	}
 
-	function coerceOutput(value: unknown): unknown {
+	function coerceOutput(
+		value: unknown,
+		targetPersonaCount: number = 2,
+	): unknown {
 		if (!value || typeof value !== 'object') return value;
 
 		const obj = structuredClone(value as Record<string, any>);
@@ -1132,19 +1142,20 @@ export async function runCommunityFitStoryline(
 		}
 		obj.personas = obj.personas.map(ensurePersona);
 
-		// enforce exactly 5 personas – if model gave >5, slice, if <5, pad repeats
-		if (obj.personas.length > 5) {
-			obj.personas = obj.personas.slice(0, 5);
+		// enforce target number of personas – if model gave >target, slice, if <target, pad repeats
+		const targetCount = Math.max(1, Math.min(5, targetPersonaCount));
+		if (obj.personas.length > targetCount) {
+			obj.personas = obj.personas.slice(0, targetCount);
 		}
-		if (obj.personas.length < 5 && obj.personas.length > 0) {
-			while (obj.personas.length < 5) {
+		if (obj.personas.length < targetCount && obj.personas.length > 0) {
+			while (obj.personas.length < targetCount) {
 				obj.personas.push(structuredClone(obj.personas[0]));
 			}
 		}
-		// if zero, create 5 empty skeletons
+		// if zero, create targetCount empty skeletons
 		if (obj.personas.length === 0) {
 			const emptyPersona = ensurePersona({});
-			obj.personas = Array.from({ length: 5 }, () => ({
+			obj.personas = Array.from({ length: targetCount }, () => ({
 				...emptyPersona,
 			}));
 		}
@@ -1152,22 +1163,42 @@ export async function runCommunityFitStoryline(
 		return obj;
 	}
 
+	// Get target number of personas from input
+	const targetPersonaCount = parseInt(parsed.number_of_personas || '2', 10);
+	const personaCount = Math.max(1, Math.min(5, targetPersonaCount));
+
 	// Normalize key names first
 	const normalized = normalizeKeys(json);
 
 	// First validation attempt
 	const first = CommunityFitOutputSchema.safeParse(normalized);
 	if (first.success) {
-		log('First attempt passed schema validation.', first.data);
-		return first.data;
+		// Check if persona count matches expected count
+		const actualPersonaCount = first.data.personas?.length ?? 0;
+		if (actualPersonaCount === personaCount) {
+			log('First attempt passed schema validation.', first.data);
+			return first.data;
+		}
+		log(
+			`First attempt passed schema validation but persona count mismatch: expected ${personaCount}, got ${actualPersonaCount}. Proceeding to coercion.`,
+			{},
+		);
 	}
 
 	// Try coercion/normalization pass
-	const coerced = coerceOutput(normalized);
+	const coerced = coerceOutput(normalized, personaCount);
 	const second = CommunityFitOutputSchema.safeParse(coerced);
 	if (second.success) {
-		log('Second attempt passed after coercion.', second.data);
-		return second.data;
+		// Verify persona count matches expected count after coercion
+		const actualPersonaCount = second.data.personas?.length ?? 0;
+		if (actualPersonaCount === personaCount) {
+			log('Second attempt passed after coercion.', second.data);
+			return second.data;
+		}
+		log(
+			`Second attempt passed schema validation but persona count still incorrect: expected ${personaCount}, got ${actualPersonaCount}. Proceeding to repair.`,
+			{},
+		);
 	}
 
 	// Last resort: ask model to repair
@@ -1178,7 +1209,9 @@ export async function runCommunityFitStoryline(
 		'- community_market_fit.score must be integers 0-10 for alignment, virality, engagement, differentiation.',
 		'- community_market_fit.summary must be an array of 3-5 short strings.',
 		'- ifc_profile must include demographics, psychographics, pain_points, triggers, community_behaviors as strings.',
-		'- personas must be an array of EXACTLY 5 persona objects.',
+		`- personas must be an array of EXACTLY ${personaCount} persona object${
+			personaCount === 1 ? '' : 's'
+		}.`,
 		'- Each persona must include:',
 		'  name, segment, description, key_motivation, core_pain_point, platform_behavior, preferred_tone_style.',
 		'- Each persona.storyline must include title, theme, arc {hook, transformation, outcome}, emotional_driver, core_message.',
@@ -1187,7 +1220,9 @@ export async function runCommunityFitStoryline(
 		'- NO extra top-level keys.',
 		'- NO trailing commas.',
 		'Validation errors:',
-		JSON.stringify(second.error.issues, null, 2),
+		second.success
+			? 'No validation errors (but persona count mismatch)'
+			: JSON.stringify(second.error.issues, null, 2),
 		'Previous JSON:',
 		typeof coerced === 'string'
 			? coerced
@@ -1198,11 +1233,22 @@ export async function runCommunityFitStoryline(
 	log('Repair raw text length:', repair.text.length);
 
 	const repairedJson = extractJsonFromText(repair.text);
-	const repairedCoerced = coerceOutput(repairedJson);
+	const repairedCoerced = coerceOutput(repairedJson, personaCount);
 
 	const finalAttempt = CommunityFitOutputSchema.safeParse(repairedCoerced);
 	log('Final attempt success:', finalAttempt.success);
 	if (finalAttempt.success) {
+		// Verify persona count matches expected count after repair
+		const actualPersonaCount = finalAttempt.data.personas?.length ?? 0;
+		if (actualPersonaCount === personaCount) {
+			return finalAttempt.data;
+		}
+		log(
+			`Final attempt passed schema validation but persona count still incorrect: expected ${personaCount}, got ${actualPersonaCount}.`,
+			{},
+		);
+		// Still return the data if schema validation passed, even if count is off
+		// The coercion should have handled this, so this is a fallback
 		return finalAttempt.data;
 	}
 
