@@ -23,7 +23,14 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover';
-import { CheckCircle2, Circle, ChevronDown, ChevronUp, X } from 'lucide-react';
+import {
+	CheckCircle2,
+	Circle,
+	ChevronDown,
+	ChevronUp,
+	X,
+	Download,
+} from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import Image from 'next/image';
 import TikTokIcon from '@/public/social-media.png';
@@ -1831,13 +1838,190 @@ export function GenerateMarketingStrategyForm({
 										</span>
 									</h2>
 								</div>
-								<p className="text-gray-700 text-base sm:text-lg font-medium">
+								<p className="text-gray-700 text-base sm:text-lg font-medium mb-6">
 									Your personalized{' '}
 									<span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm border border-green-200/50 text-green-700 font-semibold shadow-sm">
 										{selectedPlatformInfo?.name}
 									</span>{' '}
 									content strategy is ready
 								</p>
+								{/* Download Buttons */}
+								<div className="flex flex-wrap items-center justify-center gap-3">
+									<Button
+										onClick={async () => {
+											try {
+												const response = await fetch(
+													'/api/download',
+													{
+														method: 'POST',
+														headers: {
+															'Content-Type':
+																'application/json',
+														},
+														body: JSON.stringify({
+															data: parsedResult,
+															format: 'pdf',
+														}),
+													},
+												);
+												if (response.ok) {
+													const blob =
+														await response.blob();
+													const url =
+														window.URL.createObjectURL(
+															blob,
+														);
+													const a =
+														document.createElement(
+															'a',
+														);
+													a.href = url;
+													a.download = `sheeploop-strategy-${
+														new Date()
+															.toISOString()
+															.split('T')[0]
+													}.pdf`;
+													document.body.appendChild(
+														a,
+													);
+													a.click();
+													window.URL.revokeObjectURL(
+														url,
+													);
+													document.body.removeChild(
+														a,
+													);
+												}
+											} catch (error) {
+												console.error(
+													'Error downloading PDF:',
+													error,
+												);
+											}
+										}}
+										variant="outline"
+										className="bg-white/90 hover:bg-white border-green-300 text-green-700 hover:text-green-800 font-semibold shadow-sm hover:shadow-md transition-all"
+									>
+										<Download className="w-4 h-4 mr-2" />
+										Download PDF
+									</Button>
+									<Button
+										onClick={async () => {
+											try {
+												const response = await fetch(
+													'/api/download',
+													{
+														method: 'POST',
+														headers: {
+															'Content-Type':
+																'application/json',
+														},
+														body: JSON.stringify({
+															data: parsedResult,
+															format: 'csv',
+														}),
+													},
+												);
+												if (response.ok) {
+													const blob =
+														await response.blob();
+													const url =
+														window.URL.createObjectURL(
+															blob,
+														);
+													const a =
+														document.createElement(
+															'a',
+														);
+													a.href = url;
+													a.download = `sheeploop-strategy-${
+														new Date()
+															.toISOString()
+															.split('T')[0]
+													}.csv`;
+													document.body.appendChild(
+														a,
+													);
+													a.click();
+													window.URL.revokeObjectURL(
+														url,
+													);
+													document.body.removeChild(
+														a,
+													);
+												}
+											} catch (error) {
+												console.error(
+													'Error downloading CSV:',
+													error,
+												);
+											}
+										}}
+										variant="outline"
+										className="bg-white/90 hover:bg-white border-green-300 text-green-700 hover:text-green-800 font-semibold shadow-sm hover:shadow-md transition-all"
+									>
+										<Download className="w-4 h-4 mr-2" />
+										Download CSV
+									</Button>
+									<Button
+										onClick={async () => {
+											try {
+												const response = await fetch(
+													'/api/download',
+													{
+														method: 'POST',
+														headers: {
+															'Content-Type':
+																'application/json',
+														},
+														body: JSON.stringify({
+															data: parsedResult,
+															format: 'txt',
+														}),
+													},
+												);
+												if (response.ok) {
+													const blob =
+														await response.blob();
+													const url =
+														window.URL.createObjectURL(
+															blob,
+														);
+													const a =
+														document.createElement(
+															'a',
+														);
+													a.href = url;
+													a.download = `sheeploop-strategy-${
+														new Date()
+															.toISOString()
+															.split('T')[0]
+													}.txt`;
+													document.body.appendChild(
+														a,
+													);
+													a.click();
+													window.URL.revokeObjectURL(
+														url,
+													);
+													document.body.removeChild(
+														a,
+													);
+												}
+											} catch (error) {
+												console.error(
+													'Error downloading TXT:',
+													error,
+												);
+											}
+										}}
+										variant="outline"
+										className="bg-white/90 hover:bg-white border-green-300 text-green-700 hover:text-green-800 font-semibold shadow-sm hover:shadow-md transition-all"
+									>
+										<Download className="w-4 h-4 mr-2" />
+										Download TXT
+									</Button>
+								</div>
 							</div>
 						</div>
 
