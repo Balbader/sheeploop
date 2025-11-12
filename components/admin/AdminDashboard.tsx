@@ -58,7 +58,7 @@ export default function AdminDashboard() {
 									Key metrics and insights at a glance
 								</p>
 							</div>
-							<SectionCards />
+							<SectionCards data={data} />
 						</div>
 
 						{/* Chart Section */}
@@ -72,7 +72,7 @@ export default function AdminDashboard() {
 									Track your growth and engagement trends
 								</p>
 							</div>
-							<ChartAreaInteractive />
+							<ChartAreaInteractive data={data} />
 						</div>
 
 						{/* Users Table Section */}
