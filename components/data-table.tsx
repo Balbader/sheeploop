@@ -107,7 +107,7 @@ export const schema = z.object({
 	first_name: z.string(),
 	last_name: z.string(),
 	email: z.string(),
-	location: z.string(),
+	country: z.string(),
 	login_count: z.number(),
 	created_at: z.number(),
 });
@@ -192,9 +192,9 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
 		cell: ({ row }) => <div className="w-48">{row.original.email}</div>,
 	},
 	{
-		accessorKey: 'location',
-		header: 'Location',
-		cell: ({ row }) => <div className="w-40">{row.original.location}</div>,
+		accessorKey: 'country',
+		header: 'Country',
+		cell: ({ row }) => <div className="w-40">{row.original.country}</div>,
 	},
 	{
 		accessorKey: 'login_count',
@@ -669,8 +669,8 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
 							/>
 						</div>
 						<div className="flex flex-col gap-3">
-							<Label htmlFor="location">Location</Label>
-							<Input id="location" defaultValue={item.location} />
+							<Label htmlFor="country">Country</Label>
+							<Input id="country" defaultValue={item.country} />
 						</div>
 						<div className="grid grid-cols-2 gap-4">
 							<div className="flex flex-col gap-3">
