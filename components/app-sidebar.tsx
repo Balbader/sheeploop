@@ -33,6 +33,7 @@ import {
 } from '@/components/ui/sidebar';
 import Image from 'next/image';
 import logo from '@/public/sheep-loop-logo-dark-bg.png';
+import Link from 'next/link';
 
 const data = {
 	user: {
@@ -161,7 +162,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 							asChild
 							className="data-[slot=sidebar-menu-button]:!p-1.5"
 						>
-							<a href="/">
+							<Link href="/">
 								<Image
 									src={logo}
 									alt="SheepLoop logo"
@@ -172,7 +173,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 								<span className="text-base font-semibold">
 									SheepLoop Admin Dash
 								</span>
-							</a>
+							</Link>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
 				</SidebarMenu>
