@@ -41,4 +41,8 @@ export const UserModel = {
 			.returning();
 		return result[0] || null;
 	},
+	findAll: async () => {
+		const result = await db.select().from(usersTable);
+		return result;
+	},
 };
