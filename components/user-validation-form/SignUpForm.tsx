@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
@@ -12,15 +12,25 @@ import {
 	HoverCardTrigger,
 	HoverCardContent,
 } from '../ui/hover-card';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '../ui/select';
 import { Info } from 'lucide-react';
 import { createUserAction } from '@/actions/create-user.action';
+import { usersTable } from '@/drizzle/schema/users';
 
 type Inputs = {
 	first_name: string;
 	last_name: string;
 	username: string;
 	email: string;
-	location: string;
+	date_of_birth: Date;
+	gender: string;
+	country: string;
 };
 
 export default function SignUpForm() {
@@ -29,17 +39,27 @@ export default function SignUpForm() {
 		register,
 		handleSubmit,
 		watch,
+		control,
 		formState: { errors, isValid },
 	} = useForm<Inputs>({ mode: 'onChange' });
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
-		const response = await createUserAction({
+		const dateOfBirth =
+			data.date_of_birth instanceof Date
+				? data.date_of_birth.getTime()
+				: new Date(data.date_of_birth).getTime();
+
+		const userData: typeof usersTable.$inferInsert = {
 			first_name: data.first_name,
 			last_name: data.last_name,
 			username: data.username,
 			email: data.email,
-			location: data.location,
-		});
+			date_of_birth: dateOfBirth as any,
+			gender: data.gender,
+			country: data.country,
+		};
+
+		const response = await createUserAction(userData);
 		if (response.success) {
 			router.push(`/generate/${response.user?.username}`);
 		} else {
@@ -161,26 +181,118 @@ export default function SignUpForm() {
 
 				<Separator />
 
-				{/* Location Field */}
+				{/* Date of Birth Field */}
 				<div className="space-y-2">
 					<Label
-						htmlFor="location"
+						htmlFor="date_of_birth"
 						className="text-xs sm:text-sm font-medium"
 					>
-						Location *
+						Date of Birth *
 					</Label>
 					<Input
-						id="location"
-						placeholder="Country"
+						id="date_of_birth"
+						type="date"
 						className="w-full"
-						aria-invalid={errors.location ? 'true' : 'false'}
-						{...register('location', {
-							required: 'Location is required',
+						aria-invalid={errors.date_of_birth ? 'true' : 'false'}
+						{...register('date_of_birth', {
+							required: 'Date of birth is required',
+							valueAsDate: true,
+							validate: (value) => {
+								if (!value) return 'Date of birth is required';
+								const today = new Date();
+								const age =
+									today.getFullYear() - value.getFullYear();
+								const monthDiff =
+									today.getMonth() - value.getMonth();
+								if (
+									monthDiff < 0 ||
+									(monthDiff === 0 &&
+										today.getDate() < value.getDate())
+								) {
+									return age - 1 < 13
+										? 'You must be at least 13 years old'
+										: true;
+								}
+								return age < 13
+									? 'You must be at least 13 years old'
+									: true;
+							},
 						})}
 					/>
-					{errors.location && (
+					{errors.date_of_birth && (
 						<p className="text-xs text-red-600 mt-1">
-							{errors.location.message}
+							{errors.date_of_birth.message}
+						</p>
+					)}
+				</div>
+
+				<Separator />
+
+				{/* Gender Field */}
+				<div className="space-y-2">
+					<Label
+						htmlFor="gender"
+						className="text-xs sm:text-sm font-medium"
+					>
+						Gender *
+					</Label>
+					<Controller
+						name="gender"
+						control={control}
+						rules={{ required: 'Gender is required' }}
+						render={({ field }) => (
+							<Select
+								value={field.value}
+								onValueChange={field.onChange}
+							>
+								<SelectTrigger
+									id="gender"
+									className="w-full"
+									aria-invalid={
+										errors.gender ? 'true' : 'false'
+									}
+								>
+									<SelectValue placeholder="Select your gender" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="male">Male</SelectItem>
+									<SelectItem value="female">
+										Female
+									</SelectItem>
+									<SelectItem value="other">Other</SelectItem>
+								</SelectContent>
+							</Select>
+						)}
+					/>
+					{errors.gender && (
+						<p className="text-xs text-red-600 mt-1">
+							{errors.gender.message}
+						</p>
+					)}
+				</div>
+
+				<Separator />
+
+				{/* Country Field */}
+				<div className="space-y-2">
+					<Label
+						htmlFor="country"
+						className="text-xs sm:text-sm font-medium"
+					>
+						Country *
+					</Label>
+					<Input
+						id="country"
+						placeholder="Enter your country"
+						className="w-full"
+						aria-invalid={errors.country ? 'true' : 'false'}
+						{...register('country', {
+							required: 'Country is required',
+						})}
+					/>
+					{errors.country && (
+						<p className="text-xs text-red-600 mt-1">
+							{errors.country.message}
 						</p>
 					)}
 					<p className="text-xs text-gray-500 mt-1">
@@ -208,7 +320,9 @@ export default function SignUpForm() {
 									watch('first_name') &&
 									watch('last_name') &&
 									watch('email') &&
-									watch('location')
+									watch('date_of_birth') &&
+									watch('gender') &&
+									watch('country')
 								) || !isValid
 							}
 							className="rounded-full px-5 py-3 text-sm hover:font-bold hover:bg-green-500 hover:text-white"
