@@ -1,0 +1,67 @@
+[
+  {
+    "event_name": "user_signup_completed",
+    "description": "User successfully completed the signup process and created an account",
+    "file_path": "/home/baalbade/dev/pioneers/sheeploop/components/user-validation-form/SignUpForm.tsx"
+  },
+  {
+    "event_name": "user_signup_failed",
+    "description": "User signup attempt failed with an error",
+    "file_path": "/home/baalbade/dev/pioneers/sheeploop/components/user-validation-form/SignUpForm.tsx"
+  },
+  {
+    "event_name": "user_login_completed",
+    "description": "User successfully logged in to their account",
+    "file_path": "/home/baalbade/dev/pioneers/sheeploop/components/user-validation-form/LoginForm.tsx"
+  },
+  {
+    "event_name": "user_login_failed",
+    "description": "User login attempt failed with an error",
+    "file_path": "/home/baalbade/dev/pioneers/sheeploop/components/user-validation-form/LoginForm.tsx"
+  },
+  {
+    "event_name": "cta_button_clicked",
+    "description": "User clicked the main CTA button to generate their marketing plan",
+    "file_path": "/home/baalbade/dev/pioneers/sheeploop/components/home/Hero.tsx"
+  },
+  {
+    "event_name": "strategy_form_submitted",
+    "description": "User submitted the marketing strategy generation form",
+    "file_path": "/home/baalbade/dev/pioneers/sheeploop/components/plan-generator/GenerateMarketingStrategyForm.tsx"
+  },
+  {
+    "event_name": "strategy_generation_started",
+    "description": "Marketing strategy generation process started for a user",
+    "file_path": "/home/baalbade/dev/pioneers/sheeploop/components/plan-generator/GenerateMarketingStrategyForm.tsx"
+  },
+  {
+    "event_name": "strategy_generation_completed",
+    "description": "Marketing strategy was successfully generated and displayed to user",
+    "file_path": "/home/baalbade/dev/pioneers/sheeploop/components/plan-generator/GenerateMarketingStrategyForm.tsx"
+  },
+  {
+    "event_name": "strategy_generation_failed",
+    "description": "Marketing strategy generation failed with an error",
+    "file_path": "/home/baalbade/dev/pioneers/sheeploop/components/plan-generator/GenerateMarketingStrategyForm.tsx"
+  },
+  {
+    "event_name": "strategy_plan_downloaded",
+    "description": "User downloaded their generated marketing strategy plan as PDF",
+    "file_path": "/home/baalbade/dev/pioneers/sheeploop/components/plan-generator/GenerateMarketingStrategyForm.tsx"
+  },
+  {
+    "event_name": "contact_form_submitted",
+    "description": "User submitted the contact form to reach out to support",
+    "file_path": "/home/baalbade/dev/pioneers/sheeploop/components/contact/ContactForm.tsx"
+  },
+  {
+    "event_name": "contact_form_submission_failed",
+    "description": "Contact form submission failed with an error",
+    "file_path": "/home/baalbade/dev/pioneers/sheeploop/components/contact/ContactForm.tsx"
+  },
+  {
+    "event_name": "final_cta_engaged",
+    "description": "User interacted with the final CTA button on the homepage",
+    "file_path": "/home/baalbade/dev/pioneers/sheeploop/components/home/FinalCTA.tsx"
+  }
+]
