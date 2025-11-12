@@ -139,6 +139,9 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
 		id: 'drag',
 		header: () => null,
 		cell: ({ row }) => <DragHandle id={row.original.id} />,
+		size: 50,
+		minSize: 40,
+		enableResizing: false,
 	},
 	{
 		id: 'select',
@@ -167,6 +170,9 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
 		),
 		enableSorting: false,
 		enableHiding: false,
+		size: 50,
+		minSize: 40,
+		enableResizing: false,
 	},
 	{
 		accessorKey: 'username',
@@ -175,79 +181,146 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
 			return <TableCellViewer item={row.original} />;
 		},
 		enableHiding: false,
+		size: 150,
+		minSize: 120,
 	},
 	{
 		accessorKey: 'first_name',
 		header: 'First Name',
 		cell: ({ row }) => (
-			<div className="w-32">{row.original.first_name}</div>
+			<div
+				className="min-w-[100px] max-w-[150px] truncate"
+				title={row.original.first_name}
+			>
+				{row.original.first_name}
+			</div>
 		),
+		size: 130,
+		minSize: 100,
 	},
 	{
 		accessorKey: 'last_name',
 		header: 'Last Name',
-		cell: ({ row }) => <div className="w-32">{row.original.last_name}</div>,
+		cell: ({ row }) => (
+			<div
+				className="min-w-[100px] max-w-[150px] truncate"
+				title={row.original.last_name}
+			>
+				{row.original.last_name}
+			</div>
+		),
+		size: 130,
+		minSize: 100,
 	},
 	{
 		accessorKey: 'email',
 		header: 'Email',
-		cell: ({ row }) => <div className="w-48">{row.original.email}</div>,
+		cell: ({ row }) => (
+			<div
+				className="min-w-[180px] max-w-[280px] truncate"
+				title={row.original.email}
+			>
+				{row.original.email}
+			</div>
+		),
+		size: 250,
+		minSize: 180,
 	},
 	{
 		accessorKey: 'country',
 		header: 'Country',
-		cell: ({ row }) => <div className="w-40">{row.original.country}</div>,
+		cell: ({ row }) => (
+			<div
+				className="min-w-[100px] max-w-[150px] truncate"
+				title={row.original.country}
+			>
+				{row.original.country}
+			</div>
+		),
+		size: 130,
+		minSize: 100,
 	},
 	{
 		accessorKey: 'age',
-		header: () => <div className="w-full text-right">Age</div>,
-		cell: ({ row }) => <div className="text-right">{row.original.age}</div>,
+		header: () => <div className="text-right">Age</div>,
+		cell: ({ row }) => (
+			<div className="text-right min-w-[60px]">{row.original.age}</div>
+		),
+		size: 80,
+		minSize: 60,
 	},
 	{
 		accessorKey: 'gender',
 		header: 'Gender',
-		cell: ({ row }) => <div className="w-24">{row.original.gender}</div>,
+		cell: ({ row }) => (
+			<div
+				className="min-w-[80px] max-w-[120px] truncate"
+				title={row.original.gender}
+			>
+				{row.original.gender}
+			</div>
+		),
+		size: 100,
+		minSize: 80,
 	},
 	{
 		accessorKey: 'login_count',
-		header: () => <div className="w-full text-right">Login Count</div>,
+		header: () => <div className="text-right">Login Count</div>,
 		cell: ({ row }) => (
-			<div className="text-right">{row.original.login_count}</div>
+			<div className="text-right min-w-[100px]">
+				{row.original.login_count}
+			</div>
 		),
+		size: 120,
+		minSize: 100,
 	},
 	{
 		accessorKey: 'created_at',
 		header: 'Created At',
 		cell: ({ row }) => {
 			const date = new Date(row.original.created_at);
-			return <div className="w-40">{date.toLocaleDateString()}</div>;
+			return (
+				<div
+					className="min-w-[120px] max-w-[180px] truncate"
+					title={date.toLocaleString()}
+				>
+					{date.toLocaleDateString()}
+				</div>
+			);
 		},
+		size: 150,
+		minSize: 120,
 	},
 	{
 		id: 'actions',
 		cell: () => (
-			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
-					<Button
-						variant="ghost"
-						className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
-						size="icon"
-					>
-						<IconDotsVertical />
-						<span className="sr-only">Open menu</span>
-					</Button>
-				</DropdownMenuTrigger>
-				<DropdownMenuContent align="end" className="w-32">
-					<DropdownMenuItem>Edit</DropdownMenuItem>
-					<DropdownMenuItem>Make a copy</DropdownMenuItem>
-					<DropdownMenuItem>Favorite</DropdownMenuItem>
-					<DropdownMenuSeparator />
-					<DropdownMenuItem variant="destructive">
-						Delete
-					</DropdownMenuItem>
-				</DropdownMenuContent>
-			</DropdownMenu>
+			<div className="flex items-center justify-center">
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button
+							variant="ghost"
+							className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
+							size="icon"
+						>
+							<IconDotsVertical />
+							<span className="sr-only">Open menu</span>
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align="end" className="w-32">
+						<DropdownMenuItem>Edit</DropdownMenuItem>
+						<DropdownMenuItem>Make a copy</DropdownMenuItem>
+						<DropdownMenuItem>Favorite</DropdownMenuItem>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem variant="destructive">
+							Delete
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			</div>
 		),
+		size: 60,
+		minSize: 50,
+		enableResizing: false,
 	},
 ];
 
@@ -261,14 +334,24 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
 			data-state={row.getIsSelected() && 'selected'}
 			data-dragging={isDragging}
 			ref={setNodeRef}
-			className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80"
+			className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80 hover:bg-muted/50 transition-colors"
 			style={{
 				transform: CSS.Transform.toString(transform),
 				transition: transition,
 			}}
 		>
 			{row.getVisibleCells().map((cell) => (
-				<TableCell key={cell.id}>
+				<TableCell
+					key={cell.id}
+					className="px-4 py-3 text-sm"
+					style={{
+						width:
+							cell.column.getSize() !== 150
+								? cell.column.getSize()
+								: undefined,
+						minWidth: cell.column.columnDef.minSize,
+					}}
+				>
 					{flexRender(cell.column.columnDef.cell, cell.getContext())}
 				</TableCell>
 			))}
@@ -428,7 +511,7 @@ export function DataTable({
 				value="outline"
 				className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
 			>
-				<div className="overflow-hidden rounded-lg border">
+				<div className="overflow-x-auto rounded-lg border">
 					<DndContext
 						collisionDetection={closestCenter}
 						modifiers={[restrictToVerticalAxis]}
@@ -445,6 +528,18 @@ export function DataTable({
 												<TableHead
 													key={header.id}
 													colSpan={header.colSpan}
+													className="px-4 py-3 text-sm font-semibold whitespace-nowrap"
+													style={{
+														width:
+															header.getSize() !==
+															150
+																? header.getSize()
+																: undefined,
+														minWidth:
+															header.column
+																.columnDef
+																.minSize,
+													}}
 												>
 													{header.isPlaceholder
 														? null
@@ -460,7 +555,7 @@ export function DataTable({
 									</TableRow>
 								))}
 							</TableHeader>
-							<TableBody className="**:data-[slot=table-cell]:first:w-8">
+							<TableBody>
 								{table.getRowModel().rows?.length ? (
 									<SortableContext
 										items={dataIds}
@@ -636,9 +731,14 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
 			<DrawerTrigger asChild>
 				<Button
 					variant="link"
-					className="text-foreground w-fit px-0 text-left"
+					className="text-foreground w-fit px-0 text-left hover:text-green-600 transition-colors"
 				>
-					{item.username}
+					<div
+						className="min-w-[100px] max-w-[200px] truncate"
+						title={item.username}
+					>
+						{item.username}
+					</div>
 				</Button>
 			</DrawerTrigger>
 			<DrawerContent>
