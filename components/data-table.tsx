@@ -108,6 +108,8 @@ export const schema = z.object({
 	last_name: z.string(),
 	email: z.string(),
 	country: z.string(),
+	age: z.number(),
+	gender: z.string(),
 	login_count: z.number(),
 	created_at: z.number(),
 });
@@ -195,6 +197,16 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
 		accessorKey: 'country',
 		header: 'Country',
 		cell: ({ row }) => <div className="w-40">{row.original.country}</div>,
+	},
+	{
+		accessorKey: 'age',
+		header: () => <div className="w-full text-right">Age</div>,
+		cell: ({ row }) => <div className="text-right">{row.original.age}</div>,
+	},
+	{
+		accessorKey: 'gender',
+		header: 'Gender',
+		cell: ({ row }) => <div className="w-24">{row.original.gender}</div>,
 	},
 	{
 		accessorKey: 'login_count',
@@ -671,6 +683,20 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
 						<div className="flex flex-col gap-3">
 							<Label htmlFor="country">Country</Label>
 							<Input id="country" defaultValue={item.country} />
+						</div>
+						<div className="grid grid-cols-2 gap-4">
+							<div className="flex flex-col gap-3">
+								<Label htmlFor="age">Age</Label>
+								<Input
+									id="age"
+									type="number"
+									defaultValue={item.age.toString()}
+								/>
+							</div>
+							<div className="flex flex-col gap-3">
+								<Label htmlFor="gender">Gender</Label>
+								<Input id="gender" defaultValue={item.gender} />
+							</div>
 						</div>
 						<div className="grid grid-cols-2 gap-4">
 							<div className="flex flex-col gap-3">
