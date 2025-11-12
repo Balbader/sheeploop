@@ -2090,24 +2090,18 @@ export function GenerateMarketingStrategyForm({
 							parsedResult.ifc_profile ||
 							(parsedResult.personas &&
 								parsedResult.personas.length > 0)) && (
-							<Tabs defaultValue="market-fit" className="w-full">
+							<Tabs
+								defaultValue={
+									parsedResult.personas &&
+									parsedResult.personas.length > 0
+										? 'personas'
+										: parsedResult.ifc_profile
+										? 'follower-profile'
+										: 'market-fit'
+								}
+								className="w-full"
+							>
 								<TabsList className="grid w-full grid-cols-3 h-auto p-1.5 gap-2 bg-gray-100/50 rounded-xl border border-gray-200 mb-6">
-									{parsedResult.community_market_fit && (
-										<TabsTrigger
-											value="market-fit"
-											className="text-xs sm:text-sm py-2.5 min-h-[44px] font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:via-emerald-600 data-[state=active]:to-teal-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all rounded-lg"
-										>
-											Market Fit
-										</TabsTrigger>
-									)}
-									{parsedResult.ifc_profile && (
-										<TabsTrigger
-											value="follower-profile"
-											className="text-xs sm:text-sm py-2.5 min-h-[44px] font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:via-emerald-600 data-[state=active]:to-teal-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all rounded-lg"
-										>
-											Follower Profile
-										</TabsTrigger>
-									)}
 									{parsedResult.personas &&
 										parsedResult.personas.length > 0 && (
 											<TabsTrigger
@@ -2117,7 +2111,55 @@ export function GenerateMarketingStrategyForm({
 												Personas
 											</TabsTrigger>
 										)}
+									{parsedResult.ifc_profile && (
+										<TabsTrigger
+											value="follower-profile"
+											className="text-xs sm:text-sm py-2.5 min-h-[44px] font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:via-emerald-600 data-[state=active]:to-teal-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all rounded-lg"
+										>
+											Follower Profile
+										</TabsTrigger>
+									)}
+									{parsedResult.community_market_fit && (
+										<TabsTrigger
+											value="market-fit"
+											className="text-xs sm:text-sm py-2.5 min-h-[44px] font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:via-emerald-600 data-[state=active]:to-teal-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all rounded-lg"
+										>
+											Market Fit
+										</TabsTrigger>
+									)}
 								</TabsList>
+
+								{parsedResult.personas &&
+									parsedResult.personas.length > 0 && (
+										<TabsContent
+											value="personas"
+											className="mt-6"
+										>
+											<PersonasSection
+												personas={parsedResult.personas}
+												selectedPlatformInfo={
+													selectedPlatformInfo
+												}
+											/>
+										</TabsContent>
+									)}
+
+								{parsedResult.ifc_profile && (
+									<TabsContent
+										value="follower-profile"
+										className="mt-6"
+									>
+										<div
+											ref={(el) => {
+												cardRefs.current[2] = el;
+											}}
+										>
+											<IdealFollowerProfile
+												data={parsedResult.ifc_profile}
+											/>
+										</div>
+									</TabsContent>
+								)}
 
 								{parsedResult.community_market_fit && (
 									<TabsContent
@@ -2137,38 +2179,6 @@ export function GenerateMarketingStrategyForm({
 										</div>
 									</TabsContent>
 								)}
-
-								{parsedResult.ifc_profile && (
-									<TabsContent
-										value="follower-profile"
-										className="mt-6"
-									>
-										<div
-											ref={(el) => {
-												cardRefs.current[2] = el;
-											}}
-										>
-											<IdealFollowerProfile
-												data={parsedResult.ifc_profile}
-											/>
-										</div>
-									</TabsContent>
-								)}
-
-								{parsedResult.personas &&
-									parsedResult.personas.length > 0 && (
-										<TabsContent
-											value="personas"
-											className="mt-6"
-										>
-											<PersonasSection
-												personas={parsedResult.personas}
-												selectedPlatformInfo={
-													selectedPlatformInfo
-												}
-											/>
-										</TabsContent>
-									)}
 							</Tabs>
 						)}
 					</div>
