@@ -15,30 +15,47 @@ export default function AdminDashboard() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
-	useEffect(() => {
-		async function fetchUsers() {
-			try {
+	// Fetch users function
+	const fetchUsers = async (showLoading = true) => {
+		try {
+			if (showLoading) {
 				setLoading(true);
-				const response = await fetch('/api/users');
-				if (!response.ok) {
-					throw new Error('Failed to fetch users');
-				}
-				const users = await response.json();
-				// Validate the data with zod schema
-				const validatedUsers = z.array(schema).parse(users);
-				console.log('Fetched users:', validatedUsers);
-				setData(validatedUsers);
-			} catch (err) {
-				const errorMessage =
-					err instanceof Error ? err.message : 'Unknown error';
-				setError(errorMessage);
-				console.error('Error fetching users:', err);
-			} finally {
+			}
+			const response = await fetch('/api/users');
+			if (!response.ok) {
+				throw new Error('Failed to fetch users');
+			}
+			const users = await response.json();
+			// Validate the data with zod schema
+			const validatedUsers = z.array(schema).parse(users);
+			console.log('Fetched users:', validatedUsers);
+			setData(validatedUsers);
+			setError(null);
+		} catch (err) {
+			const errorMessage =
+				err instanceof Error ? err.message : 'Unknown error';
+			setError(errorMessage);
+			console.error('Error fetching users:', err);
+		} finally {
+			if (showLoading) {
 				setLoading(false);
 			}
 		}
+	};
 
-		fetchUsers();
+	// Initial fetch
+	useEffect(() => {
+		fetchUsers(true);
+	}, []);
+
+	// Auto-refresh every 15 minutes
+	useEffect(() => {
+		const interval = setInterval(() => {
+			fetchUsers(false); // Don't show loading state on auto-refresh
+		}, 15 * 60 * 1000); // 15 minutes in milliseconds
+
+		// Cleanup interval on unmount
+		return () => clearInterval(interval);
 	}, []);
 
 	return (
