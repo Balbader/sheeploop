@@ -7,14 +7,13 @@ export async function GET(req: NextRequest) {
 
 		// Transform the data to match the expected format
 		// created_at needs to be a number timestamp
-		// location is mapped to country to match the schema
 		const transformedUsers = users.map((user) => ({
 			id: user.id,
 			username: user.username,
 			first_name: user.first_name,
 			last_name: user.last_name,
 			email: user.email,
-			country: user.location, // Map location to country for schema compatibility
+			country: user.country,
 			login_count: user.login_count,
 			created_at:
 				user.created_at instanceof Date

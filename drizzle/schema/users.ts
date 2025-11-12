@@ -9,8 +9,10 @@ export const usersTable = sqliteTable('users', {
 	username: text('username', { length: 255 }).notNull().unique(),
 	first_name: text('first_name', { length: 255 }).notNull(),
 	last_name: text('last_name', { length: 255 }).notNull(),
+	date_of_birth: integer('date_of_birth', { mode: 'timestamp' }).notNull(),
+	gender: text('gender', { length: 255 }).notNull(),
 	email: text('email', { length: 255 }).notNull().unique(),
-	country: text('location', { length: 255 }).notNull(),
+	country: text('country', { length: 255 }).notNull(),
 	login_count: integer('login_count').notNull().default(0),
 	created_at: integer('created_at', { mode: 'timestamp' })
 		.notNull()

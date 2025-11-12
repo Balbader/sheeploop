@@ -192,12 +192,9 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
 		cell: ({ row }) => <div className="w-48">{row.original.email}</div>,
 	},
 	{
-		accessorFn: (row) => row.country,
-		id: 'country',
+		accessorKey: 'country',
 		header: 'Country',
-		cell: ({ row }) => (
-			<div className="w-40">{row.original.country || ''}</div>
-		),
+		cell: ({ row }) => <div className="w-40">{row.original.country}</div>,
 	},
 	{
 		accessorKey: 'login_count',
