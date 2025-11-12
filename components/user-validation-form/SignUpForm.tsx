@@ -44,10 +44,23 @@ export default function SignUpForm() {
 	} = useForm<Inputs>({ mode: 'onChange' });
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
-		const dateOfBirth =
-			data.date_of_birth instanceof Date
-				? data.date_of_birth.getTime()
-				: new Date(data.date_of_birth).getTime();
+		// Convert date_of_birth to timestamp (number)
+		let dateOfBirth: number;
+		if (data.date_of_birth instanceof Date) {
+			dateOfBirth = data.date_of_birth.getTime();
+		} else if (typeof data.date_of_birth === 'string') {
+			const parsedDate = new Date(data.date_of_birth);
+			if (isNaN(parsedDate.getTime())) {
+				error('Invalid date of birth', data.date_of_birth);
+				return;
+			}
+			dateOfBirth = parsedDate.getTime();
+		} else if (typeof data.date_of_birth === 'number') {
+			dateOfBirth = data.date_of_birth;
+		} else {
+			error('Invalid date of birth format', data.date_of_birth);
+			return;
+		}
 
 		const userData: typeof usersTable.$inferInsert = {
 			first_name: data.first_name,

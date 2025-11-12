@@ -2,8 +2,12 @@ import * as Model from '@/backend/models/users.model';
 import { type usersTable } from '@/drizzle/schema/users';
 import { message, error, log } from '@/lib/print-helpers';
 
+type UserInsertInput = Omit<typeof usersTable.$inferInsert, 'date_of_birth'> & {
+	date_of_birth: Date | number | string;
+};
+
 export const UsersService = {
-	create: async (user: typeof usersTable.$inferInsert) => {
+	create: async (user: UserInsertInput) => {
 		if (
 			!user.email ||
 			!user.username ||
@@ -19,9 +23,19 @@ export const UsersService = {
 			error('User with this email already exists', user);
 			throw new Error('User with this email already exists');
 		}
+
+		// Convert date_of_birth to Date if it's a number (timestamp)
+		const dateOfBirth =
+			user.date_of_birth instanceof Date
+				? user.date_of_birth
+				: typeof user.date_of_birth === 'number'
+				? new Date(user.date_of_birth)
+				: new Date(user.date_of_birth as string);
+
 		const userData = {
 			...user,
 			email: user.email.toLowerCase(),
+			date_of_birth: dateOfBirth,
 		};
 
 		message('Creating user...');
