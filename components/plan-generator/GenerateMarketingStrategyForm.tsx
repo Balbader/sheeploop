@@ -1,5 +1,17 @@
 'use client';
 
+/**
+ * GenerateMarketingStrategyForm Component
+ *
+ * A comprehensive form component for generating personalized marketing strategies.
+ * This component handles the complete workflow from idea analysis to final strategy
+ * compilation, including community market fit assessment, ideal follower profiling,
+ * persona generation, storyline creation, and platform-specific script generation
+ * for various social media platforms (TikTok, Instagram, YouTube, LinkedIn, etc.).
+ * Features include multi-step progress tracking, real-time generation updates,
+ * and downloadable strategy plans.
+ */
+
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { getCommunityFitStoryline } from '../../actions/get-communiy-fit-story-form.action';
 import { Button } from '@/components/ui/button';
