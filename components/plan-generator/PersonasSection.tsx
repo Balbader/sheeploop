@@ -55,13 +55,14 @@ export function PersonasSection({
 	// Get available sections for the first persona to determine which tabs to show
 	const getAvailableSections = (persona: Persona) => {
 		const sections: string[] = [];
+		// Scripts should be first
+		if (persona.scripts && persona.scripts.length > 0)
+			sections.push('scripts');
 		if (persona.description) sections.push('description');
 		if (persona.key_motivation) sections.push('key-motivation');
 		if (persona.core_pain_point) sections.push('core-pain-point');
 		if (persona.storyline) sections.push('storyline');
 		if (persona.growth_strategy) sections.push('growth-strategy');
-		if (persona.scripts && persona.scripts.length > 0)
-			sections.push('scripts');
 		return sections;
 	};
 
@@ -144,6 +145,15 @@ export function PersonasSection({
 										className="w-full"
 									>
 										<TabsList className="flex flex-wrap justify-start w-full h-auto p-1.5 gap-2 overflow-x-auto bg-gray-100/50 rounded-xl border border-gray-200 mb-6">
+											{persona.scripts &&
+												persona.scripts.length > 0 && (
+													<TabsTrigger
+														value="scripts"
+														className="text-xs sm:text-sm py-2 px-4 font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all rounded-lg"
+													>
+														📝 Scripts
+													</TabsTrigger>
+												)}
 											{persona.description && (
 												<TabsTrigger
 													value="description"
@@ -184,16 +194,24 @@ export function PersonasSection({
 													📈 Growth
 												</TabsTrigger>
 											)}
-											{persona.scripts &&
-												persona.scripts.length > 0 && (
-													<TabsTrigger
-														value="scripts"
-														className="text-xs sm:text-sm py-2 px-4 font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all rounded-lg"
-													>
-														📝 Scripts
-													</TabsTrigger>
-												)}
 										</TabsList>
+
+										{persona.scripts &&
+											persona.scripts.length > 0 && (
+												<TabsContent
+													value="scripts"
+													className="mt-0"
+												>
+													<PersonaScripts
+														scripts={
+															persona.scripts
+														}
+														selectedPlatformInfo={
+															selectedPlatformInfo
+														}
+													/>
+												</TabsContent>
+											)}
 
 										{persona.description && (
 											<TabsContent
@@ -259,23 +277,6 @@ export function PersonasSection({
 												/>
 											</TabsContent>
 										)}
-
-										{persona.scripts &&
-											persona.scripts.length > 0 && (
-												<TabsContent
-													value="scripts"
-													className="mt-0"
-												>
-													<PersonaScripts
-														scripts={
-															persona.scripts
-														}
-														selectedPlatformInfo={
-															selectedPlatformInfo
-														}
-													/>
-												</TabsContent>
-											)}
 									</Tabs>
 								</CardContent>
 							</Card>
