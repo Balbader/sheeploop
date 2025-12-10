@@ -219,9 +219,23 @@ export async function getCommunityFitStoryline(
 			}
 		}
 
+		// Ensure result is valid before stringifying
+		if (!result || typeof result !== 'object') {
+			error('Invalid result format', result);
+			return JSON.stringify({
+				error: 'Failed to generate storyline. Please try again.',
+				details: 'Invalid result format from agent',
+			});
+		}
+
 		return JSON.stringify(result, null, 2);
 	} catch (err) {
 		error('Error in getCommunityFitStoryline', err);
-		throw err;
+		// Return a proper error response instead of throwing
+		return JSON.stringify({
+			error: 'Failed to generate storyline. Please try again.',
+			details:
+				err instanceof Error ? err.message : 'Unknown error occurred',
+		});
 	}
 }

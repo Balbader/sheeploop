@@ -300,8 +300,12 @@ export default function FormSelectionTabs() {
 	}, [activeTab]);
 
 	return (
-		<Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-			<div className="relative mb-6">
+		<Tabs
+			value={activeTab}
+			onValueChange={setActiveTab}
+			className="w-full h-full flex flex-col"
+		>
+			<div className="relative mb-4 sm:mb-6 flex-shrink-0">
 				<TabsList
 					ref={tabsListRef}
 					className="grid w-full grid-cols-2 relative"
@@ -336,10 +340,10 @@ export default function FormSelectionTabs() {
 					</div>
 				</TabsList>
 			</div>
-			<TabsContent value="login">
+			<TabsContent value="login" className="flex-1 min-h-0">
 				<LoginForm />
 			</TabsContent>
-			<TabsContent value="validation">
+			<TabsContent value="validation" className="flex-1 min-h-0">
 				<SignUpForm />
 			</TabsContent>
 		</Tabs>

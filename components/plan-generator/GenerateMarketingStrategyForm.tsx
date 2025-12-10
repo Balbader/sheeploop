@@ -170,6 +170,7 @@ export function GenerateMarketingStrategyForm({
 }: GenerateMarketingStrategyFormProps = {}) {
 	const [result, setResult] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 	const [currentStep, setCurrentStep] = useState(0);
 	const [remainingTime, setRemainingTime] = useState(300); // 5 minutes
 	const [selectedPlatform, setSelectedPlatform] = useState<string>('TikTok');
@@ -598,15 +599,51 @@ export function GenerateMarketingStrategyForm({
 
 	async function handleSubmit(formData: FormData) {
 		setResult(null);
+		setError(null);
 		setCurrentStep(0);
 		setHasDownloadedPlan(false); // Reset download state for new generation
 		setIsLoading(true);
 		try {
 			const res = await getCommunityFitStoryline(formData, username);
-			setResult(res);
-			setCurrentStep(GENERATION_STEPS.length); // Mark all steps as complete
+			// Validate that the response is a string before setting it
+			if (typeof res === 'string' && res.trim().length > 0) {
+				// Try to parse it to ensure it's valid JSON
+				try {
+					const parsed = JSON.parse(res);
+					// Check if the response contains an error
+					if (
+						parsed &&
+						typeof parsed === 'object' &&
+						'error' in parsed
+					) {
+						setError(
+							parsed.error ||
+								'An error occurred while generating your storyline',
+						);
+						setResult(null);
+					} else {
+						setResult(res);
+						setCurrentStep(GENERATION_STEPS.length); // Mark all steps as complete
+					}
+				} catch (parseError) {
+					console.error('Invalid JSON response:', parseError);
+					console.error('Response content:', res.substring(0, 200));
+					setError('Invalid response from server. Please try again.');
+					setResult(null);
+				}
+			} else {
+				console.error('Invalid response format:', typeof res, res);
+				setError('Invalid response format. Please try again.');
+				setResult(null);
+			}
 		} catch (error) {
 			console.error('Error generating storyline:', error);
+			setError(
+				error instanceof Error
+					? error.message
+					: 'An error occurred while generating your storyline. Please try again.',
+			);
+			setResult(null);
 		} finally {
 			setIsLoading(false);
 		}
@@ -614,6 +651,7 @@ export function GenerateMarketingStrategyForm({
 
 	const handleReset = () => {
 		setResult(null);
+		setError(null);
 		setSelectedPlatform('TikTok');
 		setSelectedDevice('');
 		setSelectedTones([]);
@@ -629,10 +667,31 @@ export function GenerateMarketingStrategyForm({
 		}
 	};
 
-	const parseResult = (result: string) => {
+	const parseResult = (result: string | null | undefined) => {
+		// Validate input
+		if (
+			!result ||
+			typeof result !== 'string' ||
+			result.trim().length === 0
+		) {
+			return null;
+		}
+
+		// Check if it looks like JSON (starts with { or [)
+		const trimmed = result.trim();
+		if (!trimmed.startsWith('{') && !trimmed.startsWith('[')) {
+			console.warn(
+				'Result does not appear to be JSON:',
+				trimmed.substring(0, 100),
+			);
+			return null;
+		}
+
 		try {
 			return JSON.parse(result);
-		} catch {
+		} catch (error) {
+			console.error('JSON parse error:', error);
+			console.error('Failed to parse:', result.substring(0, 200));
 			return null;
 		}
 	};

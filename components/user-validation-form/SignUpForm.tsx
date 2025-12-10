@@ -81,13 +81,13 @@ export default function SignUpForm() {
 	};
 
 	return (
-		<div className="w-full relative z-10 overflow-hidden rounded-xl border border-slate-200 bg-gradient-to-b from-slate-50 via-white to-slate-50 p-4 sm:p-5 shadow-sm">
+		<div className="w-full relative z-10 rounded-xl border border-slate-200 bg-gradient-to-b from-slate-50 via-white to-slate-50 p-4 sm:p-5 shadow-sm max-h-[calc(100vh-200px)] overflow-y-auto overscroll-contain scroll-smooth">
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				className="relative z-10 space-y-4 sm:space-y-6"
 			>
 				{/* Username Field */}
-				<div className="space-y-2 w-1/2">
+				<div className="space-y-2 w-full sm:w-1/2">
 					<Label
 						htmlFor="username"
 						className="text-xs sm:text-sm font-medium"
